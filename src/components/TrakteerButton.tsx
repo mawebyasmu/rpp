@@ -8,39 +8,60 @@ export const TrakteerButton = () => {
   const embedRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Load Trakteer embed script
-    const script = document.createElement('script');
-    script.src = 'https://edge-cdn.trakteer.id/js/embed/trbtn.min.js?v=14-05-2025';
-    script.async = true;
-    
-    script.onload = () => {
-      // Initialize Trakteer button after script loads
-      if (window.trbtn && embedRef.current) {
-        const trbtnId = window.trbtn.init(
-          'Dukung Saya di Trakteer',
-          '#0A6B04',
-          'https://trakteer.id/alfian_yazdad',
-          'https://edge-cdn.trakteer.id/images/embed/trbtn-icon.png?v=14-05-2025',
-          '40'
-        );
-        window.trbtn.draw(trbtnId);
+    // Add error handling and timeout
+    const loadTrakteerScript = () => {
+      try {
+        const script = document.createElement('script');
+        script.src = 'https://edge-cdn.trakteer.id/js/embed/trbtn.min.js?v=14-05-2025';
+        script.async = true;
         
-        // Track embed load
-        AnalyticsManager.trackEvent('trakteer_embed_loaded', {
-          username: 'alfian_yazdad',
-          embedType: 'footer_button'
-        });
+        script.onload = () => {
+          try {
+            // Initialize Trakteer button after script loads
+            if (window.trbtn && embedRef.current) {
+              const trbtnId = window.trbtn.init(
+                'Dukung Saya di Trakteer',
+                '#0A6B04',
+                'https://trakteer.id/alfian_yazdad',
+                'https://edge-cdn.trakteer.id/images/embed/trbtn-icon.png?v=14-05-2025',
+                '40'
+              );
+              window.trbtn.draw(trbtnId);
+              
+              // Track embed load
+              AnalyticsManager.trackEvent('trakteer_embed_loaded', {
+                username: 'alfian_yazdad',
+                embedType: 'footer_button'
+              });
+            }
+          } catch (error) {
+            console.warn('Trakteer script loaded but initialization failed:', error);
+          }
+        };
+
+        script.onerror = () => {
+          console.warn('Failed to load Trakteer script, using fallback button');
+        };
+
+        document.head.appendChild(script);
+
+        return () => {
+          // Cleanup script when component unmounts
+          const existingScript = document.querySelector(`script[src="${script.src}"]`);
+          if (existingScript) {
+            document.head.removeChild(existingScript);
+          }
+        };
+      } catch (error) {
+        console.warn('Error setting up Trakteer script:', error);
       }
     };
 
-    document.head.appendChild(script);
-
+    // Delay script loading to ensure app renders first
+    const timer = setTimeout(loadTrakteerScript, 1000);
+    
     return () => {
-      // Cleanup script when component unmounts
-      const existingScript = document.querySelector(`script[src="${script.src}"]`);
-      if (existingScript) {
-        document.head.removeChild(existingScript);
-      }
+      clearTimeout(timer);
     };
   }, []);
 
@@ -54,14 +75,18 @@ export const TrakteerButton = () => {
 
   return (
     <div className="flex items-center gap-2">
-      {/* Trakteer Embed Container */}
-      <div 
-        ref={embedRef} 
-        className="flex justify-center"
-        id="trakteer-footer-container"
-      />
+      {/* Fallback Button - Trakteer script disabled temporarily */}
+      <Button 
+        variant="ghost" 
+        size="sm"
+        className="gap-2"
+        onClick={handleDirectLink}
+      >
+        <Heart className="h-4 w-4" />
+        Support
+      </Button>
       
-      {/* Donation Button with Guide */}
+      {/* Donation Guide */}
       <DonationGuide 
         trigger={
           <Button 
@@ -70,7 +95,7 @@ export const TrakteerButton = () => {
             className="gap-2"
           >
             <Heart className="h-4 w-4" />
-            Support
+            Guide
           </Button>
         }
         onDonate={handleDirectLink}

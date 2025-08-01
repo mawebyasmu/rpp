@@ -20,40 +20,14 @@ export const TrakteerEmbed = ({ showHeader = true, className = "" }: TrakteerEmb
   const embedRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Load Trakteer embed script
-    const script = document.createElement('script');
-    script.src = 'https://edge-cdn.trakteer.id/js/embed/trbtn.min.js?v=14-05-2025';
-    script.async = true;
+    // Temporarily disable Trakteer script to fix rendering issues
+    console.log('Trakteer script temporarily disabled for debugging');
     
-    script.onload = () => {
-      // Initialize Trakteer button after script loads
-      if (window.trbtn && embedRef.current) {
-        const trbtnId = window.trbtn.init(
-          'Dukung Saya di Trakteer',
-          '#0A6B04',
-          'https://trakteer.id/alfian_yazdad',
-          'https://edge-cdn.trakteer.id/images/embed/trbtn-icon.png?v=14-05-2025',
-          '40'
-        );
-        window.trbtn.draw(trbtnId);
-        
-        // Track embed load
-        AnalyticsManager.trackEvent('trakteer_embed_loaded', {
-          username: 'alfian_yazdad',
-          embedType: 'button'
-        });
-      }
-    };
-
-    document.head.appendChild(script);
-
-    return () => {
-      // Cleanup script when component unmounts
-      const existingScript = document.querySelector(`script[src="${script.src}"]`);
-      if (existingScript) {
-        document.head.removeChild(existingScript);
-      }
-    };
+    // Track that we're using fallback
+    AnalyticsManager.trackEvent('trakteer_embed_loaded', {
+      username: 'alfian_yazdad',
+      embedType: 'fallback_button'
+    });
   }, []);
 
   const handleDirectLink = () => {
@@ -86,12 +60,15 @@ export const TrakteerEmbed = ({ showHeader = true, className = "" }: TrakteerEmb
             Klik tombol di bawah untuk mendukung pengembangan aplikasi melalui Trakteer.id
           </p>
           
-          {/* Trakteer Embed Container */}
-          <div 
-            ref={embedRef} 
-            className="flex justify-center mb-4"
-            id="trakteer-embed-container"
-          />
+                                {/* Fallback Button - Trakteer script disabled temporarily */}
+                      <Button 
+                        onClick={handleDirectLink}
+                        className="gap-2 mb-4"
+                        size="lg"
+                      >
+                        <Heart className="h-5 w-5" />
+                        Dukung Saya di Trakteer
+                      </Button>
           
           {/* Action Buttons */}
           <div className="flex gap-3 justify-center">
