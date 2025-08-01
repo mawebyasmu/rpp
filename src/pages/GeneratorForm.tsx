@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -6,30 +6,50 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Checkbox } from "@/components/ui/checkbox";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Loader2, BookOpen, GraduationCap, FileText, Clock, Target, Users, Award } from "lucide-react";
+import { Loader2, BookOpen, GraduationCap, FileText, Clock, Target, Users, Award, ArrowLeft } from "lucide-react";
 import { rppGenerator, RPPFormData } from "@/lib/rpp-generator";
+import { SecurityUtils } from "@/lib/security";
+import { AnalyticsManager } from "@/lib/analytics";
+import FeedbackDialog from "@/components/FeedbackDialog";
+import { Badge } from "@/components/ui/badge";
 
-// Form validation schema
+// Form validation schema with security measures
 const formSchema = z.object({
-  satuan: z.string().min(1, "Satuan pendidikan harus diisi"),
-  jenjang: z.enum(["MI", "MTs", "MA"], {
-    required_error: "Jenjang harus dipilih",
+  satuan: z.string().min(1, "Satuan pendidikan harus diisi").max(100, "Satuan pendidikan terlalu panjang"),
+  jenjang: z.enum(["MI", "MTs", "MA"]),
+  kelas: z.string().min(1, "Kelas harus diisi").max(10, "Kelas terlalu panjang"),
+  semester: z.enum(["Ganjil", "Genap"]),
+  mataPelajaran: z.string().min(1, "Mata pelajaran harus diisi").max(100, "Mata pelajaran terlalu panjang"),
+  tema: z.string().min(1, "Tema harus diisi").max(200, "Tema terlalu panjang"),
+  subtema: z.string().min(1, "Sub tema harus diisi").max(500, "Sub tema terlalu panjang"),
+  alokasi: z.string().min(1, "Alokasi waktu harus diisi").max(50, "Alokasi waktu terlalu panjang"),
+  pertemuan: z.number().min(1, "Pertemuan minimal 1").max(100, "Pertemuan terlalu banyak"),
+  capaianPembelajaran: z.string().min(1, "Capaian pembelajaran harus diisi").max(1000, "Capaian pembelajaran terlalu panjang"),
+  namaGuru: z.string().min(1, "Nama guru harus diisi").max(100, "Nama guru terlalu panjang"),
+  // Kurikulum Merdeka Kementerian Agama additions
+  profilPelajarPancasila: z.object({
+    berimanBertakwa: z.boolean().default(false),
+    mandiri: z.boolean().default(false),
+    bernalarKritis: z.boolean().default(false),
+    kreatif: z.boolean().default(false),
+    bergotongRoyong: z.boolean().default(false),
+    berkebinekaanGlobal: z.boolean().default(false),
+    rahmatanLilAlamin: z.boolean().default(false),
   }),
-  kelas: z.string().min(1, "Kelas harus dipilih"),
-  semester: z.enum(["Ganjil", "Genap"], {
-    required_error: "Semester harus dipilih",
+  modelPembelajaran: z.enum(["PjBL", "PBL", "Discovery", "Inquiry", "Konvensional"]),
+  capaianPembelajaranDetail: z.object({
+    pengetahuan: z.string().min(1, "Pengetahuan harus diisi").max(500, "Pengetahuan terlalu panjang"),
+    keterampilan: z.string().min(1, "Keterampilan harus diisi").max(500, "Keterampilan terlalu panjang"),
+    sikap: z.string().min(1, "Sikap harus diisi").max(500, "Sikap terlalu panjang"),
   }),
-  mataPelajaran: z.string().min(1, "Mata pelajaran harus diisi"),
-  tema: z.string().min(1, "Tema harus diisi"),
-  subtema: z.string().min(1, "Sub tema harus diisi"),
-  alokasi: z.string().min(1, "Alokasi waktu harus diisi"),
-  pertemuan: z.number().min(1, "Pertemuan harus diisi"),
-  capaianPembelajaran: z.string().min(10, "Capaian pembelajaran minimal 10 karakter"),
+  integrasiTIK: z.array(z.string()).min(1, "Pilih minimal 1 integrasi TIK"),
+  asesmenAutentik: z.array(z.string()).min(1, "Pilih minimal 1 asesmen autentik"),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -52,8 +72,32 @@ const GeneratorForm = () => {
       alokasi: "2 x 40 menit",
       pertemuan: 1,
       capaianPembelajaran: "",
+      namaGuru: "",
+      // Kurikulum Merdeka Kementerian Agama additions
+      profilPelajarPancasila: {
+        berimanBertakwa: false,
+        mandiri: false,
+        bernalarKritis: false,
+        kreatif: false,
+        bergotongRoyong: false,
+        berkebinekaanGlobal: false,
+        rahmatanLilAlamin: false,
+      },
+      modelPembelajaran: "PjBL",
+      capaianPembelajaranDetail: {
+        pengetahuan: "",
+        keterampilan: "",
+        sikap: "",
+      },
+      integrasiTIK: [],
+      asesmenAutentik: [],
     },
   });
+
+  // Track form start when component mounts
+  useEffect(() => {
+    AnalyticsManager.trackEvent('form_start', { page: 'generator' });
+  }, []);
 
   const jenjangOptions = [
     { value: "MI", label: "MI (Madrasah Ibtidaiyah)" },
@@ -74,53 +118,57 @@ const GeneratorForm = () => {
     }
   };
 
-  const handleSubmit = async (data: FormData) => {
-    setIsLoading(true);
-    
+  const handleSubmit = async (data: z.infer<typeof formSchema>) => {
     try {
-      console.log("Form submitted:", data);
+      // Security: Basic rate limiting for public app
+      if (!SecurityUtils.checkRateLimit('form_submit', 10, 60000)) {
+        toast({
+          title: "Terlalu banyak request",
+          description: "Silakan tunggu sebentar sebelum mencoba lagi",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // Security: Basic input sanitization
+      const sanitizedData = SecurityUtils.sanitizeObject(data) as RPPFormData;
       
-      toast({
-        title: "Memulai Generasi RPP",
-        description: "Memproses data Anda...",
+      // Security: Basic validation
+      if (!sanitizedData.namaGuru || !sanitizedData.mataPelajaran || !sanitizedData.tema) {
+        toast({
+          title: "Data tidak lengkap",
+          description: "Mohon lengkapi semua field yang diperlukan",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      setIsLoading(true);
+      
+      // Analytics: Track form submission
+      AnalyticsManager.trackFormSubmission(sanitizedData);
+      
+      // Generate RPP with sanitized data
+      const generatedRPP = await rppGenerator.generateRPP(sanitizedData);
+      
+      // Store data in simple storage
+      SecurityUtils.storage.setItem('formData', JSON.stringify(sanitizedData));
+      SecurityUtils.storage.setItem('generatedRPP', JSON.stringify(generatedRPP));
+      
+      // Log activity for public app
+      SecurityUtils.debugLog('RPP generated successfully', { 
+        mataPelajaran: sanitizedData.mataPelajaran,
+        tema: sanitizedData.tema,
+        timestamp: new Date().toISOString()
       });
-
-      // Convert form data to RPPFormData format
-      const rppFormData: RPPFormData = {
-        satuan: data.satuan,
-        jenjang: data.jenjang,
-        kelas: data.kelas,
-        semester: data.semester,
-        mataPelajaran: data.mataPelajaran,
-        tema: data.tema,
-        subtema: data.subtema,
-        alokasi: data.alokasi,
-        pertemuan: data.pertemuan,
-        capaianPembelajaran: data.capaianPembelajaran,
-      };
-
-      console.log("Calling RPP generator...");
-      // Generate RPP using optimized template approach
-      const generatedRPP = await rppGenerator.generateRPP(rppFormData);
       
-      console.log("RPP generated successfully:", generatedRPP);
-      
-      // Store both form data and generated RPP for result page
-      localStorage.setItem('rppFormData', JSON.stringify(rppFormData));
-      localStorage.setItem('generatedRPP', JSON.stringify(generatedRPP));
-      
-      // Navigate to result page
       navigate('/result');
-      
-      toast({
-        title: "RPP Berhasil Dibuat! 🎉",
-        description: "RPP telah berhasil dibuat dengan cepat!",
-      });
     } catch (error) {
-      console.error("Error generating RPP:", error);
+      SecurityUtils.errorLog('Failed to generate RPP', error);
+      AnalyticsManager.trackError(error as Error, 'form_submission');
       toast({
-        title: "Terjadi Kesalahan",
-        description: "Gagal membuat RPP. Silakan coba lagi.",
+        title: "Gagal menghasilkan RPP",
+        description: "Terjadi kesalahan saat menghasilkan RPP. Silakan coba lagi.",
         variant: "destructive",
       });
     } finally {
@@ -132,6 +180,25 @@ const GeneratorForm = () => {
     <div className="min-h-screen bg-gradient-to-br from-background via-muted/30 to-secondary py-12 px-4">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
+        <div className="flex items-center justify-between mb-8">
+          <Button 
+            variant="outline" 
+            onClick={() => navigate('/')}
+            className="flex items-center gap-2"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            Kembali ke Halaman Utama
+          </Button>
+          
+          <div className="flex items-center gap-4">
+            <FeedbackDialog />
+            <Badge variant="secondary" className="px-4 py-2">
+              <BookOpen className="h-4 w-4 mr-2" />
+              Generator RPP Madrasah
+            </Badge>
+          </div>
+        </div>
+
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
             Generator RPP
@@ -165,6 +232,20 @@ const GeneratorForm = () => {
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
+                    <FormField
+                      control={form.control}
+                      name="namaGuru"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Nama Guru</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Contoh: Ahmad S.Pd, Siti M.Pd..." {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
                     <div className="grid md:grid-cols-2 gap-4">
                       <FormField
                         control={form.control}
@@ -401,6 +482,286 @@ const GeneratorForm = () => {
                               className="min-h-[120px] resize-none"
                               {...field}
                             />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </CardContent>
+                </Card>
+
+                {/* Kurikulum Merdeka Kementerian Agama */}
+                <Card className="border-purple-200 bg-purple-50">
+                  <CardHeader className="pb-4">
+                    <CardTitle className="text-lg flex items-center gap-2">
+                      <Users className="h-5 w-5 text-primary" />
+                      Kurikulum Merdeka Kementerian Agama
+                    </CardTitle>
+                    <CardDescription>
+                      Pilih opsi yang sesuai dengan Kurikulum Merdeka Kementerian Agama
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <FormField
+                      control={form.control}
+                      name="profilPelajarPancasila"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Profil Pelajar Pancasila</FormLabel>
+                          <FormControl>
+                            <div className="grid grid-cols-2 gap-2">
+                              <div className="flex items-center space-x-2">
+                                <Checkbox 
+                                  id="berimanBertakwa" 
+                                  checked={field.value.berimanBertakwa} 
+                                  onCheckedChange={(checked) => 
+                                    field.onChange({ ...field.value, berimanBertakwa: checked as boolean })
+                                  } 
+                                />
+                                <Label htmlFor="berimanBertakwa">Beriman Bertakwa</Label>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <Checkbox 
+                                  id="mandiri" 
+                                  checked={field.value.mandiri} 
+                                  onCheckedChange={(checked) => 
+                                    field.onChange({ ...field.value, mandiri: checked as boolean })
+                                  } 
+                                />
+                                <Label htmlFor="mandiri">Mandiri</Label>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <Checkbox 
+                                  id="bernalarKritis" 
+                                  checked={field.value.bernalarKritis} 
+                                  onCheckedChange={(checked) => 
+                                    field.onChange({ ...field.value, bernalarKritis: checked as boolean })
+                                  } 
+                                />
+                                <Label htmlFor="bernalarKritis">Bernalar Kritis</Label>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <Checkbox 
+                                  id="kreatif" 
+                                  checked={field.value.kreatif} 
+                                  onCheckedChange={(checked) => 
+                                    field.onChange({ ...field.value, kreatif: checked as boolean })
+                                  } 
+                                />
+                                <Label htmlFor="kreatif">Kreatif</Label>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <Checkbox 
+                                  id="bergotongRoyong" 
+                                  checked={field.value.bergotongRoyong} 
+                                  onCheckedChange={(checked) => 
+                                    field.onChange({ ...field.value, bergotongRoyong: checked as boolean })
+                                  } 
+                                />
+                                <Label htmlFor="bergotongRoyong">Bergotong Royong</Label>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <Checkbox 
+                                  id="berkebinekaanGlobal" 
+                                  checked={field.value.berkebinekaanGlobal} 
+                                  onCheckedChange={(checked) => 
+                                    field.onChange({ ...field.value, berkebinekaanGlobal: checked as boolean })
+                                  } 
+                                />
+                                <Label htmlFor="berkebinekaanGlobal">Berkebinekaan Global</Label>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <Checkbox 
+                                  id="rahmatanLilAlamin" 
+                                  checked={field.value.rahmatanLilAlamin} 
+                                  onCheckedChange={(checked) => 
+                                    field.onChange({ ...field.value, rahmatanLilAlamin: checked as boolean })
+                                  } 
+                                />
+                                <Label htmlFor="rahmatanLilAlamin">Rahmatan Lil 'Alamin</Label>
+                              </div>
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="modelPembelajaran"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Model Pembelajaran</FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Pilih model pembelajaran..." />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value="PjBL">Project Based Learning (PjBL)</SelectItem>
+                              <SelectItem value="PBL">Problem Based Learning (PBL)</SelectItem>
+                              <SelectItem value="Discovery">Discovery Learning</SelectItem>
+                              <SelectItem value="Inquiry">Inquiry Learning</SelectItem>
+                              <SelectItem value="Konvensional">Konvensional</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="capaianPembelajaranDetail.pengetahuan"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Pengetahuan</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Contoh: Memahami konsep penjumlahan dan pengurangan bilangan bulat" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="capaianPembelajaranDetail.keterampilan"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Keterampilan</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Contoh: Mampu melakukan penjumlahan dan pengurangan bilangan bulat dengan benar" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="capaianPembelajaranDetail.sikap"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Sikap</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Contoh: Menunjukkan sikap kreatif dan inovatif dalam menyelesaikan masalah" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="integrasiTIK"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Integrasi TIK</FormLabel>
+                          <FormControl>
+                            <div className="grid grid-cols-2 gap-2">
+                              <div className="flex items-center space-x-2">
+                                <Checkbox 
+                                  id="integrasiTIK1" 
+                                  checked={field.value.includes("Integrasi TIK 1")} 
+                                  onCheckedChange={(checked) => {
+                                    if (checked) {
+                                      field.onChange([...field.value, "Integrasi TIK 1"]);
+                                    } else {
+                                      field.onChange(field.value.filter(item => item !== "Integrasi TIK 1"));
+                                    }
+                                  }} 
+                                />
+                                <Label htmlFor="integrasiTIK1">Integrasi TIK 1</Label>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <Checkbox 
+                                  id="integrasiTIK2" 
+                                  checked={field.value.includes("Integrasi TIK 2")} 
+                                  onCheckedChange={(checked) => {
+                                    if (checked) {
+                                      field.onChange([...field.value, "Integrasi TIK 2"]);
+                                    } else {
+                                      field.onChange(field.value.filter(item => item !== "Integrasi TIK 2"));
+                                    }
+                                  }} 
+                                />
+                                <Label htmlFor="integrasiTIK2">Integrasi TIK 2</Label>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <Checkbox 
+                                  id="integrasiTIK3" 
+                                  checked={field.value.includes("Integrasi TIK 3")} 
+                                  onCheckedChange={(checked) => {
+                                    if (checked) {
+                                      field.onChange([...field.value, "Integrasi TIK 3"]);
+                                    } else {
+                                      field.onChange(field.value.filter(item => item !== "Integrasi TIK 3"));
+                                    }
+                                  }} 
+                                />
+                                <Label htmlFor="integrasiTIK3">Integrasi TIK 3</Label>
+                              </div>
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="asesmenAutentik"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Asesmen Autentik</FormLabel>
+                          <FormControl>
+                            <div className="grid grid-cols-2 gap-2">
+                              <div className="flex items-center space-x-2">
+                                <Checkbox 
+                                  id="asesmenAutentik1" 
+                                  checked={field.value.includes("Asesmen Autentik 1")} 
+                                  onCheckedChange={(checked) => {
+                                    if (checked) {
+                                      field.onChange([...field.value, "Asesmen Autentik 1"]);
+                                    } else {
+                                      field.onChange(field.value.filter(item => item !== "Asesmen Autentik 1"));
+                                    }
+                                  }} 
+                                />
+                                <Label htmlFor="asesmenAutentik1">Asesmen Autentik 1</Label>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <Checkbox 
+                                  id="asesmenAutentik2" 
+                                  checked={field.value.includes("Asesmen Autentik 2")} 
+                                  onCheckedChange={(checked) => {
+                                    if (checked) {
+                                      field.onChange([...field.value, "Asesmen Autentik 2"]);
+                                    } else {
+                                      field.onChange(field.value.filter(item => item !== "Asesmen Autentik 2"));
+                                    }
+                                  }} 
+                                />
+                                <Label htmlFor="asesmenAutentik2">Asesmen Autentik 2</Label>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <Checkbox 
+                                  id="asesmenAutentik3" 
+                                  checked={field.value.includes("Asesmen Autentik 3")} 
+                                  onCheckedChange={(checked) => {
+                                    if (checked) {
+                                      field.onChange([...field.value, "Asesmen Autentik 3"]);
+                                    } else {
+                                      field.onChange(field.value.filter(item => item !== "Asesmen Autentik 3"));
+                                    }
+                                  }} 
+                                />
+                                <Label htmlFor="asesmenAutentik3">Asesmen Autentik 3</Label>
+                              </div>
+                            </div>
                           </FormControl>
                           <FormMessage />
                         </FormItem>

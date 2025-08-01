@@ -3,10 +3,11 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Homepage from "./pages/Homepage";
-import GeneratorForm from "./pages/GeneratorForm";
-import ResultPage from "./pages/ResultPage";
-import NotFound from "./pages/NotFound";
+import Homepage from "@/pages/Homepage";
+import GeneratorForm from "@/pages/GeneratorForm";
+import ResultPage from "@/pages/ResultPage";
+import LearnMore from "@/pages/LearnMore";
+import NotFound from "@/pages/NotFound";
 
 const queryClient = new QueryClient();
 
@@ -20,6 +21,7 @@ const App = () => (
           <Route path="/" element={<Homepage />} />
           <Route path="/generator" element={<GeneratorForm />} />
           <Route path="/result" element={<ResultPage />} />
+          <Route path="/learn-more" element={<LearnMore />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
