@@ -20,6 +20,7 @@ import {
 } from "lucide-react";
 import FeedbackDialog from "@/components/FeedbackDialog";
 import TrakteerButton from "@/components/TrakteerButton";
+import AboutUsDialog from "@/components/AboutUsDialog";
 import { AnalyticsManager } from "@/lib/analytics";
 import { useEffect } from "react";
 
@@ -203,6 +204,7 @@ const Homepage = () => {
           <div className="flex justify-center gap-4">
             <FeedbackDialog />
             <TrakteerButton />
+            <AboutUsDialog />
           </div>
         </div>
 
@@ -213,7 +215,7 @@ const Homepage = () => {
           </p>
           <div className="flex justify-center gap-4 mt-4">
             <Button variant="ghost" size="sm" onClick={() => navigate('/learn-more')}>
-              Tentang Kami
+              Pelajari Selengkapnya
             </Button>
           </div>
         </div>
