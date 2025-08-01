@@ -2,10 +2,16 @@ import { pipeline } from "@huggingface/transformers";
 
 // Interface untuk data form RPP
 export interface RPPFormData {
-  capaianPembelajaran: string;
+  satuan: string;
   jenjang: "MI" | "MTs" | "MA";
   kelas: string;
+  semester: "Ganjil" | "Genap";
   mataPelajaran: string;
+  tema: string;
+  subtema: string;
+  alokasi: string;
+  pertemuan: number;
+  capaianPembelajaran: string;
 }
 
 // Interface untuk hasil RPP yang dihasilkan
@@ -146,14 +152,14 @@ export class RPPGenerator {
     // Construct complete RPP based on Indonesian education standards
     const rpp: GeneratedRPP = {
       identitas: {
-        satuan: `${formData.jenjang} Al-Hikmah`,
+        satuan: formData.satuan,
         kelas: formData.kelas,
-        semester: "Ganjil",
+        semester: formData.semester,
         mataPelajaran: formData.mataPelajaran,
-        tema: aiEnhancedContent.tema,
-        subtema: aiEnhancedContent.subtema,
-        alokasi: "2 x 40 menit",
-        pertemuan: 1
+        tema: formData.tema,
+        subtema: formData.subtema,
+        alokasi: formData.alokasi,
+        pertemuan: formData.pertemuan
       },
 
       kompetensiInti: this.getKompetensiInti(formData.jenjang),
