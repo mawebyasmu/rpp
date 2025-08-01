@@ -75,17 +75,6 @@ export const TrakteerButton = () => {
 
   return (
     <div className="flex items-center gap-2">
-      {/* Fallback Button - Trakteer script disabled temporarily */}
-      <Button 
-        variant="ghost" 
-        size="sm"
-        className="gap-2"
-        onClick={handleDirectLink}
-      >
-        <Heart className="h-4 w-4" />
-        Support
-      </Button>
-      
       {/* Donation Guide */}
       <DonationGuide 
         trigger={
@@ -95,7 +84,7 @@ export const TrakteerButton = () => {
             className="gap-2"
           >
             <Heart className="h-4 w-4" />
-            Guide
+            Dukung Kami
           </Button>
         }
         onDonate={handleDirectLink}
