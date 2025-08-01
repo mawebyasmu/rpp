@@ -140,9 +140,10 @@ export class RPPGenerator {
 
   // Generate comprehensive RPP using optimized approach
   async generateRPP(formData: RPPFormData): Promise<GeneratedRPP> {
-    console.log("Generating RPP with optimized approach for:", formData);
-
-    // Skip AI initialization for faster generation, use template-based approach
+    console.log("Starting RPP generation...");
+    
+    // Add small delay to show loading state, then generate quickly
+    await new Promise(resolve => setTimeout(resolve, 500));
 
     // Use template-based content generation for faster performance
     const templateContent = this.getTemplateContent(formData);

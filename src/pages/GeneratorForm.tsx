@@ -78,9 +78,11 @@ const GeneratorForm = () => {
     setIsLoading(true);
     
     try {
+      console.log("Form submitted:", data);
+      
       toast({
         title: "Memulai Generasi RPP",
-        description: "AI sedang memproses data Anda...",
+        description: "Memproses data Anda...",
       });
 
       // Convert form data to RPPFormData format
@@ -97,8 +99,11 @@ const GeneratorForm = () => {
         capaianPembelajaran: data.capaianPembelajaran,
       };
 
-      // Generate RPP using Deep Learning AI
+      console.log("Calling RPP generator...");
+      // Generate RPP using optimized template approach
       const generatedRPP = await rppGenerator.generateRPP(rppFormData);
+      
+      console.log("RPP generated successfully:", generatedRPP);
       
       // Store both form data and generated RPP for result page
       localStorage.setItem('rppFormData', JSON.stringify(rppFormData));
@@ -109,7 +114,7 @@ const GeneratorForm = () => {
       
       toast({
         title: "RPP Berhasil Dibuat! 🎉",
-        description: "RPP dengan standar kurikulum Madrasah telah berhasil di-generate menggunakan AI",
+        description: "RPP telah berhasil dibuat dengan cepat!",
       });
     } catch (error) {
       console.error("Error generating RPP:", error);
