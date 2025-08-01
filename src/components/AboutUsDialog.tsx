@@ -13,7 +13,9 @@ import {
   Target,
   Globe,
   Coffee,
-  Lightbulb
+  Lightbulb,
+  Mail,
+  MessageCircle
 } from "lucide-react";
 import { AnalyticsManager } from "@/lib/analytics";
 
@@ -249,6 +251,62 @@ export const AboutUsDialog = ({ trigger }: AboutUsDialogProps) => {
                 Punya ide untuk pengembangan aplikasi? Ingin berkolaborasi? 
                 Atau sekedar ingin ngobrol tentang pendidikan dan teknologi?
               </p>
+              
+              {/* Contact Methods */}
+              <div className="grid md:grid-cols-2 gap-4 mb-4">
+                <Card className="border-blue-200 bg-blue-50">
+                  <CardContent className="pt-4">
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center">
+                        <Mail className="h-5 w-5 text-white" />
+                      </div>
+                      <div>
+                        <h4 className="font-semibold">Email</h4>
+                        <p className="text-sm text-muted-foreground">alfian.yazdad@gmail.com</p>
+                      </div>
+                    </div>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="w-full gap-2"
+                      onClick={() => {
+                        window.open('mailto:alfian.yazdad@gmail.com?subject=Kolaborasi Madrasah RPP Wizard', '_blank');
+                        AnalyticsManager.trackEvent('contact_email_clicked');
+                      }}
+                    >
+                      <Mail className="h-4 w-4" />
+                      Kirim Email
+                    </Button>
+                  </CardContent>
+                </Card>
+
+                <Card className="border-green-200 bg-green-50">
+                  <CardContent className="pt-4">
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center">
+                        <MessageCircle className="h-5 w-5 text-white" />
+                      </div>
+                      <div>
+                        <h4 className="font-semibold">WhatsApp</h4>
+                        <p className="text-sm text-muted-foreground">+62 812-3456-7890</p>
+                      </div>
+                    </div>
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      className="w-full gap-2"
+                      onClick={() => {
+                        window.open('https://wa.me/6281234567890?text=Halo! Saya tertarik dengan Madrasah RPP Wizard dan ingin berkolaborasi.', '_blank');
+                        AnalyticsManager.trackEvent('contact_whatsapp_clicked');
+                      }}
+                    >
+                      <MessageCircle className="h-4 w-4" />
+                      Chat WhatsApp
+                    </Button>
+                  </CardContent>
+                </Card>
+              </div>
+
               <div className="flex gap-3">
                 <Button 
                   onClick={() => window.open('https://trakteer.id/alfian_yazdad', '_blank')}

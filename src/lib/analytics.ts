@@ -13,7 +13,9 @@ export type AnalyticsEvent =
   | 'donation_redirect'
   | 'trakteer_embed_loaded'
   | 'donation_guide_viewed'
-  | 'about_us_viewed';
+  | 'about_us_viewed'
+  | 'contact_email_clicked'
+  | 'contact_whatsapp_clicked';
 
 // Analytics Event Data
 export interface AnalyticsEventData {
