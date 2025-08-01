@@ -11,7 +11,8 @@ export type AnalyticsEvent =
   | 'error_occurred'
   | 'donation_click'
   | 'donation_redirect'
-  | 'trakteer_embed_loaded';
+  | 'trakteer_embed_loaded'
+  | 'donation_guide_viewed';
 
 // Analytics Event Data
 export interface AnalyticsEventData {

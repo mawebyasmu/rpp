@@ -5,9 +5,11 @@ import { Badge } from "@/components/ui/badge";
 import { 
   Heart, 
   ExternalLink,
-  Sparkles
+  Sparkles,
+  HelpCircle
 } from "lucide-react";
 import { AnalyticsManager } from "@/lib/analytics";
+import DonationGuide from "./DonationGuide";
 
 interface TrakteerEmbedProps {
   showHeader?: boolean;
@@ -91,15 +93,27 @@ export const TrakteerEmbed = ({ showHeader = true, className = "" }: TrakteerEmb
             id="trakteer-embed-container"
           />
           
-          {/* Fallback Button */}
-          <Button 
-            onClick={handleDirectLink}
-            className="gap-2"
-            variant="outline"
-          >
-            <ExternalLink className="h-4 w-4" />
-            Kunjungi Trakteer.id
-          </Button>
+          {/* Action Buttons */}
+          <div className="flex gap-3 justify-center">
+            <Button 
+              onClick={handleDirectLink}
+              className="gap-2"
+              variant="outline"
+            >
+              <ExternalLink className="h-4 w-4" />
+              Kunjungi Trakteer.id
+            </Button>
+            
+            <DonationGuide 
+              trigger={
+                <Button variant="outline" className="gap-2">
+                  <HelpCircle className="h-4 w-4" />
+                  Cara Donasi
+                </Button>
+              }
+              onDonate={handleDirectLink}
+            />
+          </div>
         </div>
 
         {/* Benefits */}

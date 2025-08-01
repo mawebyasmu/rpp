@@ -1,7 +1,8 @@
 import { useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { Heart, ExternalLink } from "lucide-react";
+import { Heart, ExternalLink, HelpCircle } from "lucide-react";
 import { AnalyticsManager } from "@/lib/analytics";
+import DonationGuide from "./DonationGuide";
 
 export const TrakteerButton = () => {
   const embedRef = useRef<HTMLDivElement>(null);
@@ -60,16 +61,27 @@ export const TrakteerButton = () => {
         id="trakteer-footer-container"
       />
       
-      {/* Fallback Button */}
-      <Button 
-        onClick={handleDirectLink}
-        variant="ghost" 
-        size="sm"
-        className="gap-2"
-      >
-        <Heart className="h-4 w-4" />
-        Donasi
-      </Button>
+      {/* Action Buttons */}
+      <div className="flex items-center gap-1">
+        <Button 
+          onClick={handleDirectLink}
+          variant="ghost" 
+          size="sm"
+          className="gap-2"
+        >
+          <Heart className="h-4 w-4" />
+          Donasi
+        </Button>
+        
+        <DonationGuide 
+          trigger={
+            <Button variant="ghost" size="sm" className="gap-2">
+              <HelpCircle className="h-4 w-4" />
+            </Button>
+          }
+          onDonate={handleDirectLink}
+        />
+      </div>
     </div>
   );
 };
