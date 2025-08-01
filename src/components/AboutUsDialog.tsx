@@ -53,9 +53,9 @@ const aboutSections: AboutSection[] = [
 
 const achievements = [
   "Mengembangkan aplikasi pendidikan yang bermanfaat",
-  "Membantu 1000+ guru Madrasah",
-  "Menciptakan 5000+ RPP berkualitas",
-  "Mengintegrasikan teknologi dalam pembelajaran"
+  "Mengintegrasikan teknologi dalam pembelajaran",
+  "Membangun komunitas guru yang kolaboratif",
+  "Menciptakan solusi digital untuk pendidikan"
 ];
 
 const values = [
