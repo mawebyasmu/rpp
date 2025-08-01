@@ -19,6 +19,7 @@ import {
   CheckCircle
 } from "lucide-react";
 import FeedbackDialog from "@/components/FeedbackDialog";
+import TrakteerButton from "@/components/TrakteerButton";
 import { AnalyticsManager } from "@/lib/analytics";
 import { useEffect } from "react";
 
@@ -211,9 +212,7 @@ const Homepage = () => {
             <Button variant="ghost" size="sm" onClick={() => navigate('/learn-more')}>
               Tentang Kami
             </Button>
-            <Button variant="ghost" size="sm" onClick={() => navigate('/donation')}>
-              Donasi
-            </Button>
+            <TrakteerButton />
           </div>
         </div>
       </div>

@@ -10,7 +10,8 @@ export type AnalyticsEvent =
   | 'feedback_submit'
   | 'error_occurred'
   | 'donation_click'
-  | 'donation_redirect';
+  | 'donation_redirect'
+  | 'trakteer_embed_loaded';
 
 // Analytics Event Data
 export interface AnalyticsEventData {

@@ -13,7 +13,7 @@ import {
   Gift,
   Coffee
 } from "lucide-react";
-import DonationWidget from "@/components/DonationWidget";
+import TrakteerEmbed from "@/components/TrakteerEmbed";
 import { AnalyticsManager } from "@/lib/analytics";
 import { useEffect } from "react";
 
@@ -149,9 +149,9 @@ const DonationPage = () => {
           </div>
         </div>
 
-        {/* Donation Widget */}
+        {/* Trakteer Embed */}
         <div className="mb-12">
-          <DonationWidget />
+          <TrakteerEmbed />
         </div>
 
         {/* Testimonials */}
