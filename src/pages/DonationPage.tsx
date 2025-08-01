@@ -241,7 +241,7 @@ const DonationPage = () => {
               <CardContent>
                 <p className="text-muted-foreground">
                   Ya, kami menggunakan Trakteer.id yang merupakan platform donasi terpercaya di Indonesia 
-                  dengan sistem keamanan yang tinggi.
+                  dengan sistem keamanan yang tinggi. Link donasi: trakteer.id/alfian_yazdad
                 </p>
               </CardContent>
             </Card>
@@ -277,7 +277,7 @@ const DonationPage = () => {
               <CardContent>
                 <p className="text-muted-foreground">
                   Pilih tier donasi yang diinginkan, kemudian Anda akan diarahkan ke Trakteer.id 
-                  untuk menyelesaikan pembayaran.
+                  (trakteer.id/alfian_yazdad) untuk menyelesaikan pembayaran.
                 </p>
               </CardContent>
             </Card>

@@ -70,7 +70,7 @@ export const DonationWidget = () => {
 
   const handleTrakteerRedirect = () => {
     // Redirect ke Trakteer.id dengan parameter
-    const trakteerUrl = `https://trakteer.id/mawebyasmu?amount=${selectedTier?.amount}`;
+    const trakteerUrl = `https://trakteer.id/alfian_yazdad?amount=${selectedTier?.amount}`;
     window.open(trakteerUrl, '_blank');
     
     AnalyticsManager.trackEvent('donation_redirect', { 
