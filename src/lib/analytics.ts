@@ -15,7 +15,8 @@ export type AnalyticsEvent =
   | 'donation_guide_viewed'
   | 'about_us_viewed'
   | 'contact_email_clicked'
-  | 'contact_whatsapp_clicked';
+  | 'contact_whatsapp_clicked'
+  | 'feedback_whatsapp_sent';
 
 // Analytics Event Data
 export interface AnalyticsEventData {

@@ -66,7 +66,32 @@ const FeedbackDialog = ({ trigger }: FeedbackDialogProps) => {
     setIsSubmitting(true);
 
     try {
-      // Submit feedback
+      // Prepare WhatsApp message
+      const feedbackMessage = `*Feedback Madrasah RPP Wizard*
+
+*Tipe:* ${feedbackType === 'general_feedback' ? 'Feedback Umum' : 
+         feedbackType === 'feature_request' ? 'Request Fitur' : 
+         feedbackType === 'bug_report' ? 'Bug Report' : 'Rating'}
+
+${feedbackType === 'rating' ? `*Rating:* ${rating}/5 ⭐` : ''}
+
+*Judul:* ${title.trim()}
+
+*Deskripsi:* ${description.trim()}
+
+${contactEmail.trim() ? `*Email Kontak:* ${contactEmail.trim()}` : ''}
+
+---
+Dikirim dari: ${window.location.href}`;
+
+      // Encode message for WhatsApp
+      const encodedMessage = encodeURIComponent(feedbackMessage);
+      const whatsappUrl = `https://wa.me/6285785377790?text=${encodedMessage}`;
+
+      // Open WhatsApp
+      window.open(whatsappUrl, '_blank');
+
+      // Track in analytics
       AnalyticsManager.submitFeedback({
         type: feedbackType,
         rating: feedbackType === 'rating' ? rating : undefined,
@@ -75,16 +100,16 @@ const FeedbackDialog = ({ trigger }: FeedbackDialogProps) => {
         contactEmail: contactEmail.trim() || undefined
       });
 
-      // Track feedback submission
       AnalyticsManager.trackEvent('feedback_submit', {
         type: feedbackType,
         hasRating: feedbackType === 'rating' && rating > 0,
-        hasContact: !!contactEmail.trim()
+        hasContact: !!contactEmail.trim(),
+        method: 'whatsapp'
       });
 
       toast({
         title: "Feedback Terkirim! 🎉",
-        description: "Terima kasih atas feedback Anda. Kami akan mempertimbangkan masukan Anda.",
+        description: "Feedback Anda akan dikirim ke WhatsApp kami. Terima kasih!",
       });
 
       // Reset form
