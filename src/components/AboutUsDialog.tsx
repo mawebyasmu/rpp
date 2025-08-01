@@ -262,7 +262,7 @@ export const AboutUsDialog = ({ trigger }: AboutUsDialogProps) => {
                       </div>
                       <div>
                         <h4 className="font-semibold">Email</h4>
-                        <p className="text-sm text-muted-foreground">alfian.yazdad@gmail.com</p>
+                        <p className="text-sm text-muted-foreground">yazdad.utd@gmail.com</p>
                       </div>
                     </div>
                     <Button 
@@ -270,7 +270,7 @@ export const AboutUsDialog = ({ trigger }: AboutUsDialogProps) => {
                       size="sm" 
                       className="w-full gap-2"
                       onClick={() => {
-                        window.open('mailto:alfian.yazdad@gmail.com?subject=Kolaborasi Madrasah RPP Wizard', '_blank');
+                        window.open('mailto:yazdad.utd@gmail.com?subject=Kolaborasi Madrasah RPP Wizard', '_blank');
                         AnalyticsManager.trackEvent('contact_email_clicked');
                       }}
                     >
@@ -288,7 +288,7 @@ export const AboutUsDialog = ({ trigger }: AboutUsDialogProps) => {
                       </div>
                       <div>
                         <h4 className="font-semibold">WhatsApp</h4>
-                        <p className="text-sm text-muted-foreground">+62 812-3456-7890</p>
+                        <p className="text-sm text-muted-foreground">+62 857-8537-7790</p>
                       </div>
                     </div>
                     <Button 
@@ -296,7 +296,7 @@ export const AboutUsDialog = ({ trigger }: AboutUsDialogProps) => {
                       size="sm" 
                       className="w-full gap-2"
                       onClick={() => {
-                        window.open('https://wa.me/6281234567890?text=Halo! Saya tertarik dengan Madrasah RPP Wizard dan ingin berkolaborasi.', '_blank');
+                        window.open('https://wa.me/6285785377790?text=Halo! Saya tertarik dengan Madrasah RPP Wizard dan ingin berkolaborasi.', '_blank');
                         AnalyticsManager.trackEvent('contact_whatsapp_clicked');
                       }}
                     >
