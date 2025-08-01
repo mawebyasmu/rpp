@@ -8,7 +8,9 @@ export type AnalyticsEvent =
   | 'download_rpp'
   | 'view_analytics'
   | 'feedback_submit'
-  | 'error_occurred';
+  | 'error_occurred'
+  | 'donation_click'
+  | 'donation_redirect';
 
 // Analytics Event Data
 export interface AnalyticsEventData {

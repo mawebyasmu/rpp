@@ -211,8 +211,8 @@ const Homepage = () => {
             <Button variant="ghost" size="sm" onClick={() => navigate('/learn-more')}>
               Tentang Kami
             </Button>
-            <Button variant="ghost" size="sm">
-              Donasi (Coming Soon)
+            <Button variant="ghost" size="sm" onClick={() => navigate('/donation')}>
+              Donasi
             </Button>
           </div>
         </div>
