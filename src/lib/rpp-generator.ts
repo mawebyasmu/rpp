@@ -138,16 +138,14 @@ export class RPPGenerator {
     }
   }
 
-  // Generate comprehensive RPP using Deep Learning
+  // Generate comprehensive RPP using optimized approach
   async generateRPP(formData: RPPFormData): Promise<GeneratedRPP> {
-    if (!this.isInitialized) {
-      await this.initialize();
-    }
+    console.log("Generating RPP with optimized approach for:", formData);
 
-    console.log("Generating RPP with AI for:", formData);
+    // Skip AI initialization for faster generation, use template-based approach
 
-    // Generate AI-enhanced content
-    const aiEnhancedContent = await this.generateAIContent(formData);
+    // Use template-based content generation for faster performance
+    const templateContent = this.getTemplateContent(formData);
 
     // Construct complete RPP based on Indonesian education standards
     const rpp: GeneratedRPP = {
@@ -164,13 +162,13 @@ export class RPPGenerator {
 
       kompetensiInti: this.getKompetensiInti(formData.jenjang),
 
-      kompetensiDasar: aiEnhancedContent.kompetensiDasar,
+      kompetensiDasar: templateContent.kompetensiDasar,
 
-      indikator: aiEnhancedContent.indikator,
+      indikator: templateContent.indikator,
 
-      tujuanPembelajaran: aiEnhancedContent.tujuanPembelajaran,
+      tujuanPembelajaran: templateContent.tujuanPembelajaran,
 
-      materiPembelajaran: aiEnhancedContent.materiPembelajaran,
+      materiPembelajaran: templateContent.materiPembelajaran,
 
       metodePembelajaran: this.getRecommendedMethods(formData),
 
@@ -191,9 +189,9 @@ export class RPPGenerator {
         ]
       },
 
-      langkahPembelajaran: aiEnhancedContent.langkahPembelajaran,
+      langkahPembelajaran: templateContent.langkahPembelajaran,
 
-      penilaian: aiEnhancedContent.penilaian,
+      penilaian: templateContent.penilaian,
 
       remedialDanPengayaan: {
         remedial: [
@@ -451,9 +449,59 @@ export class RPPGenerator {
     };
   }
 
-  // Fallback template content if AI fails
+  // Optimized template content generation
   private getTemplateContent(formData: RPPFormData): any {
-    return this.structureAIResponse(formData, null);
+    return {
+      kompetensiDasar: {
+        pengetahuan: `Memahami ${this.extractConcepts(formData.capaianPembelajaran)} dalam konteks ${formData.mataPelajaran}`,
+        keterampilan: `Menerapkan pemahaman ${this.extractConcepts(formData.capaianPembelajaran)} dalam kehidupan sehari-hari`
+      },
+
+      indikator: {
+        pengetahuan: [
+          `Menjelaskan konsep dasar ${this.extractConcepts(formData.capaianPembelajaran)}`,
+          `Mengidentifikasi karakteristik ${this.extractConcepts(formData.capaianPembelajaran)}`,
+          `Menganalisis hubungan antar konsep dalam materi ${formData.mataPelajaran}`
+        ],
+        keterampilan: [
+          `Mendemonstrasikan penerapan konsep dalam konteks nyata`,
+          `Menyelesaikan masalah menggunakan pemahaman materi`,
+          `Mengkomunikasikan hasil pembelajaran dengan baik`
+        ]
+      },
+
+      tujuanPembelajaran: [
+        `Melalui kegiatan diskusi dan tanya jawab, peserta didik dapat menjelaskan ${this.extractConcepts(formData.capaianPembelajaran)} dengan tepat`,
+        `Melalui kegiatan praktik, peserta didik dapat menerapkan pemahaman materi dalam situasi nyata`,
+        `Melalui refleksi, peserta didik dapat menghargai nilai-nilai Islam dalam pembelajaran ${formData.mataPelajaran}`
+      ],
+
+      materiPembelajaran: {
+        faktual: [
+          `Definisi dan pengertian ${this.extractConcepts(formData.capaianPembelajaran)}`,
+          `Data dan informasi terkini dalam ${formData.mataPelajaran}`,
+          "Contoh nyata dalam kehidupan sehari-hari"
+        ],
+        konseptual: [
+          `Prinsip-prinsip dasar dalam ${formData.mataPelajaran}`,
+          "Hubungan antar konsep dalam materi",
+          "Teori dan model yang relevan"
+        ],
+        prosedural: [
+          "Langkah-langkah penerapan konsep",
+          `Prosedur pemecahan masalah dalam ${formData.mataPelajaran}`,
+          "Teknik dan strategi implementasi"
+        ],
+        metakognitif: [
+          "Strategi belajar yang efektif",
+          "Monitoring pemahaman diri",
+          "Evaluasi proses pembelajaran"
+        ]
+      },
+
+      langkahPembelajaran: this.generateLearningSteps(formData),
+      penilaian: this.generateAssessment(formData)
+    };
   }
 }
 
