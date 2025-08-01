@@ -194,13 +194,16 @@ const Homepage = () => {
           </div>
         </div>
 
-        {/* Feedback Section */}
+        {/* Feedback & Support Section */}
         <div className="text-center py-8 border-t">
           <h3 className="text-xl font-semibold mb-4">Bantu Kami Meningkatkan Layanan</h3>
           <p className="text-muted-foreground mb-6">
-            Berikan feedback, saran, atau laporkan bug untuk membantu kami memberikan layanan terbaik
+            Berikan feedback, saran, atau dukung pengembangan aplikasi
           </p>
-          <FeedbackDialog />
+          <div className="flex justify-center gap-4">
+            <FeedbackDialog />
+            <TrakteerButton />
+          </div>
         </div>
 
         {/* Footer Placeholder */}
@@ -212,7 +215,6 @@ const Homepage = () => {
             <Button variant="ghost" size="sm" onClick={() => navigate('/learn-more')}>
               Tentang Kami
             </Button>
-            <TrakteerButton />
           </div>
         </div>
       </div>

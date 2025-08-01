@@ -80,7 +80,7 @@ export const DonationGuide = ({ trigger, onDonate }: DonationGuideProps) => {
         {trigger || (
           <Button variant="outline" className="gap-2">
             <Heart className="h-4 w-4" />
-            Cara Donasi
+            Support Kami
           </Button>
         )}
       </DialogTrigger>
@@ -89,10 +89,10 @@ export const DonationGuide = ({ trigger, onDonate }: DonationGuideProps) => {
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Heart className="h-5 w-5 text-primary" />
-            Panduan Donasi Trakteer.id
+            Panduan Support Trakteer.id
           </DialogTitle>
           <DialogDescription>
-            Ikuti langkah-langkah di bawah ini untuk melakukan donasi melalui Trakteer.id
+            Ikuti langkah-langkah di bawah ini untuk mendukung pengembangan aplikasi
           </DialogDescription>
         </DialogHeader>
         
@@ -131,7 +131,7 @@ export const DonationGuide = ({ trigger, onDonate }: DonationGuideProps) => {
 
           {/* Steps */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Langkah-langkah Donasi:</h3>
+            <h3 className="text-lg font-semibold mb-4">Langkah-langkah Support:</h3>
             <div className="space-y-4">
               {donationSteps.map((step) => (
                 <Card key={step.step} className="hover:shadow-md transition-shadow">
@@ -163,10 +163,10 @@ export const DonationGuide = ({ trigger, onDonate }: DonationGuideProps) => {
           {/* Tips */}
           <Card className="border-green-200 bg-green-50">
             <CardHeader>
-              <CardTitle className="text-green-800 flex items-center gap-2">
-                <CheckCircle className="h-5 w-5" />
-                Tips Donasi
-              </CardTitle>
+                          <CardTitle className="text-green-800 flex items-center gap-2">
+              <CheckCircle className="h-5 w-5" />
+              Tips Support
+            </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-2 text-sm text-green-700">
@@ -197,7 +197,7 @@ export const DonationGuide = ({ trigger, onDonate }: DonationGuideProps) => {
               className="flex-1 gap-2"
             >
               <ExternalLink className="h-4 w-4" />
-              Mulai Donasi Sekarang
+              Support Sekarang
             </Button>
             <Button 
               variant="outline" 

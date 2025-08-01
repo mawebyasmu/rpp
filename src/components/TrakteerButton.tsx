@@ -61,27 +61,20 @@ export const TrakteerButton = () => {
         id="trakteer-footer-container"
       />
       
-      {/* Action Buttons */}
-      <div className="flex items-center gap-1">
-        <Button 
-          onClick={handleDirectLink}
-          variant="ghost" 
-          size="sm"
-          className="gap-2"
-        >
-          <Heart className="h-4 w-4" />
-          Donasi
-        </Button>
-        
-        <DonationGuide 
-          trigger={
-            <Button variant="ghost" size="sm" className="gap-2">
-              <HelpCircle className="h-4 w-4" />
-            </Button>
-          }
-          onDonate={handleDirectLink}
-        />
-      </div>
+      {/* Donation Button with Guide */}
+      <DonationGuide 
+        trigger={
+          <Button 
+            variant="ghost" 
+            size="sm"
+            className="gap-2"
+          >
+            <Heart className="h-4 w-4" />
+            Support
+          </Button>
+        }
+        onDonate={handleDirectLink}
+      />
     </div>
   );
 };

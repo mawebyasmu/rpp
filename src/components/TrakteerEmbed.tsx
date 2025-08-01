@@ -107,8 +107,8 @@ export const TrakteerEmbed = ({ showHeader = true, className = "" }: TrakteerEmb
             <DonationGuide 
               trigger={
                 <Button variant="outline" className="gap-2">
-                  <HelpCircle className="h-4 w-4" />
-                  Cara Donasi
+                  <Heart className="h-4 w-4" />
+                  Support Kami
                 </Button>
               }
               onDonate={handleDirectLink}
