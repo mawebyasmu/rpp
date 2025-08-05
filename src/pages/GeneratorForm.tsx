@@ -747,12 +747,12 @@ const GeneratorForm = () => {
                     {isLoading ? (
                       <>
                         <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                        Sedang Membuat RPP...
+                        Sedang Membuat {form.watch("documentType") || "RPP"}...
                       </>
                     ) : (
                       <>
                         <FileText className="mr-2 h-5 w-5" />
-                        Generate RPP Sekarang
+                        Generate {form.watch("documentType") || "RPP"} Sekarang
                       </>
                     )}
                   </Button>
@@ -768,7 +768,7 @@ const GeneratorForm = () => {
             <div className="text-center">
               <h3 className="text-lg font-semibold text-primary mb-2">💡 Tips</h3>
               <p className="text-sm text-muted-foreground">
-                Semakin detail capaian pembelajaran yang Anda masukkan, semakin spesifik dan berkualitas RPP yang akan dihasilkan oleh AI.
+                Semakin detail capaian pembelajaran yang Anda masukkan, semakin spesifik dan berkualitas {form.watch("documentType") || "RPP"} yang akan dihasilkan oleh AI.
               </p>
             </div>
           </CardContent>
