@@ -504,15 +504,15 @@ const GeneratorForm = () => {
                   </CardContent>
                 </Card>
 
-                {/* Kurikulum Merdeka Kementerian Agama */}
+                {/* Kurikulum Berbasis Cinta */}
                 <Card className="border-purple-200 bg-purple-50">
                   <CardHeader className="pb-4">
                     <CardTitle className="text-lg flex items-center gap-2">
                       <Users className="h-5 w-5 text-primary" />
-                      Kurikulum Merdeka Kementerian Agama
+                      Kurikulum Berbasis Cinta
                     </CardTitle>
                     <CardDescription>
-                      Pilih opsi yang sesuai dengan Kurikulum Merdeka Kementerian Agama
+                      Pilih opsi yang sesuai dengan Kurikulum Berbasis Cinta
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">

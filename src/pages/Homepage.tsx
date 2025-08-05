@@ -150,8 +150,8 @@ const Homepage = () => {
               <div className="flex items-start gap-3">
                 <CheckCircle className="h-6 w-6 text-green-500 mt-1 flex-shrink-0" />
                 <div>
-                  <h3 className="font-semibold">Kurikulum Merdeka Kementerian Agama</h3>
-                  <p className="text-muted-foreground">Sesuai dengan standar terbaru kurikulum Madrasah</p>
+                  <h3 className="font-semibold">Kurikulum Berbasis Cinta</h3>
+                  <p className="text-muted-foreground">Sesuai dengan standar terbaru kurikulum Madrasah berbasis cinta</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
