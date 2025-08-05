@@ -191,7 +191,7 @@ export class RPPGenerator {
         integrasiNilaiIslam: enhancedContent.integrasiNilaiIslam
       },
 
-      kompetensiInti: this.getKompetensiInti(formData.jenjang),
+              // Removed: kompetensiInti (no longer used in Love-Based Curriculum)
 
       kompetensiDasar: enhancedContent.kompetensiDasar,
 
@@ -239,7 +239,7 @@ export class RPPGenerator {
   }
 
   // Enhanced AI content generation for Kurikulum Merdeka Kementerian Agama
-  private async generateAIContent(formData: RPPFormData): Promise<any> {
+  private async generateAIContent(formData: LearningDocumentFormData): Promise<any> {
     try {
       // Enhanced prompts for deep learning and Kurikulum Merdeka
       const enhancedPrompt = this.buildEnhancedPrompt(formData);
@@ -268,7 +268,7 @@ export class RPPGenerator {
   }
 
   // Build enhanced prompt for deep learning
-  private buildEnhancedPrompt(formData: RPPFormData): string {
+  private buildEnhancedPrompt(formData: LearningDocumentFormData): string {
     const profilPelajar = Object.entries(formData.profilPelajarPancasila)
       .filter(([_, value]) => value)
       .map(([key, _]) => key)
@@ -276,16 +276,16 @@ export class RPPGenerator {
 
     return `
       Buat RPP untuk ${formData.mataPelajaran} kelas ${formData.kelas} ${formData.jenjang} 
-      dengan model pembelajaran ${formData.modelPembelajaran}.
+      dengan model pembelajaran ${formData.pendekatanPembelajaran}.
       
       Profil Pelajar Pancasila yang dikembangkan: ${profilPelajar}
       
       Capaian Pembelajaran:
-      - Pengetahuan: ${formData.capaianPembelajaranDetail.pengetahuan}
-      - Keterampilan: ${formData.capaianPembelajaranDetail.keterampilan}
-      - Sikap: ${formData.capaianPembelajaranDetail.sikap}
+      - Pengetahuan: ${formData.capaianPembelajaran.pengetahuan}
+      - Keterampilan: ${formData.capaianPembelajaran.keterampilan}
+      - Sikap: ${formData.capaianPembelajaran.sikap}
       
-      Integrasi TIK: ${formData.integrasiTIK.join(", ")}
+      Integrasi TIK: ${formData.integrasiNilaiIslam.join(", ")}
       Asesmen Autentik: ${formData.asesmenAutentik.join(", ")}
       
       Fokus pada:
@@ -298,8 +298,8 @@ export class RPPGenerator {
   }
 
   // Generate enhanced Kompetensi Dasar with specific tema and subtema
-  private generateKompetensiDasar(formData: RPPFormData): any {
-    const modelPembelajaran = formData.modelPembelajaran;
+  private generateKompetensiDasar(formData: LearningDocumentFormData): any {
+    const modelPembelajaran = formData.pendekatanPembelajaran;
     const mataPelajaran = formData.mataPelajaran;
     const tema = formData.tema;
     const subtema = formData.subtema;
@@ -308,21 +308,17 @@ export class RPPGenerator {
     let keterampilan = "";
     
     switch (modelPembelajaran) {
-      case "PjBL":
+      case "Love-Based":
         pengetahuan = `Memahami konsep dasar ${tema} dalam ${mataPelajaran} melalui proyek yang bermakna`;
         keterampilan = `Menerapkan pengetahuan ${subtema} dalam menyelesaikan proyek nyata terkait ${tema}`;
         break;
-      case "PBL":
+      case "Holistic":
         pengetahuan = `Menganalisis masalah terkait ${tema} dalam ${mataPelajaran} secara sistematis`;
         keterampilan = `Menyelesaikan masalah ${subtema} dengan solusi yang kreatif dan sesuai syariah`;
         break;
-      case "Discovery":
+      case "Character-Building":
         pengetahuan = `Menemukan konsep ${tema} dalam ${mataPelajaran} melalui eksplorasi mandiri`;
         keterampilan = `Mengkonstruksi pemahaman ${subtema} secara aktif dan kritis`;
-        break;
-      case "Inquiry":
-        pengetahuan = `Menginvestigasi fenomena ${tema} dalam ${mataPelajaran} secara ilmiah`;
-        keterampilan = `Melakukan penelitian sederhana tentang ${subtema} dengan pendekatan Islami`;
         break;
       default:
         pengetahuan = `Memahami konsep dasar ${tema} dalam ${mataPelajaran}`;
@@ -333,11 +329,11 @@ export class RPPGenerator {
   }
 
   // Generate enhanced Indikator with HOTS and specific tema
-  private generateIndikator(formData: RPPFormData): any {
+  private generateIndikator(formData: LearningDocumentFormData): any {
     const mataPelajaran = formData.mataPelajaran;
     const tema = formData.tema;
     const subtema = formData.subtema;
-    const modelPembelajaran = formData.modelPembelajaran;
+    const modelPembelajaran = formData.pendekatanPembelajaran;
     
     const indikatorPengetahuan = [
       `Mengidentifikasi konsep dasar ${tema} dalam ${mataPelajaran}`,
@@ -357,11 +353,11 @@ export class RPPGenerator {
   }
 
   // Generate enhanced Tujuan Pembelajaran with specific tema
-  private generateTujuanPembelajaran(formData: RPPFormData): string[] {
+  private generateTujuanPembelajaran(formData: LearningDocumentFormData): string[] {
     const mataPelajaran = formData.mataPelajaran;
     const tema = formData.tema;
     const subtema = formData.subtema;
-    const modelPembelajaran = formData.modelPembelajaran;
+    const modelPembelajaran = formData.pendekatanPembelajaran;
     
     const tujuan = [
       `Siswa mampu memahami konsep dasar ${tema} dalam ${mataPelajaran} dengan benar`,
@@ -373,9 +369,9 @@ export class RPPGenerator {
     ];
     
     // Add model-specific objectives
-    if (modelPembelajaran === "PjBL") {
+    if (modelPembelajaran === "Love-Based") {
       tujuan.push(`Siswa mampu menyelesaikan proyek ${tema} yang bermakna dan sesuai syariah`);
-    } else if (modelPembelajaran === "PBL") {
+    } else if (modelPembelajaran === "Holistic") {
       tujuan.push(`Siswa mampu mengidentifikasi dan menyelesaikan masalah terkait ${subtema}`);
     }
     
@@ -383,7 +379,7 @@ export class RPPGenerator {
   }
 
   // Generate enhanced Materi Pembelajaran with specific tema
-  private generateMateriPembelajaran(formData: RPPFormData): any {
+  private generateMateriPembelajaran(formData: LearningDocumentFormData): any {
     const mataPelajaran = formData.mataPelajaran;
     const tema = formData.tema;
     const subtema = formData.subtema;
@@ -413,9 +409,9 @@ export class RPPGenerator {
   }
 
   // Generate enhanced Integrasi TIK
-  private generateIntegrasiTIK(formData: RPPFormData): string[] {
+  private generateIntegrasiTIK(formData: LearningDocumentFormData): string[] {
     const mataPelajaran = formData.mataPelajaran;
-    const selectedTIK = formData.integrasiTIK;
+    const selectedTIK = formData.integrasiNilaiIslam;
     
     const tikOptions = [
       `Penggunaan aplikasi digital untuk pembelajaran ${mataPelajaran}`,
@@ -430,9 +426,9 @@ export class RPPGenerator {
   }
 
   // Generate enhanced Asesmen Autentik
-  private generateAsesmenAutentik(formData: RPPFormData): string[] {
+  private generateAsesmenAutentik(formData: LearningDocumentFormData): string[] {
     const mataPelajaran = formData.mataPelajaran;
-    const modelPembelajaran = formData.modelPembelajaran;
+    const modelPembelajaran = formData.pendekatanPembelajaran;
     const selectedAsesmen = formData.asesmenAutentik;
     
     const asesmenOptions = [
@@ -448,7 +444,7 @@ export class RPPGenerator {
   }
 
   // Generate enhanced Profil Pelajar Pancasila
-  private generateProfilPelajarPancasila(formData: RPPFormData): any {
+  private generateProfilPelajarPancasila(formData: LearningDocumentFormData): any {
     const selectedProfil = formData.profilPelajarPancasila;
     const mataPelajaran = formData.mataPelajaran;
     
@@ -501,11 +497,11 @@ export class RPPGenerator {
   }
 
   // Generate enhanced Langkah Pembelajaran with specific tema
-  private generateLangkahPembelajaran(formData: RPPFormData): any {
+  private generateLangkahPembelajaran(formData: LearningDocumentFormData): any {
     const mataPelajaran = formData.mataPelajaran;
     const tema = formData.tema;
     const subtema = formData.subtema;
-    const modelPembelajaran = formData.modelPembelajaran;
+    const modelPembelajaran = formData.pendekatanPembelajaran;
     
     const pendahuluan = [
       "Mengawali pembelajaran dengan doa",
@@ -516,7 +512,7 @@ export class RPPGenerator {
     
     let inti = [];
     switch (modelPembelajaran) {
-      case "PjBL":
+      case "Love-Based":
         inti = [
           `Mengidentifikasi masalah atau proyek terkait ${tema} yang akan dikerjakan`,
           `Merencanakan langkah-langkah penyelesaian proyek ${subtema}`,
@@ -525,7 +521,7 @@ export class RPPGenerator {
           `Menyusun laporan hasil proyek ${tema}`
         ];
         break;
-      case "PBL":
+      case "Holistic":
         inti = [
           `Mengidentifikasi masalah terkait ${tema} yang relevan`,
           `Menganalisis masalah ${subtema} secara sistematis`,
@@ -534,22 +530,13 @@ export class RPPGenerator {
           "Menyajikan dan mengevaluasi solusi"
         ];
         break;
-      case "Discovery":
+      case "Character-Building":
         inti = [
           `Mengamati fenomena atau objek pembelajaran terkait ${tema}`,
           `Mengajukan pertanyaan berdasarkan pengamatan ${subtema}`,
           "Melakukan eksplorasi untuk menemukan jawaban",
           "Mengkonstruksi pemahaman berdasarkan temuan",
           "Menyimpulkan hasil eksplorasi"
-        ];
-        break;
-      case "Inquiry":
-        inti = [
-          `Mengidentifikasi pertanyaan penelitian terkait ${tema}`,
-          "Merumuskan hipotesis",
-          "Merancang dan melaksanakan investigasi",
-          "Mengumpulkan dan menganalisis data",
-          "Menyimpulkan hasil investigasi"
         ];
         break;
       default:
@@ -578,7 +565,7 @@ export class RPPGenerator {
   }
 
   // Generate enhanced Penilaian with specific tema
-  private generatePenilaian(formData: RPPFormData): any {
+  private generatePenilaian(formData: LearningDocumentFormData): any {
     const mataPelajaran = formData.mataPelajaran;
     const tema = formData.tema;
     const subtema = formData.subtema;
@@ -618,7 +605,7 @@ export class RPPGenerator {
   }
 
   // Generate enhanced Remedial dan Pengayaan with specific tema
-  private generateRemedialPengayaan(formData: RPPFormData): any {
+  private generateRemedialPengayaan(formData: LearningDocumentFormData): any {
     const mataPelajaran = formData.mataPelajaran;
     const tema = formData.tema;
     const subtema = formData.subtema;
@@ -643,11 +630,11 @@ export class RPPGenerator {
   }
 
   // Personalized Learning Recommendations
-  private generatePersonalizedRecommendations(formData: RPPFormData): any {
+  private generatePersonalizedRecommendations(formData: LearningDocumentFormData): any {
     const jenjang = formData.jenjang;
     const kelas = parseInt(formData.kelas);
     const mataPelajaran = formData.mataPelajaran;
-    const modelPembelajaran = formData.modelPembelajaran;
+    const modelPembelajaran = formData.pendekatanPembelajaran;
     
     const recommendations = {
       learningStyle: this.determineLearningStyle(jenjang, kelas),
@@ -696,28 +683,22 @@ export class RPPGenerator {
   // Optimize time allocation based on learning model
   private optimizeTimeAllocation(modelPembelajaran: string): any {
     switch (modelPembelajaran) {
-      case "PjBL":
+      case "Love-Based":
         return {
           pendahuluan: "15%",
           inti: "70%",
           penutup: "15%"
         };
-      case "PBL":
+      case "Holistic":
         return {
           pendahuluan: "10%",
           inti: "75%",
           penutup: "15%"
         };
-      case "Discovery":
+      case "Character-Building":
         return {
           pendahuluan: "20%",
           inti: "65%",
-          penutup: "15%"
-        };
-      case "Inquiry":
-        return {
-          pendahuluan: "15%",
-          inti: "70%",
           penutup: "15%"
         };
       default:
@@ -734,17 +715,14 @@ export class RPPGenerator {
     const strategies = [];
     
     switch (modelPembelajaran) {
-      case "PjBL":
+      case "Love-Based":
         strategies.push("Portfolio Assessment", "Project Rubric", "Peer Assessment", "Self-Assessment");
         break;
-      case "PBL":
+      case "Holistic":
         strategies.push("Problem-Solving Rubric", "Case Study Analysis", "Group Presentation", "Reflection Journal");
         break;
-      case "Discovery":
+      case "Character-Building":
         strategies.push("Observation Checklist", "Learning Journal", "Concept Map", "Exit Ticket");
-        break;
-      case "Inquiry":
-        strategies.push("Research Report", "Presentation Rubric", "Questioning Skills", "Investigation Log");
         break;
       default:
         strategies.push("Traditional Test", "Quiz", "Homework", "Class Participation");
@@ -813,14 +791,14 @@ export class RPPGenerator {
   private suggestEnrichmentActivities(mataPelajaran: string, modelPembelajaran: string, tema: string, subtema: string): string[] {
     const activities = [];
     
-    if (modelPembelajaran === "PjBL") {
+    if (modelPembelajaran === "Love-Based") {
       activities.push(
         `Mengembangkan proyek ${tema} yang lebih kompleks`,
         `Membuat presentasi digital tentang ${subtema}`,
         `Menulis artikel tentang ${tema} dalam ${mataPelajaran}`,
         `Membuat video pembelajaran ${subtema}`
       );
-    } else if (modelPembelajaran === "PBL") {
+    } else if (modelPembelajaran === "Holistic") {
       activities.push(
         `Menganalisis kasus ${tema} yang lebih menantang`,
         `Mengembangkan solusi inovatif untuk masalah ${subtema}`,
@@ -867,7 +845,7 @@ export class RPPGenerator {
     const opportunities = [];
     
     switch (modelPembelajaran) {
-      case "PjBL":
+      case "Love-Based":
         opportunities.push(
           "Kerja kelompok dalam proyek",
           "Presentasi bersama",
@@ -875,7 +853,7 @@ export class RPPGenerator {
           "Kolaborasi antar kelompok"
         );
         break;
-      case "PBL":
+      case "Holistic":
         opportunities.push(
           "Diskusi kelompok",
           "Brainstorming bersama",
@@ -934,7 +912,7 @@ export class RPPGenerator {
   }
 
   // Structure AI response into educational format
-  private structureAIResponse(formData: RPPFormData, aiResponse: any): any {
+  private structureAIResponse(formData: LearningDocumentFormData, aiResponse: any): any {
     // Extract key educational concepts from AI response
     const generatedText = aiResponse?.[0]?.generated_text || "";
     
@@ -1053,7 +1031,7 @@ export class RPPGenerator {
   }
 
   // Get recommended teaching methods based on form data
-  private getRecommendedMethods(formData: RPPFormData): string[] {
+  private getRecommendedMethods(formData: LearningDocumentFormData): string[] {
     const baseMethods = [
       "Ceramah interaktif",
       "Diskusi kelompok",
@@ -1075,7 +1053,7 @@ export class RPPGenerator {
   }
 
   // Generate detailed learning steps
-  private generateLearningSteps(formData: RPPFormData): any {
+  private generateLearningSteps(formData: LearningDocumentFormData): any {
     return {
       pendahuluan: {
         waktu: "10 menit",
@@ -1115,7 +1093,7 @@ export class RPPGenerator {
   }
 
   // Generate comprehensive assessment
-  private generateAssessment(formData: RPPFormData): any {
+  private generateAssessment(formData: LearningDocumentFormData): any {
     return {
       sikap: {
         teknik: "Observasi",
@@ -1151,7 +1129,7 @@ export class RPPGenerator {
   }
 
   // Optimized template content generation
-  private getTemplateContent(formData: RPPFormData): any {
+  private getTemplateContent(formData: LearningDocumentFormData): any {
     return {
       kompetensiDasar: {
         pengetahuan: `Memahami ${this.extractConcepts(formData.capaianPembelajaran)} dalam konteks ${formData.mataPelajaran}`,
@@ -1228,6 +1206,123 @@ export class RPPGenerator {
     if (profil.berkebinekaanGlobal) formattedProfil.push("Berkebinekaan Global");
     if (profil.rahmatanLilAlamin) formattedProfil.push("Rahmatan Lil 'Alamin");
     return formattedProfil;
+  }
+
+  // Love-Based Content Generation Methods
+  private generateLoveBasedContent(formData: LearningDocumentFormData): any {
+    return {
+      nilaiCinta: this.generateNilaiCinta(formData.nilaiCinta),
+      loveBasedActivities: this.generateLoveBasedActivities(formData),
+      characterDevelopment: this.generateCharacterDevelopment(formData),
+      islamicIntegration: this.generateIslamicIntegration(formData)
+    };
+  }
+
+  private generateNilaiCinta(nilaiCinta: { [key: string]: boolean }): any {
+    const activities = {
+      cintaAllah: [
+        "Mengawali pembelajaran dengan doa dan dzikir",
+        "Mengintegrasikan nilai-nilai Islam dalam pembelajaran",
+        "Mengembangkan sikap syukur dalam belajar",
+        "Mengamalkan ajaran Islam dalam kehidupan sehari-hari"
+      ],
+      cintaRasul: [
+        "Meneladani akhlak Rasulullah SAW dalam pembelajaran",
+        "Mengintegrasikan sunnah dalam aktivitas belajar",
+        "Mengembangkan sikap sabar dan ikhlas seperti Rasulullah",
+        "Mengamalkan hadits dalam kehidupan sehari-hari"
+      ],
+      cintaKeluarga: [
+        "Mengembangkan sikap hormat kepada orang tua",
+        "Mengintegrasikan nilai keluarga dalam pembelajaran",
+        "Mengembangkan sikap peduli terhadap keluarga",
+        "Mengamalkan nilai-nilai keluarga dalam kehidupan"
+      ],
+      cintaSesama: [
+        "Mengembangkan sikap tolong-menolong dalam pembelajaran",
+        "Mengintegrasikan nilai persaudaraan dalam belajar",
+        "Mengembangkan sikap saling menghargai",
+        "Mengamalkan nilai persaudaraan dalam kehidupan"
+      ],
+      cintaAlam: [
+        "Mengembangkan sikap peduli terhadap lingkungan",
+        "Mengintegrasikan nilai pelestarian alam dalam pembelajaran",
+        "Mengembangkan sikap ramah lingkungan",
+        "Mengamalkan nilai pelestarian alam dalam kehidupan"
+      ],
+      cintaTanahAir: [
+        "Mengembangkan sikap cinta tanah air dalam pembelajaran",
+        "Mengintegrasikan nilai patriotisme dalam belajar",
+        "Mengembangkan sikap bangga sebagai bangsa Indonesia",
+        "Mengamalkan nilai cinta tanah air dalam kehidupan"
+      ]
+    };
+
+    const selectedActivities = [];
+    Object.entries(nilaiCinta).forEach(([key, value]) => {
+      if (value && activities[key as keyof typeof activities]) {
+        selectedActivities.push(...activities[key as keyof typeof activities]);
+      }
+    });
+
+    return selectedActivities;
+  }
+
+  private generateLoveBasedActivities(formData: LearningDocumentFormData): string[] {
+    const mataPelajaran = formData.mataPelajaran;
+    const tema = formData.tema;
+    const subtema = formData.subtema;
+
+    return [
+      `Mengintegrasikan nilai cinta dalam pembelajaran ${mataPelajaran}`,
+      `Mengembangkan sikap peduli melalui tema ${tema}`,
+      `Mengamalkan nilai-nilai Islam dalam ${subtema}`,
+      `Mengembangkan karakter melalui pembelajaran ${mataPelajaran}`,
+      `Mengintegrasikan nilai persaudaraan dalam pembelajaran`,
+      `Mengembangkan sikap syukur dalam belajar ${mataPelajaran}`
+    ];
+  }
+
+  private generateCharacterDevelopment(formData: LearningDocumentFormData): string[] {
+    const jenjang = formData.jenjang;
+    const kelas = formData.kelas;
+
+    const characterActivities = {
+      MI: [
+        "Mengembangkan sikap jujur dan bertanggung jawab",
+        "Mengembangkan sikap disiplin dalam belajar",
+        "Mengembangkan sikap peduli terhadap teman",
+        "Mengembangkan sikap hormat kepada guru"
+      ],
+      MTs: [
+        "Mengembangkan sikap mandiri dalam belajar",
+        "Mengembangkan sikap kreatif dalam menyelesaikan masalah",
+        "Mengembangkan sikap kolaboratif dalam pembelajaran",
+        "Mengembangkan sikap kritis dalam berpikir"
+      ],
+      MA: [
+        "Mengembangkan sikap leadership dalam pembelajaran",
+        "Mengembangkan sikap inovatif dalam menyelesaikan masalah",
+        "Mengembangkan sikap global dalam berpikir",
+        "Mengembangkan sikap entrepreneurship"
+      ]
+    };
+
+    return characterActivities[jenjang] || characterActivities.MI;
+  }
+
+  private generateIslamicIntegration(formData: LearningDocumentFormData): string[] {
+    const mataPelajaran = formData.mataPelajaran;
+    const tema = formData.tema;
+
+    return [
+      `Mengintegrasikan nilai-nilai Islam dalam pembelajaran ${mataPelajaran}`,
+      `Mengamalkan ajaran Islam melalui tema ${tema}`,
+      `Mengembangkan akhlak mulia dalam pembelajaran`,
+      `Mengintegrasikan doa dalam aktivitas pembelajaran`,
+      `Mengamalkan sunnah Rasulullah dalam belajar`,
+      `Mengembangkan sikap tawakal dalam pembelajaran`
+    ];
   }
 }
 
