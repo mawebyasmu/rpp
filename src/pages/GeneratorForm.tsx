@@ -518,81 +518,71 @@ const GeneratorForm = () => {
                   <CardContent className="space-y-4">
                     <FormField
                       control={form.control}
-                      name="profilPelajarPancasila"
+                      name="nilaiCinta"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Profil Pelajar Pancasila</FormLabel>
+                          <FormLabel>Nilai-Nilai Cinta</FormLabel>
                           <FormControl>
                             <div className="grid grid-cols-2 gap-2">
                               <div className="flex items-center space-x-2">
                                 <Checkbox 
-                                  id="berimanBertakwa" 
-                                  checked={field.value.berimanBertakwa} 
+                                  id="cintaAllah" 
+                                  checked={field.value.cintaAllah} 
                                   onCheckedChange={(checked) => 
-                                    field.onChange({ ...field.value, berimanBertakwa: checked as boolean })
+                                    field.onChange({ ...field.value, cintaAllah: checked as boolean })
                                   } 
                                 />
-                                <Label htmlFor="berimanBertakwa">Beriman Bertakwa</Label>
+                                <Label htmlFor="cintaAllah">Cinta Allah</Label>
                               </div>
                               <div className="flex items-center space-x-2">
                                 <Checkbox 
-                                  id="mandiri" 
-                                  checked={field.value.mandiri} 
+                                  id="cintaRasul" 
+                                  checked={field.value.cintaRasul} 
                                   onCheckedChange={(checked) => 
-                                    field.onChange({ ...field.value, mandiri: checked as boolean })
+                                    field.onChange({ ...field.value, cintaRasul: checked as boolean })
                                   } 
                                 />
-                                <Label htmlFor="mandiri">Mandiri</Label>
+                                <Label htmlFor="cintaRasul">Cinta Rasul</Label>
                               </div>
                               <div className="flex items-center space-x-2">
                                 <Checkbox 
-                                  id="bernalarKritis" 
-                                  checked={field.value.bernalarKritis} 
+                                  id="cintaKeluarga" 
+                                  checked={field.value.cintaKeluarga} 
                                   onCheckedChange={(checked) => 
-                                    field.onChange({ ...field.value, bernalarKritis: checked as boolean })
+                                    field.onChange({ ...field.value, cintaKeluarga: checked as boolean })
                                   } 
                                 />
-                                <Label htmlFor="bernalarKritis">Bernalar Kritis</Label>
+                                <Label htmlFor="cintaKeluarga">Cinta Keluarga</Label>
                               </div>
                               <div className="flex items-center space-x-2">
                                 <Checkbox 
-                                  id="kreatif" 
-                                  checked={field.value.kreatif} 
+                                  id="cintaSesama" 
+                                  checked={field.value.cintaSesama} 
                                   onCheckedChange={(checked) => 
-                                    field.onChange({ ...field.value, kreatif: checked as boolean })
+                                    field.onChange({ ...field.value, cintaSesama: checked as boolean })
                                   } 
                                 />
-                                <Label htmlFor="kreatif">Kreatif</Label>
+                                <Label htmlFor="cintaSesama">Cinta Sesama</Label>
                               </div>
                               <div className="flex items-center space-x-2">
                                 <Checkbox 
-                                  id="bergotongRoyong" 
-                                  checked={field.value.bergotongRoyong} 
+                                  id="cintaAlam" 
+                                  checked={field.value.cintaAlam} 
                                   onCheckedChange={(checked) => 
-                                    field.onChange({ ...field.value, bergotongRoyong: checked as boolean })
+                                    field.onChange({ ...field.value, cintaAlam: checked as boolean })
                                   } 
                                 />
-                                <Label htmlFor="bergotongRoyong">Bergotong Royong</Label>
+                                <Label htmlFor="cintaAlam">Cinta Alam</Label>
                               </div>
                               <div className="flex items-center space-x-2">
                                 <Checkbox 
-                                  id="berkebinekaanGlobal" 
-                                  checked={field.value.berkebinekaanGlobal} 
+                                  id="cintaTanahAir" 
+                                  checked={field.value.cintaTanahAir} 
                                   onCheckedChange={(checked) => 
-                                    field.onChange({ ...field.value, berkebinekaanGlobal: checked as boolean })
+                                    field.onChange({ ...field.value, cintaTanahAir: checked as boolean })
                                   } 
                                 />
-                                <Label htmlFor="berkebinekaanGlobal">Berkebinekaan Global</Label>
-                              </div>
-                              <div className="flex items-center space-x-2">
-                                <Checkbox 
-                                  id="rahmatanLilAlamin" 
-                                  checked={field.value.rahmatanLilAlamin} 
-                                  onCheckedChange={(checked) => 
-                                    field.onChange({ ...field.value, rahmatanLilAlamin: checked as boolean })
-                                  } 
-                                />
-                                <Label htmlFor="rahmatanLilAlamin">Rahmatan Lil 'Alamin</Label>
+                                <Label htmlFor="cintaTanahAir">Cinta Tanah Air</Label>
                               </div>
                             </div>
                           </FormControl>
