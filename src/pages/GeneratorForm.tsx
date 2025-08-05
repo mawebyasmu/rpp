@@ -56,8 +56,8 @@ const formSchema = z.object({
   
   // Assessment & Evaluation
   asesmenAutentik: z.array(z.string()).min(1, "Pilih minimal 1 asesmen autentik"),
-  penilaianKarakter: z.array(z.string()).min(1, "Pilih minimal 1 penilaian karakter"),
-  integrasiNilaiIslam: z.array(z.string()).min(1, "Pilih minimal 1 integrasi nilai Islam"),
+  penilaianKarakter: z.array(z.string()).optional().default([]),
+  integrasiNilaiIslam: z.array(z.string()).optional().default([]),
 });
 
 type FormData = z.infer<typeof formSchema>;
