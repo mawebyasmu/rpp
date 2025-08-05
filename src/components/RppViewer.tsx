@@ -2,7 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { GeneratedRPP } from "@/lib/rpp-generator";
-import { BookOpen, Target, Users, Clock, CheckCircle, Award, BookmarkCheck } from "lucide-react";
+import { BookOpen, Target, Users, Clock, CheckCircle, Award, BookmarkCheck, Heart } from "lucide-react";
 
 interface RppViewerProps {
   rpp: GeneratedRPP;
