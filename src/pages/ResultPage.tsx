@@ -69,8 +69,18 @@ const ResultPage = () => {
     // Header
     children.push(
       new Paragraph({
-        text: "RENCANA PELAKSANAAN PEMBELAJARAN (RPP)",
+        text: "PERENCANAAN PEMBELAJARAN",
         heading: HeadingLevel.HEADING_1,
+        alignment: AlignmentType.CENTER,
+        spacing: { after: 200 }
+      })
+    );
+
+    // Document Title
+    children.push(
+      new Paragraph({
+        text: formData.tema.toUpperCase(),
+        heading: HeadingLevel.HEADING_2,
         alignment: AlignmentType.CENTER,
         spacing: { after: 400 }
       })
@@ -90,26 +100,8 @@ const ResultPage = () => {
       rows: [
         new TableRow({
           children: [
-            new TableCell({ children: [new Paragraph({ text: "Nama Guru" })] }),
-            new TableCell({ children: [new Paragraph({ text: rpp.identitas.namaGuru })] })
-          ]
-        }),
-        new TableRow({
-          children: [
             new TableCell({ children: [new Paragraph({ text: "Satuan Pendidikan" })] }),
             new TableCell({ children: [new Paragraph({ text: rpp.identitas.satuan })] })
-          ]
-        }),
-        new TableRow({
-          children: [
-            new TableCell({ children: [new Paragraph({ text: "Kelas" })] }),
-            new TableCell({ children: [new Paragraph({ text: rpp.identitas.kelas })] })
-          ]
-        }),
-        new TableRow({
-          children: [
-            new TableCell({ children: [new Paragraph({ text: "Semester" })] }),
-            new TableCell({ children: [new Paragraph({ text: rpp.identitas.semester })] })
           ]
         }),
         new TableRow({
@@ -120,14 +112,14 @@ const ResultPage = () => {
         }),
         new TableRow({
           children: [
-            new TableCell({ children: [new Paragraph({ text: "Tema" })] }),
-            new TableCell({ children: [new Paragraph({ text: rpp.identitas.tema })] })
+            new TableCell({ children: [new Paragraph({ text: "Fase" })] }),
+            new TableCell({ children: [new Paragraph({ text: `Fase ${rpp.identitas.kelas}` })] })
           ]
         }),
         new TableRow({
           children: [
-            new TableCell({ children: [new Paragraph({ text: "Subtema" })] }),
-            new TableCell({ children: [new Paragraph({ text: rpp.identitas.subtema })] })
+            new TableCell({ children: [new Paragraph({ text: "Topik Panca Cinta" })] }),
+            new TableCell({ children: [new Paragraph({ text: (rpp.identitas.nilaiCinta || []).join(", ") })] })
           ]
         }),
         new TableRow({
@@ -138,26 +130,8 @@ const ResultPage = () => {
         }),
         new TableRow({
           children: [
-            new TableCell({ children: [new Paragraph({ text: "Pertemuan" })] }),
-            new TableCell({ children: [new Paragraph({ text: rpp.identitas.pertemuan.toString() })] })
-          ]
-        }),
-        new TableRow({
-          children: [
-            new TableCell({ children: [new Paragraph({ text: "Pendekatan Pembelajaran" })] }),
-            new TableCell({ children: [new Paragraph({ text: rpp.identitas.pendekatanPembelajaran })] })
-          ]
-        }),
-        new TableRow({
-          children: [
-            new TableCell({ children: [new Paragraph({ text: "Nilai Cinta" })] }),
-            new TableCell({ children: [new Paragraph({ text: (rpp.identitas.nilaiCinta || []).join(", ") })] })
-          ]
-        }),
-        new TableRow({
-          children: [
-            new TableCell({ children: [new Paragraph({ text: "Integrasi Nilai Islam" })] }),
-            new TableCell({ children: [new Paragraph({ text: (rpp.identitas.integrasiNilaiIslam || []).join(", ") })] })
+            new TableCell({ children: [new Paragraph({ text: "Penyusun" })] }),
+            new TableCell({ children: [new Paragraph({ text: rpp.identitas.namaGuru })] })
           ]
         })
       ]
@@ -165,10 +139,36 @@ const ResultPage = () => {
 
     children.push(identitasTable);
 
+    // Dimensi Profil Lulusan
+    children.push(
+      new Paragraph({
+        text: "DIMENSI PROFIL LULUSAN",
+        heading: HeadingLevel.HEADING_2,
+        spacing: { before: 400, after: 200 }
+      })
+    );
+
+    const dimensiProfil = [
+      "Penalaran kritis",
+      "Komunikasi", 
+      "Kreativitas",
+      "Kesehatan",
+      "Kolaborasi"
+    ];
+
+    dimensiProfil.forEach((dimensi, index) => {
+      children.push(
+        new Paragraph({
+          text: `- ${dimensi}`,
+          spacing: { after: 100 }
+        })
+      );
+    });
+
     // Capaian Pembelajaran
     children.push(
       new Paragraph({
-        text: "B. CAPAIAN PEMBELAJARAN",
+        text: "C. CAPAIAN PEMBELAJARAN",
         heading: HeadingLevel.HEADING_2,
         spacing: { before: 400, after: 200 }
       })
@@ -200,7 +200,7 @@ const ResultPage = () => {
     // Tujuan Pembelajaran
     children.push(
       new Paragraph({
-        text: "E. TUJUAN PEMBELAJARAN",
+        text: "D. TUJUAN PEMBELAJARAN",
         heading: HeadingLevel.HEADING_2,
         spacing: { before: 400, after: 200 }
       })
@@ -209,7 +209,7 @@ const ResultPage = () => {
     (rpp.tujuanPembelajaran || []).forEach((tujuan, index) => {
       children.push(
         new Paragraph({
-          text: `${index + 1}. ${tujuan}`,
+          text: `• ${tujuan}`,
           spacing: { after: 200 }
         })
       );
