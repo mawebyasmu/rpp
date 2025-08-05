@@ -110,9 +110,10 @@ export class AnalyticsManager {
       mataPelajaran: formData.mataPelajaran,
       jenjang: formData.jenjang,
       kelas: formData.kelas,
-      modelPembelajaran: formData.modelPembelajaran,
-      hasProfilPelajar: Object.values(formData.profilPelajarPancasila).some(Boolean),
-      integrasiTIKCount: formData.integrasiTIK?.length || 0,
+      documentType: formData.documentType,
+      pendekatanPembelajaran: formData.pendekatanPembelajaran,
+      hasNilaiCinta: Object.values(formData.nilaiCinta || {}).some(Boolean),
+      integrasiNilaiIslamCount: formData.integrasiNilaiIslam?.length || 0,
       asesmenAutentikCount: formData.asesmenAutentik?.length || 0
     });
   }
