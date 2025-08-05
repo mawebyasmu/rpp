@@ -661,6 +661,92 @@ export class RPPGenerator {
     return { remedial, pengayaan };
   }
 
+  // Enhanced Assessment Methods for LDP
+  private generateEnhancedAssessment(formData: LearningDocumentFormData): any {
+    const mataPelajaran = formData.mataPelajaran;
+    const tema = formData.tema;
+    const jenjang = formData.jenjang;
+
+    return {
+      karakter: {
+        teknik: "Observasi dan portofolio karakter",
+        instrumen: "Lembar penilaian sikap dan karakter",
+        rubrik: [
+          "Sangat Baik: Menunjukkan nilai cinta yang sangat tinggi dalam pembelajaran",
+          "Baik: Menunjukkan nilai cinta yang baik dalam pembelajaran",
+          "Cukup: Menunjukkan nilai cinta yang cukup dalam pembelajaran",
+          "Kurang: Masih perlu bimbingan dalam nilai cinta"
+        ]
+      },
+      pengetahuan: {
+        teknik: "Tes tertulis dan lisan berbasis konteks",
+        instrumen: "Soal pilihan ganda, uraian, dan tanya jawab",
+        kisiKisi: [
+          `Pemahaman konsep dasar ${tema} dalam ${mataPelajaran} (C1-C2)`,
+          `Penerapan konsep ${tema} dalam konteks baru (C3)`,
+          `Analisis hubungan antar konsep dalam ${mataPelajaran} (C4)`,
+          `Evaluasi dan sintesis pemahaman ${tema} (C5-C6)`
+        ]
+      },
+      keterampilan: {
+        teknik: "Praktik dan portofolio berbasis proyek",
+        instrumen: "Lembar penilaian kinerja dan portofolio",
+        rubrik: [
+          "Sangat Terampil: Melakukan praktik dengan sangat baik dan mandiri",
+          "Terampil: Melakukan praktik dengan baik namun sesekali perlu bimbingan",
+          "Cukup Terampil: Melakukan praktik dengan cukup baik namun perlu bimbingan",
+          "Kurang Terampil: Melakukan praktik namun masih memerlukan bimbingan intensif"
+        ]
+      },
+      sikap: {
+        teknik: "Observasi sikap dan jurnal refleksi",
+        instrumen: "Lembar observasi sikap dan jurnal pembelajaran",
+        rubrik: [
+          "Sangat Baik: Menunjukkan sikap yang sangat positif dalam pembelajaran",
+          "Baik: Menunjukkan sikap yang positif dalam pembelajaran",
+          "Cukup: Menunjukkan sikap yang cukup positif dalam pembelajaran",
+          "Kurang: Menunjukkan sikap yang kurang positif dalam pembelajaran"
+        ]
+      }
+    };
+  }
+
+  private generateHolisticAssessment(formData: LearningDocumentFormData): any {
+    const jenjang = formData.jenjang;
+    const mataPelajaran = formData.mataPelajaran;
+
+    const assessmentStrategies = {
+      MI: {
+        focus: "Karakter dan nilai-nilai dasar",
+        methods: ["Observasi sikap", "Portofolio sederhana", "Penilaian teman sebaya"],
+        tools: ["Lembar observasi", "Buku portofolio", "Rubrik sederhana"]
+      },
+      MTs: {
+        focus: "Keterampilan dan pemahaman konseptual",
+        methods: ["Proyek", "Presentasi", "Penilaian diri"],
+        tools: ["Rubrik proyek", "Lembar presentasi", "Jurnal refleksi"]
+      },
+      MA: {
+        focus: "Kemampuan analitis dan kreativitas",
+        methods: ["Penelitian sederhana", "Karya tulis", "Portofolio digital"],
+        tools: ["Rubrik penelitian", "Template karya tulis", "Platform digital"]
+      }
+    };
+
+    const strategy = assessmentStrategies[jenjang] || assessmentStrategies.MI;
+
+    return {
+      strategi: strategy,
+      penilaianBerkesinambungan: [
+        "Asesmen Formatif: Observasi sikap dan keterampilan",
+        "Asesmen Sumatif: Portofolio pembelajaran",
+        "Asesmen Autentik: Proyek dan presentasi",
+        "Asesmen Karakter: Penilaian nilai-nilai Islam",
+        "Asesmen Reflektif: Jurnal pembelajaran"
+      ]
+    };
+  }
+
   // Personalized Learning Recommendations
   private generatePersonalizedRecommendations(formData: LearningDocumentFormData): any {
     const jenjang = formData.jenjang;
