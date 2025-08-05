@@ -299,31 +299,31 @@ export class RPPGenerator {
 
   // Build enhanced prompt for deep learning
   private buildEnhancedPrompt(formData: LearningDocumentFormData): string {
-    const profilPelajar = Object.entries(formData.profilPelajarPancasila)
+    const nilaiCinta = Object.entries(formData.nilaiCinta || {})
       .filter(([_, value]) => value)
       .map(([key, _]) => key)
       .join(", ");
 
     return `
-      Buat RPP untuk ${formData.mataPelajaran} kelas ${formData.kelas} ${formData.jenjang} 
-      dengan model pembelajaran ${formData.pendekatanPembelajaran}.
+      Buat ${formData.documentType} untuk ${formData.mataPelajaran} kelas ${formData.kelas} ${formData.jenjang} 
+      dengan pendekatan pembelajaran ${formData.pendekatanPembelajaran}.
       
-      Profil Pelajar Pancasila yang dikembangkan: ${profilPelajar}
+      Nilai Cinta yang dikembangkan: ${nilaiCinta}
       
       Capaian Pembelajaran:
       - Pengetahuan: ${formData.capaianPembelajaran.pengetahuan}
       - Keterampilan: ${formData.capaianPembelajaran.keterampilan}
       - Sikap: ${formData.capaianPembelajaran.sikap}
       
-      Integrasi TIK: ${formData.integrasiNilaiIslam.join(", ")}
-      Asesmen Autentik: ${formData.asesmenAutentik.join(", ")}
+      Integrasi Nilai Islam: ${(formData.integrasiNilaiIslam || []).join(", ")}
+      Asesmen Autentik: ${(formData.asesmenAutentik || []).join(", ")}
       
       Fokus pada:
       1. Deep Learning dan Higher Order Thinking Skills (HOTS)
       2. Pembelajaran yang bermakna dan kontekstual
-      3. Integrasi teknologi yang relevan
+      3. Integrasi nilai-nilai Islam yang relevan
       4. Asesmen autentik yang sesuai
-      5. Pengembangan Profil Pelajar Pancasila Rahmatan Lil 'Alamin
+      5. Pengembangan Nilai-Nilai Cinta dalam Kurikulum Berbasis Cinta
     `;
   }
 
