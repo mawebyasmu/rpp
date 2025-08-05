@@ -108,15 +108,15 @@ const LearnMore = () => {
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="h-4 w-4 text-secondary mt-0.5 flex-shrink-0" />
-                    <span><strong>Kompetensi Inti:</strong> KI-1, KI-2, KI-3, KI-4</span>
+                    <span><strong>Capaian Pembelajaran:</strong> Pengetahuan, keterampilan, dan sikap</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="h-4 w-4 text-secondary mt-0.5 flex-shrink-0" />
-                    <span><strong>Kompetensi Dasar:</strong> Pengetahuan dan keterampilan</span>
+                    <span><strong>Pendekatan Pembelajaran:</strong> Model pembelajaran berbasis cinta</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="h-4 w-4 text-secondary mt-0.5 flex-shrink-0" />
-                    <span><strong>Indikator:</strong> Kriteria pencapaian kompetensi</span>
+                    <span><strong>Nilai Cinta:</strong> Integrasi nilai-nilai cinta dalam pembelajaran</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="h-4 w-4 text-secondary mt-0.5 flex-shrink-0" />
@@ -133,7 +133,7 @@ const LearnMore = () => {
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="h-4 w-4 text-secondary mt-0.5 flex-shrink-0" />
-                    <span><strong>Metode Pembelajaran:</strong> Strategi pembelajaran</span>
+                    <span><strong>Integrasi Nilai Islam:</strong> Nilai-nilai Islam dalam pembelajaran</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="h-4 w-4 text-secondary mt-0.5 flex-shrink-0" />
@@ -164,38 +164,38 @@ const LearnMore = () => {
           <CardContent>
             <div className="space-y-6">
               <div>
-                <h3 className="font-semibold text-lg mb-3">Profil Pelajar Pancasila Rahmatan Lil 'Alamin:</h3>
+                <h3 className="font-semibold text-lg mb-3">Nilai-Nilai Cinta dalam Kurikulum Berbasis Cinta:</h3>
                 <div className="grid md:grid-cols-2 gap-4">
                   <ul className="space-y-2 text-muted-foreground">
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-4 w-4 text-accent mt-0.5 flex-shrink-0" />
-                      <span><strong>Beriman, Bertakwa kepada Allah SWT, dan Berakhlak Mulia</strong></span>
+                      <span><strong>Cinta kepada Allah SWT</strong> - Menumbuhkan keimanan dan ketakwaan</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-4 w-4 text-accent mt-0.5 flex-shrink-0" />
-                      <span><strong>Mandiri</strong></span>
+                      <span><strong>Cinta kepada Rasulullah SAW</strong> - Mengikuti sunnah dan teladan</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-4 w-4 text-accent mt-0.5 flex-shrink-0" />
-                      <span><strong>Bernalar Kritis</strong></span>
+                      <span><strong>Cinta kepada Keluarga</strong> - Menghormati dan menyayangi keluarga</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-4 w-4 text-accent mt-0.5 flex-shrink-0" />
-                      <span><strong>Kreatif</strong></span>
+                      <span><strong>Cinta kepada Sesama</strong> - Menjalin persaudaraan dan tolong menolong</span>
                     </li>
                   </ul>
                   <ul className="space-y-2 text-muted-foreground">
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-4 w-4 text-accent mt-0.5 flex-shrink-0" />
-                      <span><strong>Bergotong Royong</strong></span>
+                      <span><strong>Cinta kepada Alam</strong> - Melestarikan dan menjaga lingkungan</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-4 w-4 text-accent mt-0.5 flex-shrink-0" />
-                      <span><strong>Berkebinekaan Global</strong></span>
+                      <span><strong>Cinta kepada Tanah Air</strong> - Mencintai dan membela Indonesia</span>
                     </li>
                     <li className="flex items-start gap-2">
                       <CheckCircle className="h-4 w-4 text-accent mt-0.5 flex-shrink-0" />
-                      <span><strong>Rahmatan Lil 'Alamin</strong></span>
+                      <span><strong>Rahmatan Lil 'Alamin</strong> - Menjadi rahmat bagi semesta alam</span>
                     </li>
                   </ul>
                 </div>
