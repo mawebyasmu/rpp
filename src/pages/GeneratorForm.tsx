@@ -178,6 +178,7 @@ const GeneratorForm = () => {
         return;
       }
 
+      console.log('Validation passed, proceeding to generation...'); // Debug log
       setIsLoading(true);
       console.log('Starting document generation...'); // Debug log
       
@@ -186,8 +187,14 @@ const GeneratorForm = () => {
       
       // Generate document with sanitized data
       console.log('Calling generateLearningDocument...'); // Debug log
-      const generatedRPP = await rppGenerator.generateLearningDocument(sanitizedData);
-      console.log('Document generated successfully:', generatedRPP); // Debug log
+      let generatedRPP;
+      try {
+        generatedRPP = await rppGenerator.generateLearningDocument(sanitizedData);
+        console.log('Document generated successfully:', generatedRPP); // Debug log
+      } catch (genError) {
+        console.error('Error in generateLearningDocument:', genError);
+        throw genError;
+      }
       
       // Store data in simple storage
       console.log('Storing data in storage...'); // Debug log
