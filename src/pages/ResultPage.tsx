@@ -149,11 +149,11 @@ const ResultPage = () => {
     );
 
     const dimensiProfil = [
-      "Penalaran kritis",
-      "Komunikasi", 
-      "Kreativitas",
-      "Kesehatan",
-      "Kolaborasi"
+      "Cinta kepada Tuhan Yang Maha Esa",
+      "Cinta kepada Diri dan Sesama",
+      "Cinta kepada Ilmu Pengetahuan",
+      "Cinta kepada Lingkungan",
+      "Cinta kepada Bangsa dan Negeri"
     ];
 
     dimensiProfil.forEach((dimensi, index) => {

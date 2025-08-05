@@ -83,6 +83,35 @@ const RppViewer = ({ rpp }: RppViewerProps) => {
         </CardContent>
       </Card>
 
+      {/* Dimensi Profil Lulusan */}
+      <Card className="shadow-lg border-0 bg-white/90 backdrop-blur-sm">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Award className="h-5 w-5 text-primary" />
+            Dimensi Profil Lulusan
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-2">
+            <div className="p-2 bg-primary/5 rounded-lg">
+              <p className="text-sm font-medium text-primary">Cinta kepada Tuhan Yang Maha Esa</p>
+            </div>
+            <div className="p-2 bg-accent/5 rounded-lg">
+              <p className="text-sm font-medium text-accent-foreground">Cinta kepada Diri dan Sesama</p>
+            </div>
+            <div className="p-2 bg-green-100 rounded-lg">
+              <p className="text-sm font-medium text-green-700">Cinta kepada Ilmu Pengetahuan</p>
+            </div>
+            <div className="p-2 bg-blue-100 rounded-lg">
+              <p className="text-sm font-medium text-blue-700">Cinta kepada Lingkungan</p>
+            </div>
+            <div className="p-2 bg-orange-100 rounded-lg">
+              <p className="text-sm font-medium text-orange-700">Cinta kepada Bangsa dan Negeri</p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
       {/* Pendekatan Pembelajaran */}
       <Card className="shadow-lg border-0 bg-white/90 backdrop-blur-sm">
         <CardHeader>

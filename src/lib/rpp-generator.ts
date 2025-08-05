@@ -3,6 +3,7 @@ export interface LearningDocumentFormData {
   // Basic Identity
   satuanPendidikan: string;
   jenjang: "MI" | "MTs" | "MA";
+  fase: string; // New field for Fase
   kelas: string;
   semester: "Ganjil" | "Genap";
   mataPelajaran: string;
@@ -37,12 +38,20 @@ export interface LearningDocumentFormData {
   asesmenAutentik: string[];
   penilaianKarakter: string[];
   integrasiNilaiIslam: string[];
+  
+  // Praktik Pedagogis (New Section)
+  modelPembelajaran: string[];
+  metodePembelajaran: string[];
+  kemitraanPembelajaran: string[];
+  lingkunganPembelajaran: string[];
+  pemanfaatanDigital: string[];
 }
 
 // Interface untuk hasil RPP yang dihasilkan - Updated for Love-Based Curriculum
 export interface GeneratedRPP {
   identitas: {
     satuan: string;
+    fase: string;
     kelas: string;
     semester: string;
     mataPelajaran: string;
@@ -137,6 +146,13 @@ export interface GeneratedRPP {
   aspekKarakter?: string[];
   asesmenAutentik?: string[];
   penilaianKarakter?: string[];
+  
+  // Praktik Pedagogis (New Section)
+  modelPembelajaran?: string[];
+  metodePembelajaran?: string[];
+  kemitraanPembelajaran?: string[];
+  lingkunganPembelajaran?: string[];
+  pemanfaatanDigital?: string[];
 }
 
 // LDP-specific interface
