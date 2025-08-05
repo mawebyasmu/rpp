@@ -13,7 +13,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Loader2, BookOpen, GraduationCap, FileText, Clock, Target, Users, Award, ArrowLeft } from "lucide-react";
-import { rppGenerator, LearningDocumentFormData } from "@/lib/rpp-generator";
+import { perencanaanPembelajaranGenerator, LearningDocumentFormData } from "@/lib/rpp-generator";
 import { SecurityUtils } from "@/lib/security";
 import { AnalyticsManager } from "@/lib/analytics";
 import FeedbackDialog from "@/components/FeedbackDialog";
@@ -201,7 +201,7 @@ const GeneratorForm = () => {
       
       let generatedPerencanaanPembelajaran;
 try {
-  generatedPerencanaanPembelajaran = await rppGenerator.generateLearningDocument(sanitizedData);
+  generatedPerencanaanPembelajaran = await perencanaanPembelajaranGenerator.generateLearningDocument(sanitizedData);
 
       } catch (genError) {
         console.error('Error in generateLearningDocument:', genError);

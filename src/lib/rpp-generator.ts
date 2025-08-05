@@ -13,8 +13,7 @@ export interface LearningDocumentFormData {
   pertemuan: number;
   namaGuru: string;
   
-  // Document Type Selection
-  documentType: "RPP" | "LDP";
+
   
   // Love-Based Curriculum Structure
   pendekatanPembelajaran: "Love-Based" | "Holistic" | "Character-Building";
@@ -155,40 +154,10 @@ export interface GeneratedRPP {
   pemanfaatanDigital?: string[];
 }
 
-// LDP-specific interface
-export interface LDPFormData extends LearningDocumentFormData {
-  // LDP-specific fields
-  alurTujuanPembelajaran: string[];
-  modulAjar: {
-    unitPembelajaran: string;
-    aktivitasTerintegrasi: string[];
-    asesmenBerkesinambungan: string[];
-  };
-  pembelajaranBerbasisProyek?: {
-    proyekCinta: string;
-    kolaborasi: string[];
-    refleksi: string[];
-  };
-}
 
-// LDP-specific generated content
-export interface GeneratedLDP extends GeneratedRPP {
-  // LDP-specific additions
-  alurTujuanPembelajaran: string[];
-  modulAjar: {
-    unitPembelajaran: string;
-    aktivitasTerintegrasi: string[];
-    asesmenBerkesinambungan: string[];
-  };
-  pembelajaranBerbasisProyek?: {
-    proyekCinta: string;
-    kolaborasi: string[];
-    refleksi: string[];
-  };
-}
 
-// Deep Learning RPP Generator Class
-export class RPPGenerator {
+// Deep Learning Perencanaan Pembelajaran Generator Class
+export class PerencanaanPembelajaranGenerator {
   private isInitialized = false;
 
   async initialize(): Promise<void> {
@@ -203,13 +172,13 @@ export class RPPGenerator {
       this.isInitialized = true;
       
     } catch (error) {
-      console.error("Failed to initialize RPP Generator:", error);
-      throw new Error("Gagal menginisialisasi RPP Generator");
+      console.error("Failed to initialize Perencanaan Pembelajaran Generator:", error);
+      throw new Error("Gagal menginisialisasi Perencanaan Pembelajaran Generator");
     }
   }
 
-  // Generate comprehensive RPP using enhanced AI approach with Phase 3 features
-  async generateLearningDocument(formData: LearningDocumentFormData): Promise<GeneratedRPP | GeneratedLDP> {
+  // Generate comprehensive Perencanaan Pembelajaran using enhanced AI approach with Phase 3 features
+  async generateLearningDocument(formData: LearningDocumentFormData): Promise<GeneratedRPP> {
 
     
     // Add small delay to show loading state, then generate quickly
@@ -221,8 +190,8 @@ export class RPPGenerator {
     // Generate personalized recommendations
     const personalizedRecommendations = this.generatePersonalizedRecommendations(formData);
 
-    // Construct complete RPP based on Kurikulum Merdeka Kementerian Agama with Phase 3
-    const rpp: GeneratedRPP = {
+    // Construct complete Perencanaan Pembelajaran based on Kurikulum Berbasis Cinta with Phase 3
+    const perencanaanPembelajaran: GeneratedRPP = {
       identitas: {
         satuan: formData.satuanPendidikan,
         kelas: formData.kelas,
@@ -281,7 +250,7 @@ export class RPPGenerator {
     };
 
     
-    return rpp;
+    return perencanaanPembelajaran;
   }
 
   // Enhanced AI content generation for Kurikulum Merdeka Kementerian Agama
@@ -321,7 +290,7 @@ export class RPPGenerator {
       .join(", ");
 
     return `
-      Buat ${formData.documentType} untuk ${formData.mataPelajaran} kelas ${formData.kelas} ${formData.jenjang} 
+      Buat Perencanaan Pembelajaran untuk ${formData.mataPelajaran} kelas ${formData.kelas} ${formData.jenjang} 
       dengan pendekatan pembelajaran ${formData.pendekatanPembelajaran}.
       
       Nilai Cinta yang dikembangkan: ${nilaiCinta}
@@ -1514,100 +1483,8 @@ export class RPPGenerator {
     ];
   }
 
-  // LDP Content Generation Methods
-  private generateLDPContent(formData: LearningDocumentFormData): any {
-    return {
-      alurTujuanPembelajaran: this.generateATP(formData),
-      modulAjar: this.generateModulAjar(formData),
-      pembelajaranBerbasisProyek: this.generateProyekCinta(formData)
-    };
-  }
 
-  private generateATP(formData: LearningDocumentFormData): string[] {
-    const mataPelajaran = formData.mataPelajaran;
-    const tema = formData.tema;
-    const subtema = formData.subtema;
-    const jenjang = formData.jenjang;
-
-    const atpSteps = {
-      MI: [
-        `Mengidentifikasi konsep dasar ${tema} dalam ${mataPelajaran}`,
-        `Mengamati dan mengeksplorasi ${subtema} melalui aktivitas nyata`,
-        `Mengembangkan pemahaman ${tema} melalui praktik langsung`,
-        `Mengintegrasikan nilai-nilai Islam dalam pembelajaran ${mataPelajaran}`,
-        `Mengevaluasi pemahaman ${subtema} melalui asesmen autentik`
-      ],
-      MTs: [
-        `Menganalisis konsep ${tema} dalam konteks ${mataPelajaran}`,
-        `Menginvestigasi ${subtema} melalui pendekatan ilmiah`,
-        `Mengembangkan solusi kreatif untuk masalah terkait ${tema}`,
-        `Mengintegrasikan nilai-nilai Islam dalam pemecahan masalah`,
-        `Mengevaluasi hasil pembelajaran melalui portofolio dan presentasi`
-      ],
-      MA: [
-        `Mengkaji konsep ${tema} secara mendalam dalam ${mataPelajaran}`,
-        `Melakukan penelitian sederhana tentang ${subtema}`,
-        `Mengembangkan proyek inovatif terkait ${tema}`,
-        `Mengintegrasikan nilai-nilai Islam dalam pengembangan proyek`,
-        `Mengevaluasi hasil pembelajaran melalui karya tulis dan presentasi`
-      ]
-    };
-
-    return atpSteps[jenjang] || atpSteps.MI;
-  }
-
-  private generateModulAjar(formData: LearningDocumentFormData): any {
-    const mataPelajaran = formData.mataPelajaran;
-    const tema = formData.tema;
-    const subtema = formData.subtema;
-
-    return {
-      unitPembelajaran: `Unit Pembelajaran: ${tema} dalam ${mataPelajaran}`,
-      aktivitasTerintegrasi: [
-        `Aktivitas 1: Mengamati dan mengeksplorasi ${subtema}`,
-        `Aktivitas 2: Mengembangkan pemahaman ${tema} melalui praktik`,
-        `Aktivitas 3: Mengintegrasikan nilai-nilai Islam dalam pembelajaran`,
-        `Aktivitas 4: Mengevaluasi pemahaman melalui asesmen autentik`,
-        `Aktivitas 5: Refleksi pembelajaran dan pengembangan karakter`
-      ],
-      asesmenBerkesinambungan: [
-        `Asesmen Formatif: Observasi sikap dan keterampilan`,
-        `Asesmen Sumatif: Portofolio pembelajaran`,
-        `Asesmen Autentik: Proyek dan presentasi`,
-        `Asesmen Karakter: Penilaian nilai-nilai Islam`,
-        `Asesmen Reflektif: Jurnal pembelajaran`
-      ]
-    };
-  }
-
-  private generateProyekCinta(formData: LearningDocumentFormData): any {
-    const mataPelajaran = formData.mataPelajaran;
-    const tema = formData.tema;
-    const nilaiCinta = formData.nilaiCinta;
-
-    const selectedNilaiCinta = Object.entries(nilaiCinta)
-      .filter(([_, value]) => value)
-      .map(([key, _]) => key);
-
-    return {
-      proyekCinta: `Proyek Cinta: Mengintegrasikan ${tema} dalam ${mataPelajaran} dengan nilai-nilai ${selectedNilaiCinta.join(', ')}`,
-      kolaborasi: [
-        `Kerja kelompok dalam mengembangkan proyek ${tema}`,
-        `Kolaborasi dengan teman dalam menyelesaikan tugas`,
-        `Membantu teman yang mengalami kesulitan`,
-        `Berbagi pengetahuan dan pengalaman pembelajaran`,
-        `Mengembangkan sikap saling menghargai dalam kelompok`
-      ],
-      refleksi: [
-        `Refleksi nilai-nilai Islam dalam pembelajaran ${mataPelajaran}`,
-        `Refleksi pengembangan karakter melalui ${tema}`,
-        `Refleksi kolaborasi dan kerja tim`,
-        `Refleksi pencapaian tujuan pembelajaran`,
-        `Refleksi pengembangan sikap cinta dalam pembelajaran`
-      ]
-    };
-  }
 }
 
 // Singleton instance
-export const rppGenerator = new RPPGenerator();
+export const perencanaanPembelajaranGenerator = new PerencanaanPembelajaranGenerator();
