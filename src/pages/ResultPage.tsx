@@ -144,20 +144,20 @@ const ResultPage = () => {
         }),
         new TableRow({
           children: [
-            new TableCell({ children: [new Paragraph({ text: "Model Pembelajaran" })] }),
-            new TableCell({ children: [new Paragraph({ text: rpp.identitas.modelPembelajaran })] })
+            new TableCell({ children: [new Paragraph({ text: "Pendekatan Pembelajaran" })] }),
+            new TableCell({ children: [new Paragraph({ text: rpp.identitas.pendekatanPembelajaran })] })
           ]
         }),
         new TableRow({
           children: [
-            new TableCell({ children: [new Paragraph({ text: "Profil Pelajar Pancasila" })] }),
-            new TableCell({ children: [new Paragraph({ text: rpp.identitas.profilPelajarPancasila.join(", ") })] })
+            new TableCell({ children: [new Paragraph({ text: "Nilai Cinta" })] }),
+            new TableCell({ children: [new Paragraph({ text: rpp.identitas.nilaiCinta.join(", ") })] })
           ]
         }),
         new TableRow({
           children: [
-            new TableCell({ children: [new Paragraph({ text: "Integrasi TIK" })] }),
-            new TableCell({ children: [new Paragraph({ text: rpp.identitas.integrasiTIK.join(", ") })] })
+            new TableCell({ children: [new Paragraph({ text: "Integrasi Nilai Islam" })] }),
+            new TableCell({ children: [new Paragraph({ text: rpp.identitas.integrasiNilaiIslam.join(", ") })] })
           ]
         })
       ]
@@ -165,28 +165,10 @@ const ResultPage = () => {
 
     children.push(identitasTable);
 
-    // Kompetensi Inti
+    // Capaian Pembelajaran
     children.push(
       new Paragraph({
-        text: "B. KOMPETENSI INTI",
-        heading: HeadingLevel.HEADING_2,
-        spacing: { before: 400, after: 200 }
-      })
-    );
-
-    rpp.kompetensiInti.forEach((ki, index) => {
-      children.push(
-        new Paragraph({
-          text: `KI-${index + 1}: ${ki}`,
-          spacing: { after: 200 }
-        })
-      );
-    });
-
-    // Kompetensi Dasar
-    children.push(
-      new Paragraph({
-        text: "C. KOMPETENSI DASAR",
+        text: "B. CAPAIAN PEMBELAJARAN",
         heading: HeadingLevel.HEADING_2,
         spacing: { before: 400, after: 200 }
       })
@@ -194,47 +176,22 @@ const ResultPage = () => {
 
     children.push(
       new Paragraph({
-        text: `KD Pengetahuan: ${rpp.kompetensiDasar.pengetahuan}`,
+        text: `Pengetahuan: ${rpp.capaianPembelajaran.pengetahuan}`,
         spacing: { after: 200 }
       })
     );
 
     children.push(
       new Paragraph({
-        text: `KD Keterampilan: ${rpp.kompetensiDasar.keterampilan}`,
+        text: `Keterampilan: ${rpp.capaianPembelajaran.keterampilan}`,
         spacing: { after: 200 }
       })
     );
 
-    // Indikator
     children.push(
       new Paragraph({
-        text: "D. INDIKATOR",
-        heading: HeadingLevel.HEADING_2,
-        spacing: { before: 400, after: 200 }
-      })
-    );
-
-    children.push(
-      new Paragraph({
-        text: "Indikator Pengetahuan:",
+        text: `Sikap: ${rpp.capaianPembelajaran.sikap}`,
         spacing: { after: 200 }
-      })
-    );
-
-    rpp.indikator.pengetahuan.forEach((indikator, index) => {
-      children.push(
-        new Paragraph({
-          text: `${index + 1}. ${indikator}`,
-          spacing: { after: 200 }
-        })
-      );
-    });
-
-    children.push(
-      new Paragraph({
-        text: "Indikator Keterampilan:",
-        spacing: { before: 400, after: 200 }
       })
     );
 
