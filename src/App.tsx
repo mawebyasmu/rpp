@@ -8,6 +8,8 @@ import GeneratorForm from "@/pages/GeneratorForm";
 import ResultPage from "@/pages/ResultPage";
 import LearnMore from "@/pages/LearnMore";
 import DonationPage from "@/pages/DonationPage";
+import IntegrationTest from "@/pages/IntegrationTest";
+import EndToEndTest from "@/pages/EndToEndTest";
 import NotFound from "@/pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -24,6 +26,8 @@ const App = () => (
           <Route path="/result" element={<ResultPage />} />
           <Route path="/learn-more" element={<LearnMore />} />
           <Route path="/donation" element={<DonationPage />} />
+          <Route path="/integration-test" element={<IntegrationTest />} />
+          <Route path="/e2e-test" element={<EndToEndTest />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
