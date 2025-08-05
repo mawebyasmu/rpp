@@ -239,7 +239,7 @@ export class RPPGenerator {
           "Laptop/komputer",
           "Media visual (gambar, chart)",
           "Alat peraga sesuai materi",
-          ...enhancedContent.integrasiTIK.map(tik => `Teknologi: ${tik}`)
+          ...(enhancedContent.integrasiNilaiIslam || []).map(tik => `Teknologi: ${tik}`)
         ],
         sumberBelajar: [
           `Buku teks ${formData.mataPelajaran} Kelas ${formData.kelas}`,
