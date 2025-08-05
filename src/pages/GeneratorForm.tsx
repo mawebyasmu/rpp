@@ -134,6 +134,9 @@ const GeneratorForm = () => {
   };
 
   const handleSubmit = async (data: z.infer<typeof formSchema>) => {
+    console.log('Form submission started'); // Debug log
+    console.log('Raw form data:', data); // Debug log
+    
     try {
       // Security: Basic rate limiting for public app
       if (!SecurityUtils.checkRateLimit('form_submit', 10, 60000)) {
@@ -149,7 +152,7 @@ const GeneratorForm = () => {
       const sanitizedData = SecurityUtils.sanitizeObject(data) as LearningDocumentFormData;
       
       // Security: Basic validation
-      console.log('Form data:', sanitizedData); // Debug log
+      console.log('Sanitized form data:', sanitizedData); // Debug log
       
       // Check required fields
       const requiredFields = {
@@ -255,7 +258,10 @@ const GeneratorForm = () => {
           
           <CardContent className="space-y-6">
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
+              <form onSubmit={(e) => {
+                console.log('Form onSubmit event triggered'); // Debug log
+                form.handleSubmit(handleSubmit)(e);
+              }} className="space-y-6">
                 {/* Document Type Selection */}
                 <FormField
                   control={form.control}
@@ -761,6 +767,11 @@ const GeneratorForm = () => {
                     size="lg" 
                     className="w-full text-lg py-6"
                     disabled={isLoading}
+                    onClick={() => {
+                      console.log('Submit button clicked'); // Debug log
+                      console.log('Form state:', form.getValues()); // Debug log
+                      console.log('Form errors:', form.formState.errors); // Debug log
+                    }}
                   >
                     {isLoading ? (
                       <>
