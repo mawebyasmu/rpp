@@ -149,10 +149,27 @@ const GeneratorForm = () => {
       const sanitizedData = SecurityUtils.sanitizeObject(data) as LearningDocumentFormData;
       
       // Security: Basic validation
-      if (!sanitizedData.namaGuru || !sanitizedData.mataPelajaran || !sanitizedData.tema) {
+      console.log('Form data:', sanitizedData); // Debug log
+      
+      // Check required fields
+      const requiredFields = {
+        namaGuru: sanitizedData.namaGuru,
+        mataPelajaran: sanitizedData.mataPelajaran,
+        tema: sanitizedData.tema,
+        subtema: sanitizedData.subtema,
+        kelas: sanitizedData.kelas,
+        satuanPendidikan: sanitizedData.satuanPendidikan
+      };
+      
+      const missingFields = Object.entries(requiredFields)
+        .filter(([key, value]) => !value || value.trim() === '')
+        .map(([key]) => key);
+      
+      if (missingFields.length > 0) {
+        console.log('Missing fields:', missingFields);
         toast({
           title: "Data tidak lengkap",
-          description: "Mohon lengkapi semua field yang diperlukan",
+          description: `Mohon lengkapi: ${missingFields.join(', ')}`,
           variant: "destructive",
         });
         return;
@@ -179,11 +196,12 @@ const GeneratorForm = () => {
       
       navigate('/result');
     } catch (error) {
-      SecurityUtils.errorLog('Failed to generate RPP', error);
+      console.error('Form submission error:', error);
+      SecurityUtils.errorLog('Failed to generate document', error);
       AnalyticsManager.trackError(error as Error, 'form_submission');
       toast({
-        title: "Gagal menghasilkan RPP",
-        description: "Terjadi kesalahan saat menghasilkan RPP. Silakan coba lagi.",
+        title: "Gagal menghasilkan dokumen",
+        description: "Terjadi kesalahan saat menghasilkan dokumen. Silakan coba lagi.",
         variant: "destructive",
       });
     } finally {
