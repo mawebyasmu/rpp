@@ -18,7 +18,7 @@ import { SecurityUtils } from "@/lib/security";
 import { AnalyticsManager } from "@/lib/analytics";
 import FeedbackDialog from "@/components/FeedbackDialog";
 import { Badge } from "@/components/ui/badge";
-import { DocumentTypeSelector } from "@/components/ui/document-type-selector";
+
 
 // Form validation schema with security measures - Updated for Love-Based Curriculum
 const formSchema = z.object({
@@ -34,8 +34,7 @@ const formSchema = z.object({
   pertemuan: z.number().min(1, "Pertemuan minimal 1").max(100, "Pertemuan terlalu banyak"),
   namaGuru: z.string().min(1, "Nama guru harus diisi").max(100, "Nama guru terlalu panjang"),
   
-  // Document Type Selection
-  documentType: z.enum(["RPP", "LDP"]),
+
   
   // Love-Based Curriculum Structure
   pendekatanPembelajaran: z.enum(["Love-Based", "Holistic", "Character-Building"]),
@@ -90,8 +89,7 @@ const GeneratorForm = () => {
       pertemuan: 1,
       namaGuru: "",
       
-      // Document Type Selection
-      documentType: "RPP",
+
       
       // Love-Based Curriculum Structure
       pendekatanPembelajaran: "Love-Based",
@@ -257,18 +255,18 @@ const GeneratorForm = () => {
             <FeedbackDialog />
             <Badge variant="secondary" className="px-4 py-2">
               <BookOpen className="h-4 w-4 mr-2" />
-              Generator {form.watch("documentType") || "RPP"} Madrasah
+              Generator Perencanaan Pembelajaran KBC
             </Badge>
           </div>
         </div>
 
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Generator {form.watch("documentType") || "RPP"}
-            <span className="block text-primary">Madrasah</span>
+            Generator Perencanaan Pembelajaran
+            <span className="block text-primary">Kurikulum Berbasis Cinta</span>
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Lengkapi form di bawah ini untuk membuat {form.watch("documentType") === "LDP" ? "LDP" : "RPP"} yang sesuai dengan kurikulum Madrasah
+            Lengkapi form di bawah ini untuk membuat Perencanaan Pembelajaran yang sesuai dengan Kurikulum Berbasis Cinta Madrasah
           </p>
         </div>
 
@@ -276,10 +274,10 @@ const GeneratorForm = () => {
           <CardHeader className="text-center">
             <CardTitle className="text-2xl flex items-center justify-center gap-2">
               <FileText className="h-6 w-6 text-primary" />
-              Form Data {form.watch("documentType") || "RPP"}
+              Form Data Perencanaan Pembelajaran
             </CardTitle>
             <CardDescription className="text-base">
-              Masukkan informasi yang diperlukan untuk membuat {form.watch("documentType") === "LDP" ? "LDP" : "RPP"} Anda
+              Masukkan informasi yang diperlukan untuk membuat Perencanaan Pembelajaran Anda
             </CardDescription>
           </CardHeader>
           
@@ -289,23 +287,7 @@ const GeneratorForm = () => {
         
                 form.handleSubmit(handleSubmit)(e);
               }} className="space-y-6">
-                {/* Document Type Selection */}
-                <FormField
-                  control={form.control}
-                  name="documentType"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-lg font-semibold">Pilih Jenis Dokumen</FormLabel>
-                      <FormControl>
-                        <DocumentTypeSelector
-                          selectedType={field.value}
-                          onTypeChange={field.onChange}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+
 
                 {/* Identitas Madrasah */}
                 <Card className="border-primary/20 bg-primary/5">
@@ -1211,12 +1193,12 @@ const GeneratorForm = () => {
                     {isLoading ? (
                       <>
                         <Loader2 className="mr-2 h-5 w-5 animate-spin" />
-                        Sedang Membuat {form.watch("documentType") || "RPP"}...
+                        Sedang Membuat Perencanaan Pembelajaran...
                       </>
                     ) : (
                       <>
                         <FileText className="mr-2 h-5 w-5" />
-                        Generate {form.watch("documentType") || "RPP"} Sekarang
+                        Generate Perencanaan Pembelajaran Sekarang
                       </>
                     )}
                   </Button>
@@ -1232,7 +1214,7 @@ const GeneratorForm = () => {
             <div className="text-center">
               <h3 className="text-lg font-semibold text-primary mb-2">💡 Tips</h3>
               <p className="text-sm text-muted-foreground">
-                Semakin detail capaian pembelajaran yang Anda masukkan, semakin spesifik dan berkualitas {form.watch("documentType") || "RPP"} yang akan dihasilkan oleh AI.
+                Semakin detail capaian pembelajaran yang Anda masukkan, semakin spesifik dan berkualitas Perencanaan Pembelajaran yang akan dihasilkan oleh AI.
               </p>
             </div>
           </CardContent>
