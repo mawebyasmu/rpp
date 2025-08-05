@@ -195,14 +195,7 @@ const ResultPage = () => {
       })
     );
 
-    rpp.indikator.keterampilan.forEach((indikator, index) => {
-      children.push(
-        new Paragraph({
-          text: `${index + 1}. ${indikator}`,
-          spacing: { after: 200 }
-        })
-      );
-    });
+
 
     // Tujuan Pembelajaran
     children.push(
@@ -551,19 +544,19 @@ const ResultPage = () => {
       );
     });
 
-    // Integrasi TIK
+    // Integrasi Nilai Islam
     children.push(
       new Paragraph({
-        text: "L. INTEGRASI TIK",
+        text: "L. INTEGRASI NILAI ISLAM",
         heading: HeadingLevel.HEADING_2,
         spacing: { before: 400, after: 200 }
       })
     );
 
-    rpp.identitas.integrasiTIK.forEach((tik, index) => {
+    rpp.identitas.integrasiNilaiIslam.forEach((nilai, index) => {
       children.push(
         new Paragraph({
-          text: `${index + 1}. ${tik}`,
+          text: `${index + 1}. ${nilai}`,
           spacing: { after: 200 }
         })
       );
@@ -590,24 +583,34 @@ const ResultPage = () => {
       });
     }
 
-    // Profil Pelajar Pancasila Activities
+    // Nilai Cinta Activities
     children.push(
       new Paragraph({
-        text: "N. PENGEMBANGAN PROFIL PELAJAR PANCASILA RAHMATAN LIL 'ALAMIN",
+        text: "N. PENGEMBANGAN NILAI CINTA",
         heading: HeadingLevel.HEADING_2,
         spacing: { before: 400, after: 200 }
       })
     );
 
-    // Add profil pelajar activities if available in the RPP data
-    if (rpp.profilPelajarPancasila) {
-      rpp.profilPelajarPancasila.forEach((aktivitas, index) => {
-        children.push(
-          new Paragraph({
-            text: `${index + 1}. ${aktivitas}`,
-            spacing: { after: 200 }
-          })
-        );
+    // Add nilai cinta activities if available in the RPP data
+    if (rpp.nilaiCinta) {
+      Object.entries(rpp.nilaiCinta).forEach(([key, activities]) => {
+        if (activities && activities.length > 0) {
+          children.push(
+            new Paragraph({
+              text: `${key}:`,
+              spacing: { before: 200, after: 100 }
+            })
+          );
+          activities.forEach((aktivitas, index) => {
+            children.push(
+              new Paragraph({
+                text: `${index + 1}. ${aktivitas}`,
+                spacing: { after: 200 }
+              })
+            );
+          });
+        }
       });
     }
 
@@ -709,16 +712,7 @@ const ResultPage = () => {
 
         <div className="grid lg:grid-cols-4 gap-8">
           <div className="lg:col-span-3">
-            {showAnalytics && generatedRPP?.personalizedRecommendations ? (
-              <AdvancedAnalytics 
-                recommendations={generatedRPP.personalizedRecommendations}
-                mataPelajaran={generatedRPP.identitas.mataPelajaran}
-                jenjang={formData?.jenjang || ""}
-                kelas={generatedRPP.identitas.kelas}
-              />
-            ) : (
-              <RppViewer rpp={generatedRPP} />
-            )}
+            <RppViewer rpp={generatedRPP} />
           </div>
           
           <div className="space-y-6">
