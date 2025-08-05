@@ -15,7 +15,7 @@ import {
   Users,
   Target
 } from "lucide-react";
-import { rppGenerator } from "@/lib/rpp-generator";
+import { perencanaanPembelajaranGenerator } from "@/lib/rpp-generator";
 import { ContentValidator } from "@/lib/content-validator";
 import { PerformanceMonitor } from "@/lib/performance-monitor";
 import { AnalyticsManager } from "@/lib/analytics";
@@ -90,6 +90,7 @@ const EndToEndTest = () => {
         namaGuru: "Ahmad S.Pd",
         satuanPendidikan: "MI Al-Hikmah",
         jenjang: "MI" as const,
+        fase: "A",
         kelas: "3",
         semester: "Ganjil" as const,
         mataPelajaran: "Matematika",
@@ -97,7 +98,6 @@ const EndToEndTest = () => {
         subtema: "Penjumlahan dan Pengurangan",
         alokasi: "2 x 40 menit",
         pertemuan: 1,
-        documentType: "RPP" as const,
         pendekatanPembelajaran: "Love-Based" as const,
         nilaiCinta: {
           cintaAllah: true,
@@ -114,7 +114,12 @@ const EndToEndTest = () => {
         },
         penilaianKarakter: ["Observasi Sikap", "Refleksi Diri"],
         integrasiNilaiIslam: ["Doa Sebelum Belajar", "Adab Belajar"],
-        asesmenAutentik: ["Observasi Sikap", "Refleksi Diri"]
+        asesmenAutentik: ["Observasi Sikap", "Refleksi Diri"],
+        modelPembelajaran: ["Project Based Learning"],
+        metodePembelajaran: ["Diskusi", "Praktik"],
+        kemitraanPembelajaran: ["Guru", "Orang Tua"],
+        lingkunganPembelajaran: ["Kelas", "Lingkungan Sekitar"],
+        pemanfaatanDigital: ["Aplikasi Pembelajaran", "Video"]
       };
 
     try {
@@ -141,7 +146,7 @@ const EndToEndTest = () => {
       updateStep('content-generation', { status: 'running' });
       
       const genStartTime = Date.now();
-      const generatedDocument = await rppGenerator.generateLearningDocument(mockFormData);
+      const generatedDocument = await perencanaanPembelajaranGenerator.generateLearningDocument(mockFormData);
       const genDuration = Date.now() - genStartTime;
       
       updateStep('content-generation', { 
