@@ -199,9 +199,9 @@ const GeneratorForm = () => {
       
       // Generate document with sanitized data
       
-      let generatedRPP;
-      try {
-        generatedRPP = await rppGenerator.generateLearningDocument(sanitizedData);
+      let generatedPerencanaanPembelajaran;
+try {
+  generatedPerencanaanPembelajaran = await rppGenerator.generateLearningDocument(sanitizedData);
 
       } catch (genError) {
         console.error('Error in generateLearningDocument:', genError);
@@ -211,7 +211,7 @@ const GeneratorForm = () => {
       // Store data in simple storage
       
       SecurityUtils.storage.setItem('formData', JSON.stringify(sanitizedData));
-      SecurityUtils.storage.setItem('generatedRPP', JSON.stringify(generatedRPP));
+              SecurityUtils.storage.setItem('generatedPerencanaanPembelajaran', JSON.stringify(generatedPerencanaanPembelajaran));
       
       // Log activity for public app
       SecurityUtils.debugLog('Document generated successfully', { 

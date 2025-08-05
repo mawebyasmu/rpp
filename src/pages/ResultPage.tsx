@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { Download, ArrowLeft, CheckCircle, Brain, BarChart3 } from "lucide-react";
-import RppViewer from "@/components/RppViewer";
+import PerencanaanPembelajaranViewer from "@/components/RppViewer";
 import AdvancedAnalytics from "@/components/AdvancedAnalytics";
 import FeedbackDialog from "@/components/FeedbackDialog";
 import { GeneratedRPP, LearningDocumentFormData } from "@/lib/rpp-generator";
@@ -27,20 +27,20 @@ const ResultPage = () => {
     
     // Get data from simple storage for public app
     const storedFormData = SecurityUtils.storage.getItem('formData');
-    const storedGeneratedRPP = SecurityUtils.storage.getItem('generatedRPP');
+    const storedGeneratedPerencanaanPembelajaran = SecurityUtils.storage.getItem('generatedPerencanaanPembelajaran');
 
-    if (storedFormData && storedGeneratedRPP) {
+    if (storedFormData && storedGeneratedPerencanaanPembelajaran) {
       try {
         const parsedFormData = JSON.parse(storedFormData);
-        const parsedGeneratedRPP = JSON.parse(storedGeneratedRPP);
+        const parsedGeneratedPerencanaanPembelajaran = JSON.parse(storedGeneratedPerencanaanPembelajaran);
         
         // Basic validation for public app
-        if (!parsedFormData.namaGuru || !parsedGeneratedRPP.identitas) {
+        if (!parsedFormData.namaGuru || !parsedGeneratedPerencanaanPembelajaran.identitas) {
           throw new Error('Invalid data structure');
         }
         
         setFormData(parsedFormData);
-        setGeneratedRPP(parsedGeneratedRPP);
+        setGeneratedRPP(parsedGeneratedPerencanaanPembelajaran);
         
         SecurityUtils.debugLog('Data loaded from storage');
       } catch (error) {
@@ -816,7 +816,7 @@ const ResultPage = () => {
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = `RPP_${generatedRPP.identitas.mataPelajaran}_${generatedRPP.identitas.kelas}.docx`;
+      link.download = `Perencanaan_Pembelajaran_${generatedRPP.identitas.mataPelajaran}_${generatedRPP.identitas.kelas}.docx`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -824,7 +824,7 @@ const ResultPage = () => {
 
       toast({
         title: "Download Berhasil! 📄",
-        description: "RPP telah berhasil diunduh dalam format .docx",
+        description: "Perencanaan Pembelajaran telah berhasil diunduh dalam format .docx",
       });
       AnalyticsManager.trackEvent('download_rpp', {
         mata_pelajaran: generatedRPP.identitas.mataPelajaran,
@@ -835,7 +835,7 @@ const ResultPage = () => {
       console.error('Download error:', error);
       toast({
         title: "Download Gagal",
-        description: "Terjadi kesalahan saat mengunduh RPP",
+        description: "Terjadi kesalahan saat mengunduh Perencanaan Pembelajaran",
         variant: "destructive",
       });
       AnalyticsManager.trackError(error as Error, 'rpp_download_failed');
@@ -849,7 +849,7 @@ const ResultPage = () => {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <Brain className="h-12 w-12 text-primary mx-auto mb-4 animate-pulse" />
-          <p>Loading RPP...</p>
+          <p>Loading Perencanaan Pembelajaran...</p>
         </div>
       </div>
     );
@@ -893,7 +893,7 @@ const ResultPage = () => {
 
         <div className="grid lg:grid-cols-4 gap-8">
           <div className="lg:col-span-3">
-            <RppViewer rpp={generatedRPP} />
+            <PerencanaanPembelajaranViewer rpp={generatedRPP} />
           </div>
           
           <div className="space-y-6">

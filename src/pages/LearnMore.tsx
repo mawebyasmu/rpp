@@ -340,7 +340,7 @@ const LearnMore = () => {
           <CardHeader>
             <CardTitle className="text-2xl flex items-center gap-2">
               <Zap className="h-6 w-6 text-primary" />
-              Cara Menggunakan Generator RPP & LDP
+              Cara Menggunakan Generator Perencanaan Pembelajaran
             </CardTitle>
           </CardHeader>
           <CardContent>
