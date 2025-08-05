@@ -773,24 +773,59 @@ const ResultPage = () => {
       })
     );
 
-    // Add nilai cinta activities if available in the RPP data
-    if (rpp.nilaiCinta && typeof rpp.nilaiCinta === 'object') {
-      Object.entries(rpp.nilaiCinta).forEach(([key, activities]) => {
-        if (activities && Array.isArray(activities) && activities.length > 0) {
+    // Add Materi Insersi KBC if available in the RPP data
+    if (rpp.materiInsersiKBC && typeof rpp.materiInsersiKBC === 'object') {
+      children.push(
+        new Paragraph({
+          text: "E. MATERI INSERSI KBC",
+          heading: HeadingLevel.HEADING_2,
+          spacing: { before: 400, after: 200 }
+        })
+      );
+
+      Object.entries(rpp.materiInsersiKBC).forEach(([key, content]) => {
+        if (content && typeof content === 'object') {
+          // Add title
           children.push(
             new Paragraph({
-              text: `${key}:`,
-              spacing: { before: 200, after: 100 }
+              text: content.title || key,
+              heading: HeadingLevel.HEADING_3,
+              spacing: { before: 300, after: 150 }
             })
           );
-          activities.forEach((aktivitas, index) => {
+
+          // Add ayat/hadits if available
+          if (content.ayat) {
             children.push(
               new Paragraph({
-                text: `${index + 1}. ${aktivitas}`,
-                spacing: { after: 200 }
+                text: `• Ayat: ${content.ayat} "${content.teks}"`,
+                spacing: { after: 100 }
               })
             );
-          });
+          } else if (content.hadits) {
+            children.push(
+              new Paragraph({
+                text: `• Hadits: ${content.hadits} "${content.teks}"`,
+                spacing: { after: 100 }
+              })
+            );
+          }
+
+          // Add refleksi
+          children.push(
+            new Paragraph({
+              text: `• Refleksi: ${content.refleksi}`,
+              spacing: { after: 100 }
+            })
+          );
+
+          // Add aktivitas
+          children.push(
+            new Paragraph({
+              text: `• Aktivitas: ${content.aktivitas}`,
+              spacing: { after: 200 }
+            })
+          );
         }
       });
     }

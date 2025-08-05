@@ -218,6 +218,46 @@ const RppViewer = ({ rpp }: RppViewerProps) => {
         </CardContent>
       </Card>
 
+      {/* Materi Insersi KBC */}
+      {rpp.materiInsersiKBC && Object.keys(rpp.materiInsersiKBC).length > 0 && (
+        <Card className="shadow-lg border-0 bg-white/90 backdrop-blur-sm">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Heart className="h-5 w-5 text-red-500" />
+              Materi Insersi KBC
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {Object.entries(rpp.materiInsersiKBC).map(([key, content]) => (
+                <div key={key} className="p-4 bg-gradient-to-r from-red-50 to-pink-50 rounded-lg border border-red-200">
+                  <h4 className="font-semibold text-red-700 mb-3">{content.title}</h4>
+                  
+                  {(content.ayat || content.hadits) && (
+                    <div className="mb-3 p-3 bg-green-50 rounded border border-green-200">
+                      <p className="text-sm font-medium text-green-800 mb-1">
+                        {content.ayat ? 'Ayat:' : 'Hadits:'} {content.ayat || content.hadits}
+                      </p>
+                      <p className="text-sm text-green-700 italic">"{content.teks}"</p>
+                    </div>
+                  )}
+                  
+                  <div className="mb-3">
+                    <p className="text-sm font-medium text-gray-700 mb-1">Refleksi:</p>
+                    <p className="text-sm text-gray-600">{content.refleksi}</p>
+                  </div>
+                  
+                  <div>
+                    <p className="text-sm font-medium text-gray-700 mb-1">Aktivitas:</p>
+                    <p className="text-sm text-gray-600">{content.aktivitas}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
       {/* Tujuan Pembelajaran */}
       <Card className="shadow-lg border-0 bg-white/90 backdrop-blur-sm">
         <CardHeader>

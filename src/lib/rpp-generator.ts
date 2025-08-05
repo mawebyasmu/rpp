@@ -152,6 +152,18 @@ export interface GeneratedRPP {
   kemitraanPembelajaran?: string[];
   lingkunganPembelajaran?: string[];
   pemanfaatanDigital?: string[];
+  
+  // Enhanced Materi Insersi KBC
+  materiInsersiKBC?: {
+    [key: string]: {
+      title: string;
+      ayat?: string;
+      hadits?: string;
+      teks: string;
+      refleksi: string;
+      aktivitas: string;
+    };
+  };
 }
 
 
@@ -246,7 +258,8 @@ export class PerencanaanPembelajaranGenerator {
       nilaiCinta: enhancedContent.nilaiCinta || {},
       aspekKarakter: enhancedContent.aspekKarakter || [],
       asesmenAutentik: enhancedContent.asesmenAutentik || [],
-      penilaianKarakter: enhancedContent.penilaianKarakter || []
+      penilaianKarakter: enhancedContent.penilaianKarakter || [],
+      materiInsersiKBC: enhancedContent.materiInsersiKBC || {}
     };
 
     
@@ -274,7 +287,8 @@ export class PerencanaanPembelajaranGenerator {
         asesmenAutentik: this.generateAsesmenAutentik(formData),
         nilaiCinta: this.generateNilaiCinta(formData.nilaiCinta),
         aspekKarakter: this.generateCharacterDevelopment(formData),
-        penilaianKarakter: this.generateCharacterDevelopment(formData)
+        penilaianKarakter: this.generateCharacterDevelopment(formData),
+        materiInsersiKBC: this.generateMateriInsersiKBC(formData)
       };
     } catch (error) {
       console.error("Error in enhanced AI generation:", error);
@@ -1467,6 +1481,234 @@ export class PerencanaanPembelajaranGenerator {
     };
 
     return characterActivities[jenjang] || characterActivities.MI;
+  }
+
+  // Enhanced Materi Insersi KBC with Quran-Hadith Integration
+  private generateMateriInsersiKBC(formData: LearningDocumentFormData): any {
+    const mataPelajaran = formData.mataPelajaran;
+    const tema = formData.tema;
+    const subtema = formData.subtema;
+    const jenjang = formData.jenjang;
+    const nilaiCinta = formData.nilaiCinta;
+    
+    // Get Quran-Hadith mapping based on subject and theme
+    const quranHadithMapping = this.getQuranHadithMapping(mataPelajaran, tema, subtema);
+    
+    // Generate specific content for each selected nilai cinta
+    const materiInsersi = {};
+    
+    Object.entries(nilaiCinta).forEach(([key, value]) => {
+      if (value) {
+        materiInsersi[key] = this.generateSpecificNilaiCintaContent(
+          key, 
+          mataPelajaran, 
+          tema, 
+          subtema, 
+          jenjang, 
+          quranHadithMapping
+        );
+      }
+    });
+    
+    return materiInsersi;
+  }
+
+  private getQuranHadithMapping(mataPelajaran: string, tema: string, subtema: string): any {
+    const mapping = {
+      "Matematika": {
+        "Bilangan": {
+          "cintaAllah": {
+            ayat: "QS. Al-Hadid: 25",
+            teks: "Sesungguhnya Kami telah mengutus rasul-rasul Kami dengan bukti-bukti yang nyata dan telah Kami turunkan bersama mereka Al Kitab dan neraca (keadilan) supaya manusia dapat melaksanakan keadilan.",
+            refleksi: "Mengajak siswa merenungi keajaiban sistem bilangan dan mensyukuri ciptaan Allah yang teratur",
+            aktivitas: "Membuat jurnal rasa syukur atas keajaiban matematika dalam kehidupan sehari-hari"
+          },
+          "cintaRasul": {
+            hadits: "HR. Muslim",
+            teks: "Sebaik-baik manusia adalah yang bermanfaat bagi manusia lain",
+            refleksi: "Meneladani semangat Rasulullah dalam mencari ilmu dan mengajarkannya",
+            aktivitas: "Kajian artikel ilmiah populer dan refleksi: 'Mengapa penting memahami matematika?'"
+          },
+          "cintaKeluarga": {
+            ayat: "QS. Ar-Rum: 21",
+            teks: "Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu pasangan-pasangan dari jenismu sendiri.",
+            refleksi: "Mengintegrasikan pembelajaran matematika dalam konteks keluarga",
+            aktivitas: "Proyek matematika keluarga: menghitung pengeluaran dan menabung bersama"
+          }
+        },
+        "Geometri": {
+          "cintaAlam": {
+            ayat: "QS. Al-Baqarah: 164",
+            teks: "Sesungguhnya dalam penciptaan langit dan bumi, silih bergantinya malam dan siang, bahtera yang berlayar di laut membawa apa yang berguna bagi manusia.",
+            refleksi: "Mengajak siswa mengamati keindahan geometri dalam alam semesta",
+            aktivitas: "Mengamati dan mendokumentasikan bentuk geometri di lingkungan sekitar"
+          }
+        }
+      },
+      "IPA": {
+        "Alam Semesta": {
+          "cintaAlam": {
+            ayat: "QS. Al-Baqarah: 164",
+            teks: "Sesungguhnya dalam penciptaan langit dan bumi, silih bergantinya malam dan siang, bahtera yang berlayar di laut membawa apa yang berguna bagi manusia.",
+            refleksi: "Mengajak siswa merenungi keajaiban alam semesta dan mensyukuri ciptaan Allah",
+            aktivitas: "Membuat jurnal rasa syukur atas keajaiban alam dan kampanye pelestarian lingkungan"
+          },
+          "cintaTanahAir": {
+            ayat: "QS. Al-Hujurat: 13",
+            teks: "Hai manusia, sesungguhnya Kami menciptakan kamu dari seorang laki-laki dan seorang perempuan dan menjadikan kamu berbangsa-bangsa dan bersuku-suku.",
+            refleksi: "Mengembangkan sikap bangga terhadap kekayaan alam Indonesia",
+            aktivitas: "Proyek dokumentasi keanekaragaman hayati Indonesia"
+          }
+        },
+        "Sistem Tubuh": {
+          "cintaAllah": {
+            ayat: "QS. At-Tin: 4",
+            teks: "Sesungguhnya Kami telah menciptakan manusia dalam bentuk yang sebaik-baiknya.",
+            refleksi: "Mengajak murid merenungi keajaiban sistem tubuh manusia dan mensyukuri ciptaan Allah",
+            aktivitas: "Membuat jurnal rasa syukur atas tubuh sehat dan fungsi organ dalam kehidupan sehari-hari"
+          },
+          "cintaRasul": {
+            hadits: "HR. Bukhari",
+            teks: "Kebersihan adalah sebagian dari iman",
+            refleksi: "Meneladani semangat Nabi Muhammad SAW dalam menjaga kesehatan",
+            aktivitas: "Kajian artikel ilmiah populer, kunjungan narasumber dari tenaga kesehatan"
+          }
+        }
+      },
+      "Bahasa Indonesia": {
+        "Komunikasi": {
+          "cintaSesama": {
+            ayat: "QS. Al-Hujurat: 11",
+            teks: "Hai orang-orang yang beriman, janganlah sekumpulan orang laki-laki merendahkan kumpulan yang lain.",
+            refleksi: "Mengembangkan sikap saling menghargai dalam berkomunikasi",
+            aktivitas: "Praktik komunikasi yang santun dan menghargai perbedaan"
+          }
+        }
+      },
+      "Akidah Akhlak": {
+        "Keimanan": {
+          "cintaAllah": {
+            ayat: "QS. Al-Baqarah: 186",
+            teks: "Dan apabila hamba-hamba-Ku bertanya kepadamu tentang Aku, maka (jawablah), bahwasanya Aku adalah dekat.",
+            refleksi: "Mengembangkan rasa cinta dan kedekatan dengan Allah SWT",
+            aktivitas: "Jurnal refleksi keimanan dan praktik ibadah sehari-hari"
+          },
+          "cintaRasul": {
+            hadits: "HR. Muslim",
+            teks: "Sesungguhnya aku diutus untuk menyempurnakan akhlak yang mulia",
+            refleksi: "Meneladani akhlak mulia Rasulullah SAW dalam kehidupan sehari-hari",
+            aktivitas: "Proyek meneladani akhlak Rasulullah dalam interaksi sosial"
+          }
+        }
+      },
+      "Fiqih": {
+        "Ibadah": {
+          "cintaAllah": {
+            ayat: "QS. Adz-Dzariyat: 56",
+            teks: "Dan Aku tidak menciptakan jin dan manusia melainkan supaya mereka mengabdi kepada-Ku.",
+            refleksi: "Memahami ibadah sebagai wujud cinta kepada Allah SWT",
+            aktivitas: "Praktik ibadah dengan penuh kesadaran dan cinta"
+          }
+        }
+      }
+    };
+
+    // Find specific mapping or generate generic content
+    const subjectMapping = mapping[mataPelajaran] || mapping["Matematika"];
+    const themeMapping = subjectMapping[tema] || subjectMapping["Bilangan"];
+    
+    return themeMapping || this.generateGenericQuranHadithContent(mataPelajaran, tema, subtema);
+  }
+
+  private generateSpecificNilaiCintaContent(
+    nilaiCintaKey: string, 
+    mataPelajaran: string, 
+    tema: string, 
+    subtema: string, 
+    jenjang: string, 
+    quranHadithMapping: any
+  ): any {
+    const mapping = quranHadithMapping[nilaiCintaKey];
+    
+    if (mapping) {
+      return {
+        title: this.getNilaiCintaTitle(nilaiCintaKey),
+        ayat: mapping.ayat,
+        teks: mapping.teks,
+        refleksi: mapping.refleksi,
+        aktivitas: mapping.aktivitas
+      };
+    } else {
+      // Generate generic content if no specific mapping found
+      return this.generateGenericNilaiCintaContent(nilaiCintaKey, mataPelajaran, tema, subtema, jenjang);
+    }
+  }
+
+  private getNilaiCintaTitle(nilaiCintaKey: string): string {
+    const titles = {
+      "cintaAllah": "💖 Cinta Allah dan Rasul-Nya",
+      "cintaRasul": "💖 Cinta Allah dan Rasul-Nya",
+      "cintaKeluarga": "💝 Cinta Keluarga",
+      "cintaSesama": "🤝 Cinta Sesama",
+      "cintaAlam": "🌱 Cinta Lingkungan",
+      "cintaTanahAir": "🇮🇩 Cinta Tanah Air"
+    };
+    return titles[nilaiCintaKey] || "💖 Cinta dalam Pembelajaran";
+  }
+
+  private generateGenericQuranHadithContent(mataPelajaran: string, tema: string, subtema: string): any {
+    return {
+      "cintaAllah": {
+        ayat: "QS. Al-Baqarah: 186",
+        teks: "Dan apabila hamba-hamba-Ku bertanya kepadamu tentang Aku, maka (jawablah), bahwasanya Aku adalah dekat.",
+        refleksi: `Mengajak siswa merenungi keajaiban ${tema} dalam ${mataPelajaran} dan mensyukuri ciptaan Allah`,
+        aktivitas: `Membuat jurnal rasa syukur atas pembelajaran ${subtema} dalam kehidupan sehari-hari`
+      },
+      "cintaRasul": {
+        hadits: "HR. Muslim",
+        teks: "Sebaik-baik manusia adalah yang bermanfaat bagi manusia lain",
+        refleksi: `Meneladani semangat Nabi Muhammad SAW dalam mencari ilmu ${mataPelajaran}`,
+        aktivitas: `Kajian artikel ilmiah populer dan refleksi: 'Mengapa penting memahami ${subtema}?'`
+      },
+      "cintaKeluarga": {
+        ayat: "QS. Ar-Rum: 21",
+        teks: "Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu pasangan-pasangan dari jenismu sendiri.",
+        refleksi: `Mengintegrasikan pembelajaran ${mataPelajaran} dalam konteks keluarga`,
+        aktivitas: `Proyek ${mataPelajaran} keluarga: mengajarkan ${subtema} kepada anggota keluarga`
+      },
+      "cintaSesama": {
+        ayat: "QS. Al-Hujurat: 11",
+        teks: "Hai orang-orang yang beriman, janganlah sekumpulan orang laki-laki merendahkan kumpulan yang lain.",
+        refleksi: `Mengembangkan sikap saling membantu dalam pembelajaran ${mataPelajaran}`,
+        aktivitas: `Kerja kelompok dalam memahami ${subtema} dan membantu teman yang kesulitan`
+      },
+      "cintaAlam": {
+        ayat: "QS. Al-Baqarah: 164",
+        teks: "Sesungguhnya dalam penciptaan langit dan bumi, silih bergantinya malam dan siang, bahtera yang berlayar di laut membawa apa yang berguna bagi manusia.",
+        refleksi: `Mengajak siswa mengamati hubungan ${tema} dengan alam sekitar`,
+        aktivitas: `Analisis studi kasus dan kampanye pelestarian lingkungan terkait ${subtema}`
+      },
+      "cintaTanahAir": {
+        ayat: "QS. Al-Hujurat: 13",
+        teks: "Hai manusia, sesungguhnya Kami menciptakan kamu dari seorang laki-laki dan seorang perempuan dan menjadikan kamu berbangsa-bangsa dan bersuku-suku.",
+        refleksi: `Mengembangkan sikap bangga terhadap ${mataPelajaran} dan kontribusinya untuk Indonesia`,
+        aktivitas: `Proyek yang mengangkat kearifan lokal dalam ${mataPelajaran}`
+      }
+    };
+  }
+
+  private generateGenericNilaiCintaContent(
+    nilaiCintaKey: string, 
+    mataPelajaran: string, 
+    tema: string, 
+    subtema: string, 
+    jenjang: string
+  ): any {
+    const genericContent = this.generateGenericQuranHadithContent(mataPelajaran, tema, subtema);
+    return {
+      title: this.getNilaiCintaTitle(nilaiCintaKey),
+      ...genericContent[nilaiCintaKey]
+    };
   }
 
   private generateIslamicIntegration(formData: LearningDocumentFormData): string[] {
