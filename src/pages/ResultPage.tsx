@@ -877,17 +877,17 @@ const ResultPage = () => {
             
             <Badge variant="secondary" className="px-4 py-2">
               <CheckCircle className="h-4 w-4 mr-2" />
-              {formData.documentType} Generated with AI
+              Perencanaan Pembelajaran Generated with AI
             </Badge>
           </div>
         </div>
 
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            {formData.documentType} <span className="text-primary">Standar Kurikulum</span>
+            Perencanaan Pembelajaran <span className="text-primary">Standar Kurikulum</span>
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            {formData.documentType} lengkap sesuai standar Madrasah yang dihasilkan menggunakan Deep Learning AI
+            Perencanaan Pembelajaran lengkap sesuai standar Madrasah yang dihasilkan menggunakan Deep Learning AI
           </p>
         </div>
 
@@ -899,7 +899,7 @@ const ResultPage = () => {
           <div className="space-y-6">
             <Card className="shadow-lg bg-gradient-to-br from-primary/5 to-accent/5">
               <CardHeader>
-                <CardTitle className="text-center">Download {formData.documentType}</CardTitle>
+                <CardTitle className="text-center">Download Perencanaan Pembelajaran</CardTitle>
               </CardHeader>
               <CardContent>
                 <Button 

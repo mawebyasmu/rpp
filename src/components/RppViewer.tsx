@@ -16,7 +16,7 @@ const RppViewer = ({ rpp }: RppViewerProps) => {
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-xl">
             <BookOpen className="h-6 w-6 text-primary" />
-            Identitas RPP
+            Identitas Perencanaan Pembelajaran
           </CardTitle>
         </CardHeader>
         <CardContent>
