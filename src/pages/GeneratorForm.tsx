@@ -18,6 +18,7 @@ import { SecurityUtils } from "@/lib/security";
 import { AnalyticsManager } from "@/lib/analytics";
 import FeedbackDialog from "@/components/FeedbackDialog";
 import { Badge } from "@/components/ui/badge";
+import { DocumentTypeSelector } from "@/components/ui/document-type-selector";
 
 // Form validation schema with security measures - Updated for Love-Based Curriculum
 const formSchema = z.object({
@@ -208,18 +209,18 @@ const GeneratorForm = () => {
             <FeedbackDialog />
             <Badge variant="secondary" className="px-4 py-2">
               <BookOpen className="h-4 w-4 mr-2" />
-              Generator RPP Madrasah
+              Generator {form.watch("documentType") || "RPP"} Madrasah
             </Badge>
           </div>
         </div>
 
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Generator RPP
+            Generator {form.watch("documentType") || "RPP"}
             <span className="block text-primary">Madrasah</span>
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Lengkapi form di bawah ini untuk membuat RPP yang sesuai dengan kurikulum Madrasah
+            Lengkapi form di bawah ini untuk membuat {form.watch("documentType") === "LDP" ? "LDP" : "RPP"} yang sesuai dengan kurikulum Madrasah
           </p>
         </div>
 
@@ -227,16 +228,34 @@ const GeneratorForm = () => {
           <CardHeader className="text-center">
             <CardTitle className="text-2xl flex items-center justify-center gap-2">
               <FileText className="h-6 w-6 text-primary" />
-              Form Data RPP
+              Form Data {form.watch("documentType") || "RPP"}
             </CardTitle>
             <CardDescription className="text-base">
-              Masukkan informasi yang diperlukan untuk membuat RPP Anda
+              Masukkan informasi yang diperlukan untuk membuat {form.watch("documentType") === "LDP" ? "LDP" : "RPP"} Anda
             </CardDescription>
           </CardHeader>
           
           <CardContent className="space-y-6">
             <Form {...form}>
               <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
+                {/* Document Type Selection */}
+                <FormField
+                  control={form.control}
+                  name="documentType"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="text-lg font-semibold">Pilih Jenis Dokumen</FormLabel>
+                      <FormControl>
+                        <DocumentTypeSelector
+                          selectedType={field.value}
+                          onTypeChange={field.onChange}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
                 {/* Identitas Madrasah */}
                 <Card className="border-primary/20 bg-primary/5">
                   <CardHeader className="pb-4">
