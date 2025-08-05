@@ -146,7 +146,7 @@ const GeneratorForm = () => {
       }
 
       // Security: Basic input sanitization
-              const sanitizedData = SecurityUtils.sanitizeObject(data) as LearningDocumentFormData;
+      const sanitizedData = SecurityUtils.sanitizeObject(data) as LearningDocumentFormData;
       
       // Security: Basic validation
       if (!sanitizedData.namaGuru || !sanitizedData.mataPelajaran || !sanitizedData.tema) {
@@ -163,8 +163,8 @@ const GeneratorForm = () => {
       // Analytics: Track form submission
       AnalyticsManager.trackFormSubmission(sanitizedData);
       
-      // Generate RPP with sanitized data
-              const generatedRPP = await rppGenerator.generateLearningDocument(sanitizedData);
+      // Generate document with sanitized data
+      const generatedRPP = await rppGenerator.generateLearningDocument(sanitizedData);
       
       // Store data in simple storage
       SecurityUtils.storage.setItem('formData', JSON.stringify(sanitizedData));
