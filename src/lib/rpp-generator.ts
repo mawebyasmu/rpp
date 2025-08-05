@@ -179,13 +179,13 @@ export class RPPGenerator {
     if (this.isInitialized) return;
 
     try {
-      console.log("Initializing RPP Generator...");
+  
       
       // Simulate initialization delay
       await new Promise(resolve => setTimeout(resolve, 100));
       
       this.isInitialized = true;
-      console.log("RPP Generator initialized successfully!");
+      
     } catch (error) {
       console.error("Failed to initialize RPP Generator:", error);
       throw new Error("Gagal menginisialisasi RPP Generator");
@@ -194,7 +194,7 @@ export class RPPGenerator {
 
   // Generate comprehensive RPP using enhanced AI approach with Phase 3 features
   async generateLearningDocument(formData: LearningDocumentFormData): Promise<GeneratedRPP | GeneratedLDP> {
-    console.log("Starting enhanced RPP generation with Phase 3 features...");
+
     
     // Add small delay to show loading state, then generate quickly
     await new Promise(resolve => setTimeout(resolve, 500));
@@ -264,7 +264,7 @@ export class RPPGenerator {
       penilaianKarakter: enhancedContent.penilaianKarakter || []
     };
 
-    console.log("Enhanced RPP with Phase 3 features generated successfully:", rpp);
+    
     return rpp;
   }
 
@@ -274,7 +274,7 @@ export class RPPGenerator {
       // Enhanced prompts for deep learning and Kurikulum Merdeka
       const enhancedPrompt = this.buildEnhancedPrompt(formData);
       
-      console.log("Generating enhanced AI content with deep learning prompts...");
+
       
       // Simulate AI processing with enhanced content
       await new Promise(resolve => setTimeout(resolve, 1000));
@@ -479,19 +479,55 @@ export class RPPGenerator {
   // Generate enhanced Asesmen Autentik
   private generateAsesmenAutentik(formData: LearningDocumentFormData): string[] {
     const mataPelajaran = formData.mataPelajaran;
+    const tema = formData.tema;
+    const subtema = formData.subtema;
     const modelPembelajaran = formData.pendekatanPembelajaran;
     const selectedAsesmen = formData.asesmenAutentik;
     
     const asesmenOptions = [
-      `Portfolio pembelajaran ${mataPelajaran}`,
-      `Proyek nyata terkait ${mataPelajaran}`,
-      `Presentasi hasil pembelajaran ${mataPelajaran}`,
-      `Demonstrasi keterampilan ${mataPelajaran}`,
-      `Refleksi pembelajaran ${mataPelajaran}`,
-      `Penilaian diri dan teman sejawat untuk ${mataPelajaran}`
+      `Portfolio pembelajaran ${mataPelajaran} yang mencakup pemahaman ${tema} dan ${subtema}`,
+      `Proyek nyata terkait ${mataPelajaran} yang mengintegrasikan ${tema} dalam kehidupan sehari-hari`,
+      `Presentasi hasil pembelajaran ${mataPelajaran} dengan fokus pada ${subtema}`,
+      `Demonstrasi keterampilan ${mataPelajaran} dalam menerapkan konsep ${tema}`,
+      `Refleksi pembelajaran ${mataPelajaran} yang mencakup pengalaman belajar ${subtema}`,
+      `Penilaian diri dan teman sejawat untuk ${mataPelajaran} dengan rubrik yang jelas`,
+      `Observasi langsung terhadap penerapan ${tema} dalam konteks nyata`,
+      `Wawancara mendalam tentang pemahaman ${subtema} dalam ${mataPelajaran}`,
+      `Jurnal pembelajaran ${mataPelajaran} yang mencatat perkembangan pemahaman ${tema}`,
+      `Penilaian berbasis kinerja untuk ${mataPelajaran} dengan fokus pada ${subtema}`
     ];
     
-    return selectedAsesmen.length > 0 ? selectedAsesmen : [asesmenOptions[0], asesmenOptions[1]];
+    // If user selected specific asesmen, use them, otherwise generate comprehensive ones
+    if (selectedAsesmen.length > 0) {
+      return selectedAsesmen.map((asesmen, index) => 
+        `${asesmen} - ${asesmenOptions[index % asesmenOptions.length]}`
+      );
+    }
+    
+    // Generate comprehensive asesmen based on model pembelajaran
+    const comprehensiveAsesmen = [];
+    
+    if (modelPembelajaran === "Love-Based") {
+      comprehensiveAsesmen.push(
+        `Proyek cinta dalam ${mataPelajaran} - Siswa membuat proyek yang mencerminkan nilai cinta dalam konteks ${tema}`,
+        `Portfolio pembelajaran berbasis cinta - Mengumpulkan bukti pembelajaran ${subtema} yang mengintegrasikan nilai-nilai cinta`,
+        `Refleksi pembelajaran dengan nilai cinta - Siswa merefleksikan pembelajaran ${mataPelajaran} dalam konteks nilai cinta`
+      );
+    } else if (modelPembelajaran === "Holistic") {
+      comprehensiveAsesmen.push(
+        `Penilaian holistik ${mataPelajaran} - Mengintegrasikan aspek kognitif, afektif, dan psikomotor dalam ${tema}`,
+        `Proyek terintegrasi ${mataPelajaran} - Menggabungkan berbagai aspek pembelajaran ${subtema}`,
+        `Observasi pembelajaran holistik - Mengamati perkembangan siswa dalam ${mataPelajaran} secara menyeluruh`
+      );
+    } else {
+      comprehensiveAsesmen.push(
+        `Portfolio pembelajaran ${mataPelajaran} - Mengumpulkan bukti pembelajaran ${tema} dan ${subtema}`,
+        `Proyek nyata terkait ${mataPelajaran} - Menerapkan konsep ${subtema} dalam situasi nyata`,
+        `Presentasi hasil pembelajaran ${mataPelajaran} - Menyampaikan pemahaman ${tema} secara efektif`
+      );
+    }
+    
+    return comprehensiveAsesmen;
   }
 
   // Generate enhanced Profil Pelajar Pancasila
@@ -1358,40 +1394,40 @@ export class RPPGenerator {
   private generateNilaiCinta(nilaiCinta: { [key: string]: boolean }): any {
     const activities = {
       cintaAllah: [
-        "Mengawali pembelajaran dengan doa dan dzikir",
-        "Mengintegrasikan nilai-nilai Islam dalam pembelajaran",
-        "Mengembangkan sikap syukur dalam belajar",
-        "Mengamalkan ajaran Islam dalam kehidupan sehari-hari"
+        "Mengawali pembelajaran dengan doa dan dzikir yang dipimpin oleh siswa secara bergantian",
+        "Mengintegrasikan nilai-nilai Islam dalam setiap aspek pembelajaran dengan mengaitkan materi dengan ayat Al-Qur'an",
+        "Mengembangkan sikap syukur dalam belajar dengan mengucapkan hamdalah setelah memahami konsep baru",
+        "Mengamalkan ajaran Islam dalam kehidupan sehari-hari melalui praktik ibadah yang terkait dengan pembelajaran"
       ],
       cintaRasul: [
-        "Meneladani akhlak Rasulullah SAW dalam pembelajaran",
-        "Mengintegrasikan sunnah dalam aktivitas belajar",
-        "Mengembangkan sikap sabar dan ikhlas seperti Rasulullah",
-        "Mengamalkan hadits dalam kehidupan sehari-hari"
+        "Meneladani akhlak Rasulullah SAW dalam pembelajaran dengan mengikuti sikap sabar dan ikhlas",
+        "Mengintegrasikan sunnah dalam aktivitas belajar dengan mengamalkan adab-adab belajar yang diajarkan Rasulullah",
+        "Mengembangkan sikap sabar dan ikhlas seperti Rasulullah dalam menghadapi kesulitan belajar",
+        "Mengamalkan hadits dalam kehidupan sehari-hari dengan menerapkan nilai-nilai yang terkandung dalam hadits"
       ],
       cintaKeluarga: [
-        "Mengembangkan sikap hormat kepada orang tua",
-        "Mengintegrasikan nilai keluarga dalam pembelajaran",
-        "Mengembangkan sikap peduli terhadap keluarga",
-        "Mengamalkan nilai-nilai keluarga dalam kehidupan"
+        "Mengembangkan sikap hormat kepada orang tua dengan membuat karya yang dipersembahkan untuk keluarga",
+        "Mengintegrasikan nilai keluarga dalam pembelajaran dengan mengaitkan materi dengan konteks keluarga",
+        "Mengembangkan sikap peduli terhadap keluarga melalui proyek yang bermanfaat untuk keluarga",
+        "Mengamalkan nilai-nilai keluarga dalam kehidupan dengan menerapkan pembelajaran dalam konteks keluarga"
       ],
       cintaSesama: [
-        "Mengembangkan sikap tolong-menolong dalam pembelajaran",
-        "Mengintegrasikan nilai persaudaraan dalam belajar",
-        "Mengembangkan sikap saling menghargai",
-        "Mengamalkan nilai persaudaraan dalam kehidupan"
+        "Mengembangkan sikap tolong-menolong dalam pembelajaran melalui kerja kelompok yang saling mendukung",
+        "Mengintegrasikan nilai persaudaraan dalam belajar dengan mengembangkan sikap saling membantu",
+        "Mengembangkan sikap saling menghargai melalui presentasi yang menghargai pendapat teman",
+        "Mengamalkan nilai persaudaraan dalam kehidupan dengan mengembangkan proyek yang bermanfaat untuk masyarakat"
       ],
       cintaAlam: [
-        "Mengembangkan sikap peduli terhadap lingkungan",
-        "Mengintegrasikan nilai pelestarian alam dalam pembelajaran",
-        "Mengembangkan sikap ramah lingkungan",
-        "Mengamalkan nilai pelestarian alam dalam kehidupan"
+        "Mengembangkan sikap peduli terhadap lingkungan melalui proyek pelestarian lingkungan",
+        "Mengintegrasikan nilai pelestarian alam dalam pembelajaran dengan mengaitkan materi dengan isu lingkungan",
+        "Mengembangkan sikap ramah lingkungan melalui praktik pembelajaran yang ramah lingkungan",
+        "Mengamalkan nilai pelestarian alam dalam kehidupan dengan mengembangkan kesadaran lingkungan"
       ],
       cintaTanahAir: [
-        "Mengembangkan sikap cinta tanah air dalam pembelajaran",
-        "Mengintegrasikan nilai patriotisme dalam belajar",
-        "Mengembangkan sikap bangga sebagai bangsa Indonesia",
-        "Mengamalkan nilai cinta tanah air dalam kehidupan"
+        "Mengembangkan sikap cinta tanah air dalam pembelajaran dengan mengaitkan materi dengan kearifan lokal",
+        "Mengintegrasikan nilai patriotisme dalam belajar dengan mengembangkan sikap bangga sebagai bangsa Indonesia",
+        "Mengembangkan sikap bangga sebagai bangsa Indonesia melalui proyek yang mengangkat budaya lokal",
+        "Mengamalkan nilai cinta tanah air dalam kehidupan dengan mengembangkan kontribusi untuk kemajuan bangsa"
       ]
     };
 

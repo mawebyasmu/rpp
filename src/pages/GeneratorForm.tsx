@@ -134,8 +134,6 @@ const GeneratorForm = () => {
   };
 
   const handleSubmit = async (data: z.infer<typeof formSchema>) => {
-    console.log('Form submission started'); // Debug log
-    console.log('Raw form data:', data); // Debug log
     
     try {
       // Security: Basic rate limiting for public app
@@ -152,7 +150,7 @@ const GeneratorForm = () => {
       const sanitizedData = SecurityUtils.sanitizeObject(data) as LearningDocumentFormData;
       
       // Security: Basic validation
-      console.log('Sanitized form data:', sanitizedData); // Debug log
+
       
       // Check required fields
       const requiredFields = {
@@ -169,7 +167,7 @@ const GeneratorForm = () => {
         .map(([key]) => key);
       
       if (missingFields.length > 0) {
-        console.log('Missing fields:', missingFields);
+
         toast({
           title: "Data tidak lengkap",
           description: `Mohon lengkapi: ${missingFields.join(', ')}`,
@@ -178,26 +176,26 @@ const GeneratorForm = () => {
         return;
       }
 
-      console.log('Validation passed, proceeding to generation...'); // Debug log
+      
       setIsLoading(true);
-      console.log('Starting document generation...'); // Debug log
+      
       
       // Analytics: Track form submission
       AnalyticsManager.trackFormSubmission(sanitizedData);
       
       // Generate document with sanitized data
-      console.log('Calling generateLearningDocument...'); // Debug log
+      
       let generatedRPP;
       try {
         generatedRPP = await rppGenerator.generateLearningDocument(sanitizedData);
-        console.log('Document generated successfully:', generatedRPP); // Debug log
+
       } catch (genError) {
         console.error('Error in generateLearningDocument:', genError);
         throw genError;
       }
       
       // Store data in simple storage
-      console.log('Storing data in storage...'); // Debug log
+      
       SecurityUtils.storage.setItem('formData', JSON.stringify(sanitizedData));
       SecurityUtils.storage.setItem('generatedRPP', JSON.stringify(generatedRPP));
       
@@ -209,7 +207,7 @@ const GeneratorForm = () => {
         timestamp: new Date().toISOString()
       });
       
-      console.log('Navigating to result page...'); // Debug log
+      
       navigate('/result');
     } catch (error) {
       console.error('Form submission error:', error);
@@ -272,7 +270,7 @@ const GeneratorForm = () => {
           <CardContent className="space-y-6">
             <Form {...form}>
               <form onSubmit={(e) => {
-                console.log('Form onSubmit event triggered'); // Debug log
+        
                 form.handleSubmit(handleSubmit)(e);
               }} className="space-y-6">
                 {/* Document Type Selection */}
@@ -781,9 +779,7 @@ const GeneratorForm = () => {
                     className="w-full text-lg py-6"
                     disabled={isLoading}
                     onClick={() => {
-                      console.log('Submit button clicked'); // Debug log
-                      console.log('Form state:', form.getValues()); // Debug log
-                      console.log('Form errors:', form.formState.errors); // Debug log
+                      
                     }}
                   >
                     {isLoading ? (
