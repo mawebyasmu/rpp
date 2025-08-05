@@ -486,16 +486,40 @@ const GeneratorForm = () => {
                   <CardContent>
                     <FormField
                       control={form.control}
-                      name="capaianPembelajaran"
+                      name="capaianPembelajaran.pengetahuan"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Deskripsi Capaian Pembelajaran</FormLabel>
+                          <FormLabel>Pengetahuan</FormLabel>
                           <FormControl>
-                            <Textarea
-                              placeholder="Contoh: Peserta didik mampu memahami konsep penjumlahan dan pengurangan bilangan bulat, serta dapat menerapkannya dalam menyelesaikan masalah sehari-hari dengan benar dan sistematis..."
-                              className="min-h-[120px] resize-none"
-                              {...field}
-                            />
+                            <Input placeholder="Contoh: Memahami konsep penjumlahan dan pengurangan bilangan bulat" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="capaianPembelajaran.keterampilan"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Keterampilan</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Contoh: Mampu melakukan penjumlahan dan pengurangan bilangan bulat dengan benar" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="capaianPembelajaran.sikap"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Sikap</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Contoh: Menunjukkan sikap kreatif dan inovatif dalam menyelesaikan masalah" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -593,32 +617,7 @@ const GeneratorForm = () => {
 
                     <FormField
                       control={form.control}
-                      name="modelPembelajaran"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Model Pembelajaran</FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Pilih model pembelajaran..." />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              <SelectItem value="PjBL">Project Based Learning (PjBL)</SelectItem>
-                              <SelectItem value="PBL">Problem Based Learning (PBL)</SelectItem>
-                              <SelectItem value="Discovery">Discovery Learning</SelectItem>
-                              <SelectItem value="Inquiry">Inquiry Learning</SelectItem>
-                              <SelectItem value="Konvensional">Konvensional</SelectItem>
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="capaianPembelajaranDetail.pengetahuan"
+                      name="capaianPembelajaran.pengetahuan"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Pengetahuan</FormLabel>
@@ -632,7 +631,7 @@ const GeneratorForm = () => {
 
                     <FormField
                       control={form.control}
-                      name="capaianPembelajaranDetail.keterampilan"
+                      name="capaianPembelajaran.keterampilan"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Keterampilan</FormLabel>
@@ -646,69 +645,12 @@ const GeneratorForm = () => {
 
                     <FormField
                       control={form.control}
-                      name="capaianPembelajaranDetail.sikap"
+                      name="capaianPembelajaran.sikap"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Sikap</FormLabel>
                           <FormControl>
                             <Input placeholder="Contoh: Menunjukkan sikap kreatif dan inovatif dalam menyelesaikan masalah" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="integrasiTIK"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Integrasi TIK</FormLabel>
-                          <FormControl>
-                            <div className="grid grid-cols-2 gap-2">
-                              <div className="flex items-center space-x-2">
-                                <Checkbox 
-                                  id="integrasiTIK1" 
-                                  checked={field.value.includes("Integrasi TIK 1")} 
-                                  onCheckedChange={(checked) => {
-                                    if (checked) {
-                                      field.onChange([...field.value, "Integrasi TIK 1"]);
-                                    } else {
-                                      field.onChange(field.value.filter(item => item !== "Integrasi TIK 1"));
-                                    }
-                                  }} 
-                                />
-                                <Label htmlFor="integrasiTIK1">Integrasi TIK 1</Label>
-                              </div>
-                              <div className="flex items-center space-x-2">
-                                <Checkbox 
-                                  id="integrasiTIK2" 
-                                  checked={field.value.includes("Integrasi TIK 2")} 
-                                  onCheckedChange={(checked) => {
-                                    if (checked) {
-                                      field.onChange([...field.value, "Integrasi TIK 2"]);
-                                    } else {
-                                      field.onChange(field.value.filter(item => item !== "Integrasi TIK 2"));
-                                    }
-                                  }} 
-                                />
-                                <Label htmlFor="integrasiTIK2">Integrasi TIK 2</Label>
-                              </div>
-                              <div className="flex items-center space-x-2">
-                                <Checkbox 
-                                  id="integrasiTIK3" 
-                                  checked={field.value.includes("Integrasi TIK 3")} 
-                                  onCheckedChange={(checked) => {
-                                    if (checked) {
-                                      field.onChange([...field.value, "Integrasi TIK 3"]);
-                                    } else {
-                                      field.onChange(field.value.filter(item => item !== "Integrasi TIK 3"));
-                                    }
-                                  }} 
-                                />
-                                <Label htmlFor="integrasiTIK3">Integrasi TIK 3</Label>
-                              </div>
-                            </div>
                           </FormControl>
                           <FormMessage />
                         </FormItem>
