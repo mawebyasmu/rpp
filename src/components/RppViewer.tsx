@@ -127,6 +127,82 @@ const RppViewer = ({ rpp }: RppViewerProps) => {
         </CardContent>
       </Card>
 
+      {/* Praktik Pedagogis */}
+      <Card className="shadow-lg border-0 bg-white/90 backdrop-blur-sm">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <BookOpen className="h-5 w-5 text-primary" />
+            Praktik Pedagogis
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {rpp.modelPembelajaran && rpp.modelPembelajaran.length > 0 && (
+            <div>
+              <h4 className="font-semibold text-primary mb-2">Model Pembelajaran:</h4>
+              <div className="flex flex-wrap gap-2">
+                {rpp.modelPembelajaran.map((model, index) => (
+                  <Badge key={index} variant="secondary" className="text-xs">
+                    {model}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+          )}
+          
+          {rpp.metodePembelajaran && rpp.metodePembelajaran.length > 0 && (
+            <div>
+              <h4 className="font-semibold text-accent-foreground mb-2">Metode Pembelajaran:</h4>
+              <div className="flex flex-wrap gap-2">
+                {rpp.metodePembelajaran.map((metode, index) => (
+                  <Badge key={index} variant="outline" className="text-xs">
+                    {metode}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+          )}
+          
+          {rpp.kemitraanPembelajaran && rpp.kemitraanPembelajaran.length > 0 && (
+            <div>
+              <h4 className="font-semibold text-green-600 mb-2">Kemitraan Pembelajaran:</h4>
+              <div className="flex flex-wrap gap-2">
+                {rpp.kemitraanPembelajaran.map((kemitraan, index) => (
+                  <Badge key={index} variant="default" className="text-xs bg-green-100 text-green-800">
+                    {kemitraan}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+          )}
+          
+          {rpp.lingkunganPembelajaran && rpp.lingkunganPembelajaran.length > 0 && (
+            <div>
+              <h4 className="font-semibold text-blue-600 mb-2">Lingkungan Pembelajaran:</h4>
+              <div className="flex flex-wrap gap-2">
+                {rpp.lingkunganPembelajaran.map((lingkungan, index) => (
+                  <Badge key={index} variant="default" className="text-xs bg-blue-100 text-blue-800">
+                    {lingkungan}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+          )}
+          
+          {rpp.pemanfaatanDigital && rpp.pemanfaatanDigital.length > 0 && (
+            <div>
+              <h4 className="font-semibold text-purple-600 mb-2">Pemanfaatan Digital:</h4>
+              <div className="flex flex-wrap gap-2">
+                {rpp.pemanfaatanDigital.map((digital, index) => (
+                  <Badge key={index} variant="default" className="text-xs bg-purple-100 text-purple-800">
+                    {digital}
+                  </Badge>
+                ))}
+              </div>
+            </div>
+          )}
+        </CardContent>
+      </Card>
+
       {/* Nilai Cinta */}
       <Card className="shadow-lg border-0 bg-white/90 backdrop-blur-sm">
         <CardHeader>

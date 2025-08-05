@@ -63,6 +63,49 @@ const ResultPage = () => {
     }
   }, [navigate, toast]);
 
+  // Function to generate Materi Insersi KBC content
+  const getMateriInsersiKBC = (nilaiCinta: string): string[] => {
+    const contentMap: { [key: string]: string[] } = {
+      "Cinta Allah": [
+        "💖 Cinta Allah dan Rasul-Nya",
+        "• Ayat: QS. At-Tin: 4 \"Sesungguhnya Kami telah menciptakan manusia dalam bentuk yang sebaik-baiknya.\"",
+        "• Refleksi: Ajak murid merenungi keajaiban ciptaan Allah dan mensyukuri nikmat-Nya.",
+        "• Aktivitas: Membuat jurnal rasa syukur atas nikmat yang diberikan Allah."
+      ],
+      "Cinta Rasul": [
+        "💖 Cinta kepada Rasul-Nya",
+        "• Narasi: Meneladani semangat Nabi Muhammad SAW dalam mencari ilmu dan mengajarkan kebaikan.",
+        "• Aktivitas: Kajian hadits dan refleksi pribadi tentang meneladani Rasulullah SAW."
+      ],
+      "Cinta Keluarga": [
+        "💖 Cinta kepada Keluarga",
+        "• Integrasi: Hubungkan pembelajaran dengan tanggung jawab terhadap keluarga.",
+        "• Aktivitas: Membuat proyek yang bermanfaat untuk keluarga dan refleksi peran dalam keluarga."
+      ],
+      "Cinta Sesama": [
+        "💖 Cinta kepada Sesama",
+        "• Integrasi: Hubungkan pembelajaran dengan kepedulian terhadap sesama manusia.",
+        "• Aktivitas: Kolaborasi dalam kelompok dan membantu teman yang membutuhkan."
+      ],
+      "Cinta Alam": [
+        "💖 Cinta kepada Alam",
+        "• Integrasi: Hubungkan pembelajaran dengan tanggung jawab terhadap lingkungan.",
+        "• Aktivitas: Analisis dampak aktivitas manusia terhadap lingkungan dan kampanye pelestarian."
+      ],
+      "Cinta Tanah Air": [
+        "💖 Cinta kepada Tanah Air",
+        "• Integrasi: Hubungkan pembelajaran dengan kecintaan terhadap bangsa dan negara.",
+        "• Aktivitas: Kajian sejarah dan budaya Indonesia serta refleksi kontribusi untuk bangsa."
+      ]
+    };
+
+    return contentMap[nilaiCinta] || [
+      "💖 Cinta dalam Pembelajaran",
+      "• Integrasi nilai cinta dalam setiap aspek pembelajaran.",
+      "• Aktivitas refleksi dan pengamalan nilai cinta dalam kehidupan sehari-hari."
+    ];
+  };
+
   const generateDocxContent = (rpp: GeneratedRPP) => {
     const children: any[] = [];
 
@@ -214,6 +257,40 @@ const ResultPage = () => {
         })
       );
     });
+
+    // Materi Insersi KBC
+    children.push(
+      new Paragraph({
+        text: "E. MATERI INSERSI KBC",
+        heading: HeadingLevel.HEADING_2,
+        spacing: { before: 400, after: 200 }
+      })
+    );
+
+    // Generate Materi Insersi KBC based on selected Nilai Cinta
+    const nilaiCinta = rpp.identitas.nilaiCinta || [];
+    if (nilaiCinta.length > 0) {
+      nilaiCinta.forEach((nilai, index) => {
+        children.push(
+          new Paragraph({
+            text: `${String.fromCharCode(65 + index)}. ${nilai}`,
+            heading: HeadingLevel.HEADING_3,
+            spacing: { before: 300, after: 200 }
+          })
+        );
+
+        // Add sample content for each Nilai Cinta
+        const sampleContent = getMateriInsersiKBC(nilai);
+        sampleContent.forEach((content, contentIndex) => {
+          children.push(
+            new Paragraph({
+              text: content,
+              spacing: { after: 200 }
+            })
+          );
+        });
+      });
+    }
 
     // Materi Pembelajaran
     children.push(
@@ -502,6 +579,110 @@ const ResultPage = () => {
         })
       );
     });
+
+    // Praktik Pedagogis
+    children.push(
+      new Paragraph({
+        text: "J. PRAKTIK PEDAGOGIS",
+        heading: HeadingLevel.HEADING_2,
+        spacing: { before: 400, after: 200 }
+      })
+    );
+
+    // Model Pembelajaran
+    if (rpp.modelPembelajaran && rpp.modelPembelajaran.length > 0) {
+      children.push(
+        new Paragraph({
+          text: "Model Pembelajaran:",
+          spacing: { after: 200 }
+        })
+      );
+
+      rpp.modelPembelajaran.forEach((model, index) => {
+        children.push(
+          new Paragraph({
+            text: `${index + 1}. ${model}`,
+            spacing: { after: 200 }
+          })
+        );
+      });
+    }
+
+    // Metode Pembelajaran
+    if (rpp.metodePembelajaran && rpp.metodePembelajaran.length > 0) {
+      children.push(
+        new Paragraph({
+          text: "Metode Pembelajaran:",
+          spacing: { before: 400, after: 200 }
+        })
+      );
+
+      rpp.metodePembelajaran.forEach((metode, index) => {
+        children.push(
+          new Paragraph({
+            text: `${index + 1}. ${metode}`,
+            spacing: { after: 200 }
+          })
+        );
+      });
+    }
+
+    // Kemitraan Pembelajaran
+    if (rpp.kemitraanPembelajaran && rpp.kemitraanPembelajaran.length > 0) {
+      children.push(
+        new Paragraph({
+          text: "Kemitraan Pembelajaran:",
+          spacing: { before: 400, after: 200 }
+        })
+      );
+
+      rpp.kemitraanPembelajaran.forEach((kemitraan, index) => {
+        children.push(
+          new Paragraph({
+            text: `${index + 1}. ${kemitraan}`,
+            spacing: { after: 200 }
+          })
+        );
+      });
+    }
+
+    // Lingkungan Pembelajaran
+    if (rpp.lingkunganPembelajaran && rpp.lingkunganPembelajaran.length > 0) {
+      children.push(
+        new Paragraph({
+          text: "Lingkungan Pembelajaran:",
+          spacing: { before: 400, after: 200 }
+        })
+      );
+
+      rpp.lingkunganPembelajaran.forEach((lingkungan, index) => {
+        children.push(
+          new Paragraph({
+            text: `${index + 1}. ${lingkungan}`,
+            spacing: { after: 200 }
+          })
+        );
+      });
+    }
+
+    // Pemanfaatan Digital
+    if (rpp.pemanfaatanDigital && rpp.pemanfaatanDigital.length > 0) {
+      children.push(
+        new Paragraph({
+          text: "Pemanfaatan Digital:",
+          spacing: { before: 400, after: 200 }
+        })
+      );
+
+      rpp.pemanfaatanDigital.forEach((digital, index) => {
+        children.push(
+          new Paragraph({
+            text: `${index + 1}. ${digital}`,
+            spacing: { after: 200 }
+          })
+        );
+      });
+    }
 
     // Remedial dan Pengayaan
     children.push(
