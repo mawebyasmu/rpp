@@ -86,35 +86,36 @@ const EndToEndTest = () => {
     setTestResults({});
 
     // Mock form data for testing
-    const mockFormData = {
-      namaGuru: "Ahmad S.Pd",
-      satuanPendidikan: "MI Al-Hikmah",
-      jenjang: "MI" as const,
-      kelas: "3",
-      semester: "Ganjil" as const,
-      mataPelajaran: "Matematika",
-      tema: "Bilangan dan Operasi Hitung",
-      subtema: "Penjumlahan dan Pengurangan",
-      alokasi: "2 x 40 menit",
-      pertemuan: 1,
-      documentType: "RPP" as const,
-      pendekatanPembelajaran: "Love-Based" as const,
-      nilaiCinta: {
-        cintaAllah: true,
-        cintaRasul: true,
-        cintaKeluarga: false,
-        cintaSesama: true,
-        cintaAlam: false,
-        cintaTanahAir: true,
-      },
-      capaianPembelajaran: {
-        pengetahuan: "Memahami konsep penjumlahan dan pengurangan bilangan bulat",
-        keterampilan: "Mampu melakukan penjumlahan dan pengurangan dengan benar",
-        sikap: "Menunjukkan sikap kreatif dan inovatif dalam menyelesaikan masalah"
-      },
-      penilaianKarakter: ["Observasi Sikap", "Refleksi Diri"],
-      integrasiNilaiIslam: ["Doa Sebelum Belajar", "Adab Belajar"]
-    };
+          const mockFormData = {
+        namaGuru: "Ahmad S.Pd",
+        satuanPendidikan: "MI Al-Hikmah",
+        jenjang: "MI" as const,
+        kelas: "3",
+        semester: "Ganjil" as const,
+        mataPelajaran: "Matematika",
+        tema: "Bilangan dan Operasi Hitung",
+        subtema: "Penjumlahan dan Pengurangan",
+        alokasi: "2 x 40 menit",
+        pertemuan: 1,
+        documentType: "RPP" as const,
+        pendekatanPembelajaran: "Love-Based" as const,
+        nilaiCinta: {
+          cintaAllah: true,
+          cintaRasul: true,
+          cintaKeluarga: false,
+          cintaSesama: true,
+          cintaAlam: false,
+          cintaTanahAir: true,
+        },
+        capaianPembelajaran: {
+          pengetahuan: "Memahami konsep penjumlahan dan pengurangan bilangan bulat",
+          keterampilan: "Mampu melakukan penjumlahan dan pengurangan dengan benar",
+          sikap: "Menunjukkan sikap kreatif dan inovatif dalam menyelesaikan masalah"
+        },
+        penilaianKarakter: ["Observasi Sikap", "Refleksi Diri"],
+        integrasiNilaiIslam: ["Doa Sebelum Belajar", "Adab Belajar"],
+        asesmenAutentik: ["Observasi Sikap", "Refleksi Diri"]
+      };
 
     try {
       // Step 1: Form Validation
@@ -198,9 +199,10 @@ const EndToEndTest = () => {
       updateStep('analytics-test', { status: 'running' });
       
       const analyticsStartTime = Date.now();
-      AnalyticsManager.trackEvent('e2e_test_completed', { 
+      AnalyticsManager.trackEvent('form_submit', { 
         steps: workflowSteps.length,
-        duration: Date.now() - startTime 
+        duration: Date.now() - startTime,
+        testType: 'e2e_test_completed'
       });
       const analyticsDuration = Date.now() - analyticsStartTime;
       
