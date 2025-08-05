@@ -13,15 +13,15 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Loader2, BookOpen, GraduationCap, FileText, Clock, Target, Users, Award, ArrowLeft } from "lucide-react";
-import { rppGenerator, RPPFormData } from "@/lib/rpp-generator";
+import { rppGenerator, LearningDocumentFormData } from "@/lib/rpp-generator";
 import { SecurityUtils } from "@/lib/security";
 import { AnalyticsManager } from "@/lib/analytics";
 import FeedbackDialog from "@/components/FeedbackDialog";
 import { Badge } from "@/components/ui/badge";
 
-// Form validation schema with security measures
+// Form validation schema with security measures - Updated for Love-Based Curriculum
 const formSchema = z.object({
-  satuan: z.string().min(1, "Satuan pendidikan harus diisi").max(100, "Satuan pendidikan terlalu panjang"),
+  satuanPendidikan: z.string().min(1, "Satuan pendidikan harus diisi").max(100, "Satuan pendidikan terlalu panjang"),
   jenjang: z.enum(["MI", "MTs", "MA"]),
   kelas: z.string().min(1, "Kelas harus diisi").max(10, "Kelas terlalu panjang"),
   semester: z.enum(["Ganjil", "Genap"]),
@@ -30,26 +30,33 @@ const formSchema = z.object({
   subtema: z.string().min(1, "Sub tema harus diisi").max(500, "Sub tema terlalu panjang"),
   alokasi: z.string().min(1, "Alokasi waktu harus diisi").max(50, "Alokasi waktu terlalu panjang"),
   pertemuan: z.number().min(1, "Pertemuan minimal 1").max(100, "Pertemuan terlalu banyak"),
-  capaianPembelajaran: z.string().min(1, "Capaian pembelajaran harus diisi").max(1000, "Capaian pembelajaran terlalu panjang"),
   namaGuru: z.string().min(1, "Nama guru harus diisi").max(100, "Nama guru terlalu panjang"),
-  // Kurikulum Merdeka Kementerian Agama additions
-  profilPelajarPancasila: z.object({
-    berimanBertakwa: z.boolean().default(false),
-    mandiri: z.boolean().default(false),
-    bernalarKritis: z.boolean().default(false),
-    kreatif: z.boolean().default(false),
-    bergotongRoyong: z.boolean().default(false),
-    berkebinekaanGlobal: z.boolean().default(false),
-    rahmatanLilAlamin: z.boolean().default(false),
+  
+  // Document Type Selection
+  documentType: z.enum(["RPP", "LDP"]),
+  
+  // Love-Based Curriculum Structure
+  pendekatanPembelajaran: z.enum(["Love-Based", "Holistic", "Character-Building"]),
+  nilaiCinta: z.object({
+    cintaAllah: z.boolean().default(false),
+    cintaRasul: z.boolean().default(false),
+    cintaKeluarga: z.boolean().default(false),
+    cintaSesama: z.boolean().default(false),
+    cintaAlam: z.boolean().default(false),
+    cintaTanahAir: z.boolean().default(false),
   }),
-  modelPembelajaran: z.enum(["PjBL", "PBL", "Discovery", "Inquiry", "Konvensional"]),
-  capaianPembelajaranDetail: z.object({
+  
+  // Learning Outcomes
+  capaianPembelajaran: z.object({
     pengetahuan: z.string().min(1, "Pengetahuan harus diisi").max(500, "Pengetahuan terlalu panjang"),
     keterampilan: z.string().min(1, "Keterampilan harus diisi").max(500, "Keterampilan terlalu panjang"),
     sikap: z.string().min(1, "Sikap harus diisi").max(500, "Sikap terlalu panjang"),
   }),
-  integrasiTIK: z.array(z.string()).min(1, "Pilih minimal 1 integrasi TIK"),
+  
+  // Assessment & Evaluation
   asesmenAutentik: z.array(z.string()).min(1, "Pilih minimal 1 asesmen autentik"),
+  penilaianKarakter: z.array(z.string()).min(1, "Pilih minimal 1 penilaian karakter"),
+  integrasiNilaiIslam: z.array(z.string()).min(1, "Pilih minimal 1 integrasi nilai Islam"),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -62,7 +69,7 @@ const GeneratorForm = () => {
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      satuan: "",
+      satuanPendidikan: "",
       jenjang: "MI",
       kelas: "",
       semester: "Ganjil",
@@ -71,26 +78,33 @@ const GeneratorForm = () => {
       subtema: "",
       alokasi: "2 x 40 menit",
       pertemuan: 1,
-      capaianPembelajaran: "",
       namaGuru: "",
-      // Kurikulum Merdeka Kementerian Agama additions
-      profilPelajarPancasila: {
-        berimanBertakwa: false,
-        mandiri: false,
-        bernalarKritis: false,
-        kreatif: false,
-        bergotongRoyong: false,
-        berkebinekaanGlobal: false,
-        rahmatanLilAlamin: false,
+      
+      // Document Type Selection
+      documentType: "RPP",
+      
+      // Love-Based Curriculum Structure
+      pendekatanPembelajaran: "Love-Based",
+      nilaiCinta: {
+        cintaAllah: false,
+        cintaRasul: false,
+        cintaKeluarga: false,
+        cintaSesama: false,
+        cintaAlam: false,
+        cintaTanahAir: false,
       },
-      modelPembelajaran: "PjBL",
-      capaianPembelajaranDetail: {
+      
+      // Learning Outcomes
+      capaianPembelajaran: {
         pengetahuan: "",
         keterampilan: "",
         sikap: "",
       },
-      integrasiTIK: [],
+      
+      // Assessment & Evaluation
       asesmenAutentik: [],
+      penilaianKarakter: [],
+      integrasiNilaiIslam: [],
     },
   });
 
@@ -149,7 +163,7 @@ const GeneratorForm = () => {
       AnalyticsManager.trackFormSubmission(sanitizedData);
       
       // Generate RPP with sanitized data
-      const generatedRPP = await rppGenerator.generateRPP(sanitizedData);
+              const generatedRPP = await rppGenerator.generateLearningDocument(sanitizedData);
       
       // Store data in simple storage
       SecurityUtils.storage.setItem('formData', JSON.stringify(sanitizedData));
