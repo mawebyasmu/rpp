@@ -145,7 +145,7 @@ const GeneratorForm = () => {
       }
 
       // Security: Basic input sanitization
-      const sanitizedData = SecurityUtils.sanitizeObject(data) as RPPFormData;
+              const sanitizedData = SecurityUtils.sanitizeObject(data) as LearningDocumentFormData;
       
       // Security: Basic validation
       if (!sanitizedData.namaGuru || !sanitizedData.mataPelajaran || !sanitizedData.tema) {
@@ -263,7 +263,7 @@ const GeneratorForm = () => {
                     <div className="grid md:grid-cols-2 gap-4">
                       <FormField
                         control={form.control}
-                        name="satuan"
+                        name="satuanPendidikan"
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel>Satuan Pendidikan</FormLabel>
