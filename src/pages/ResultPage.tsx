@@ -464,7 +464,7 @@ const ResultPage = () => {
       })
     );
 
-    rpp.penilaian.pengetahuan.kisiKisi.forEach((kisi, index) => {
+    (rpp.penilaian?.pengetahuan?.kisiKisi || []).forEach((kisi, index) => {
       children.push(
         new Paragraph({
           text: `${index + 1}. ${kisi}`,
@@ -494,7 +494,7 @@ const ResultPage = () => {
       })
     );
 
-    rpp.penilaian.keterampilan.rubrik.forEach((rubrik, index) => {
+    (rpp.penilaian?.keterampilan?.rubrik || []).forEach((rubrik, index) => {
       children.push(
         new Paragraph({
           text: `${index + 1}. ${rubrik}`,
@@ -519,7 +519,7 @@ const ResultPage = () => {
       })
     );
 
-    rpp.remedialDanPengayaan.remedial.forEach((remedial, index) => {
+    (rpp.remedialDanPengayaan?.remedial || []).forEach((remedial, index) => {
       children.push(
         new Paragraph({
           text: `${index + 1}. ${remedial}`,
@@ -535,7 +535,7 @@ const ResultPage = () => {
       })
     );
 
-    rpp.remedialDanPengayaan.pengayaan.forEach((pengayaan, index) => {
+    (rpp.remedialDanPengayaan?.pengayaan || []).forEach((pengayaan, index) => {
       children.push(
         new Paragraph({
           text: `${index + 1}. ${pengayaan}`,
@@ -553,7 +553,7 @@ const ResultPage = () => {
       })
     );
 
-    rpp.identitas.integrasiNilaiIslam.forEach((nilai, index) => {
+    (rpp.identitas?.integrasiNilaiIslam || []).forEach((nilai, index) => {
       children.push(
         new Paragraph({
           text: `${index + 1}. ${nilai}`,
@@ -572,7 +572,7 @@ const ResultPage = () => {
     );
 
     // Add asesmen autentik if available in the RPP data
-    if (rpp.asesmenAutentik) {
+    if (rpp.asesmenAutentik && Array.isArray(rpp.asesmenAutentik)) {
       rpp.asesmenAutentik.forEach((asesmen, index) => {
         children.push(
           new Paragraph({
@@ -593,9 +593,9 @@ const ResultPage = () => {
     );
 
     // Add nilai cinta activities if available in the RPP data
-    if (rpp.nilaiCinta) {
+    if (rpp.nilaiCinta && typeof rpp.nilaiCinta === 'object') {
       Object.entries(rpp.nilaiCinta).forEach(([key, activities]) => {
-        if (activities && activities.length > 0) {
+        if (activities && Array.isArray(activities) && activities.length > 0) {
           children.push(
             new Paragraph({
               text: `${key}:`,
