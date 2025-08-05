@@ -10,6 +10,8 @@ import LearnMore from "@/pages/LearnMore";
 import DonationPage from "@/pages/DonationPage";
 import IntegrationTest from "@/pages/IntegrationTest";
 import EndToEndTest from "@/pages/EndToEndTest";
+import UserAcceptanceTest from "@/pages/UserAcceptanceTest";
+import DeploymentPrep from "@/pages/DeploymentPrep";
 import NotFound from "@/pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,6 +30,8 @@ const App = () => (
           <Route path="/donation" element={<DonationPage />} />
           <Route path="/integration-test" element={<IntegrationTest />} />
           <Route path="/e2e-test" element={<EndToEndTest />} />
+          <Route path="/uat" element={<UserAcceptanceTest />} />
+          <Route path="/deployment-prep" element={<DeploymentPrep />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
