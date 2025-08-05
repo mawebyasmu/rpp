@@ -8,7 +8,6 @@ import {
   CheckCircle, 
   AlertCircle, 
   Play, 
-  Stop, 
   RefreshCw,
   FileText,
   Heart,
@@ -120,9 +119,14 @@ const IntegrationTest = () => {
       const mockFormData = {
         namaGuru: "Test Guru",
         satuanPendidikan: "MI Test",
+        jenjang: "MI" as const,
+        kelas: "3",
+        semester: "Ganjil" as const,
         mataPelajaran: "Matematika",
         tema: "Bilangan",
         subtema: "Penjumlahan",
+        alokasi: "2 x 40 menit",
+        pertemuan: 1,
         documentType: "RPP" as const,
         nilaiCinta: testData.nilaiCinta,
         pendekatanPembelajaran: testData.pendekatanPembelajaran,
@@ -132,7 +136,8 @@ const IntegrationTest = () => {
           sikap: "Test sikap"
         },
         penilaianKarakter: ["Observasi"],
-        integrasiNilaiIslam: ["Doa"]
+        integrasiNilaiIslam: ["Doa"],
+        asesmenAutentik: ["Observasi Sikap", "Refleksi Diri"]
       };
       
       const validation = ContentValidator.validateFormData(mockFormData);
