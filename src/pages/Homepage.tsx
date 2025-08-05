@@ -37,7 +37,7 @@ const Homepage = () => {
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-4">
-            <h1 className="text-2xl font-bold text-gray-900">Madrasah RPP Wizard</h1>
+            <h1 className="text-2xl font-bold text-gray-900">Perencanaan Pembelajaran KBC</h1>
           </div>
           
           <div className="flex items-center gap-4">
@@ -57,12 +57,12 @@ const Homepage = () => {
             </Badge>
             
             <h1 className="text-5xl font-bold text-gray-900 mb-6">
-              Learning Document Wizard dengan
-              <span className="text-primary"> AI Cerdas</span>
+              Perencanaan Pembelajaran dengan
+              <span className="text-primary"> Kurikulum Berbasis Cinta</span>
             </h1>
             
             <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Generator RPP dan LDP Madrasah yang lengkap dan sesuai Kurikulum Berbasis Cinta 
+              Generator Perencanaan Pembelajaran Madrasah yang lengkap dan sesuai Kurikulum Berbasis Cinta 
               dalam hitungan detik. Didesain khusus untuk guru Madrasah Ibtidaiyah, 
               Tsanawiyah, dan Aliyah.
             </p>
@@ -70,7 +70,7 @@ const Homepage = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Button size="lg" onClick={() => navigate('/generator')} className="gap-2">
                 <Play className="h-5 w-5" />
-                Mulai Buat Dokumen
+                Buat Perencanaan Pembelajaran
               </Button>
               
               <Button variant="outline" size="lg" onClick={() => navigate('/learn-more')} className="gap-2">
@@ -90,7 +90,7 @@ const Homepage = () => {
               </div>
               <CardTitle>Generasi Cepat</CardTitle>
               <CardDescription>
-                RPP lengkap dalam hitungan detik dengan teknologi AI terdepan
+                Perencanaan Pembelajaran lengkap dalam hitungan detik dengan teknologi AI terdepan
               </CardDescription>
             </CardHeader>
           </Card>
@@ -100,9 +100,9 @@ const Homepage = () => {
               <div className="mx-auto w-12 h-12 bg-secondary/10 rounded-lg flex items-center justify-center mb-4">
                 <Shield className="h-6 w-6 text-secondary" />
               </div>
-              <CardTitle>Standar Kurikulum</CardTitle>
+              <CardTitle>Kurikulum Berbasis Cinta</CardTitle>
               <CardDescription>
-                Sesuai dengan standar kurikulum Madrasah (MI, MTs, MA)
+                Sesuai dengan standar Kurikulum Berbasis Cinta Madrasah (MI, MTs, MA)
               </CardDescription>
             </CardHeader>
           </Card>
@@ -144,7 +144,7 @@ const Homepage = () => {
 
         {/* Benefits Section */}
         <div className="mb-16">
-          <h2 className="text-3xl font-bold text-center mb-8">Mengapa Memilih Learning Document Wizard?</h2>
+          <h2 className="text-3xl font-bold text-center mb-8">Mengapa Memilih Perencanaan Pembelajaran KBC?</h2>
           <div className="grid md:grid-cols-2 gap-8">
             <div className="space-y-4">
               <div className="flex items-start gap-3">

@@ -39,7 +39,7 @@ const LearnMore = () => {
           
           <Badge variant="secondary" className="px-4 py-2">
             <Brain className="h-4 w-4 mr-2" />
-            AI-Powered RPP Generator
+            AI-Powered Perencanaan Pembelajaran KBC
           </Badge>
         </div>
 
@@ -48,26 +48,26 @@ const LearnMore = () => {
             Pelajari Selengkapnya
           </h1>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-            Generator RPP dan LDP Madrasah dirancang sebagai alat bantu untuk guru dalam menyusun dokumen pembelajaran yang sesuai standar kurikulum. 
+            Generator Perencanaan Pembelajaran Madrasah dirancang sebagai alat bantu untuk guru dalam menyusun dokumen pembelajaran yang sesuai standar Kurikulum Berbasis Cinta. 
             Meskipun menggunakan teknologi AI, aplikasi ini tetap memerlukan review dan penyesuaian oleh guru sesuai dengan kondisi kelas dan kebutuhan siswa.
           </p>
         </div>
 
-        {/* What is RPP Section */}
+        {/* What is Perencanaan Pembelajaran Section */}
         <Card className="mb-8 border-primary/20 bg-primary/5">
           <CardHeader>
             <CardTitle className="text-2xl flex items-center gap-2">
               <FileText className="h-6 w-6 text-primary" />
-              Apa itu RPP?
+              Apa itu Perencanaan Pembelajaran?
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <p className="text-muted-foreground leading-relaxed">
-              <strong>RPP (Rencana Pelaksanaan Pembelajaran)</strong> adalah dokumen penting yang menjadi panduan guru dalam melaksanakan pembelajaran. 
-              RPP berisi rencana kegiatan pembelajaran yang sistematis dan logis untuk mencapai kompetensi dasar yang telah ditetapkan.
+              <strong>Perencanaan Pembelajaran</strong> adalah dokumen penting yang menjadi panduan guru dalam melaksanakan pembelajaran berbasis Kurikulum Berbasis Cinta. 
+              Dokumen ini berisi rencana kegiatan pembelajaran yang sistematis dan logis untuk mencapai tujuan pembelajaran yang telah ditetapkan dengan mengintegrasikan nilai-nilai cinta.
             </p>
             <p className="text-muted-foreground leading-relaxed">
-              RPP yang baik akan membantu guru dalam:
+              Perencanaan Pembelajaran yang baik akan membantu guru dalam:
             </p>
             <ul className="space-y-2 text-muted-foreground">
               <li className="flex items-start gap-2">
@@ -90,12 +90,12 @@ const LearnMore = () => {
           </CardContent>
         </Card>
 
-        {/* RPP Components Section */}
+        {/* Perencanaan Pembelajaran Components Section */}
         <Card className="mb-8 border-secondary/20 bg-secondary/5">
           <CardHeader>
             <CardTitle className="text-2xl flex items-center gap-2">
               <Target className="h-6 w-6 text-secondary" />
-              Komponen RPP Madrasah
+              Komponen Perencanaan Pembelajaran Madrasah
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -154,63 +154,62 @@ const LearnMore = () => {
           </CardContent>
         </Card>
 
-        {/* What is LDP Section */}
+        {/* Praktik Pedagogis Section */}
         <Card className="mb-8 border-green-200 bg-green-50">
           <CardHeader>
             <CardTitle className="text-2xl flex items-center gap-2">
               <Heart className="h-6 w-6 text-green-600" />
-              Apa itu LDP?
+              Praktik Pedagogis
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <p className="text-muted-foreground leading-relaxed">
-              <strong>LDP (Lembar Dokumen Pembelajaran)</strong> adalah dokumen pembelajaran berbasis cinta yang dirancang khusus untuk Kurikulum Berbasis Cinta. 
-              LDP mengintegrasikan nilai-nilai Islam dan karakter dalam setiap aspek pembelajaran.
+              <strong>Praktik Pedagogis</strong> adalah pendekatan pembelajaran yang mengintegrasikan model, metode, kemitraan, lingkungan, dan pemanfaatan digital dalam satu kesatuan pembelajaran berbasis cinta.
             </p>
             <p className="text-muted-foreground leading-relaxed">
-              LDP yang baik akan membantu guru dalam:
+              Praktik Pedagogis yang baik akan membantu guru dalam:
             </p>
             <ul className="space-y-2 text-muted-foreground">
               <li className="flex items-start gap-2">
                 <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
-                <span>Mengintegrasikan nilai-nilai cinta dalam pembelajaran</span>
+                <span>Mengintegrasikan berbagai model pembelajaran secara efektif</span>
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
-                <span>Mengembangkan karakter siswa secara holistik</span>
+                <span>Membangun kemitraan pembelajaran yang bermakna</span>
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
-                <span>Menciptakan pembelajaran yang bermakna dan menyentuh hati</span>
+                <span>Menciptakan lingkungan pembelajaran yang kondusif</span>
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
-                <span>Membangun hubungan harmonis antara guru dan siswa</span>
+                <span>Memanfaatkan teknologi digital secara optimal</span>
               </li>
             </ul>
           </CardContent>
         </Card>
 
-        {/* LDP Components Section */}
+        {/* Praktik Pedagogis Components Section */}
         <Card className="mb-8 border-green-200 bg-green-50">
           <CardHeader>
             <CardTitle className="text-2xl flex items-center gap-2">
               <Target className="h-6 w-6 text-green-600" />
-              Komponen LDP Madrasah
+              Komponen Praktik Pedagogis
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid md:grid-cols-2 gap-6">
               <div className="space-y-4">
-                <h3 className="font-semibold text-lg">Komponen Wajib:</h3>
+                <h3 className="font-semibold text-lg">Model & Metode:</h3>
                 <ul className="space-y-2 text-muted-foreground">
                   <li className="flex items-start gap-2">
                     <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
-                    <span><strong>Identitas:</strong> Satuan pendidikan, kelas, semester, mata pelajaran</span>
+                    <span><strong>Model Pembelajaran:</strong> PBL, PjBL, Discovery, Inquiry</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
-                    <span><strong>Nilai Cinta:</strong> Integrasi 6 nilai cinta dalam pembelajaran</span>
+                    <span><strong>Metode Pembelajaran:</strong> Diskusi, Wawancara, Presentasi, Praktek</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
@@ -218,36 +217,36 @@ const LearnMore = () => {
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
-                    <span><strong>Capaian Pembelajaran:</strong> Pengetahuan, keterampilan, dan sikap</span>
+                    <span><strong>Nilai Cinta:</strong> Integrasi 6 nilai cinta dalam pembelajaran</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
-                    <span><strong>Penilaian Karakter:</strong> Asesmen perkembangan karakter siswa</span>
+                    <span><strong>Capaian Pembelajaran:</strong> Pengetahuan, keterampilan, dan sikap</span>
                   </li>
                 </ul>
               </div>
               <div className="space-y-4">
-                <h3 className="font-semibold text-lg">Komponen Pendukung:</h3>
+                <h3 className="font-semibold text-lg">Kemitraan & Lingkungan:</h3>
                 <ul className="space-y-2 text-muted-foreground">
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
+                    <span><strong>Kemitraan Pembelajaran:</strong> Tenaga Kesehatan, Masyarakat, Teman Sekelas</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
+                    <span><strong>Lingkungan Pembelajaran:</strong> Tatap Muka, Daring, Hybrid, Outdoor</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
+                    <span><strong>Pemanfaatan Digital:</strong> Internet, Aplikasi Visual, Aplikasi Online</span>
+                  </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
                     <span><strong>Integrasi Nilai Islam:</strong> Nilai-nilai Islam dalam pembelajaran</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
-                    <span><strong>Asesmen Autentik:</strong> Penilaian berbasis proyek dan portofolio</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
-                    <span><strong>Refleksi Pembelajaran:</strong> Evaluasi diri dan pengembangan</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
-                    <span><strong>Kolaborasi Keluarga:</strong> Keterlibatan orang tua dalam pembelajaran</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <CheckCircle className="h-4 w-4 text-green-600 mt-0.5 flex-shrink-0" />
-                    <span><strong>Dokumentasi Cinta:</strong> Catatan perkembangan karakter siswa</span>
+                    <span><strong>Penilaian Karakter:</strong> Asesmen perkembangan karakter siswa</span>
                   </li>
                 </ul>
               </div>
@@ -352,7 +351,7 @@ const LearnMore = () => {
                 </div>
                 <h3 className="font-semibold mb-2">Pilih Jenis Dokumen</h3>
                 <p className="text-sm text-muted-foreground">
-                  Pilih antara RPP (tradisional) atau LDP (berbasis cinta) sesuai kebutuhan
+                  Pilih Perencanaan Pembelajaran berbasis Kurikulum Berbasis Cinta
                 </p>
               </div>
               <div className="text-center">
@@ -436,8 +435,8 @@ const LearnMore = () => {
           <CardContent className="space-y-4">
             <div className="bg-orange-100 p-4 rounded-lg">
               <p className="text-orange-800 leading-relaxed">
-                <strong>Generator RPP Madrasah adalah alat bantu, bukan pengganti keahlian guru.</strong> 
-                Meskipun menggunakan teknologi AI, hasil RPP yang dihasilkan tetap memerlukan review, 
+                <strong>Generator Perencanaan Pembelajaran Madrasah adalah alat bantu, bukan pengganti keahlian guru.</strong> 
+                Meskipun menggunakan teknologi AI, hasil Perencanaan Pembelajaran yang dihasilkan tetap memerlukan review, 
                 penyesuaian, dan improvisasi oleh guru sesuai dengan:
               </p>
             </div>
