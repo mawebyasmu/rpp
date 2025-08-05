@@ -8,7 +8,7 @@ import { Download, ArrowLeft, CheckCircle, Brain, BarChart3 } from "lucide-react
 import RppViewer from "@/components/RppViewer";
 import AdvancedAnalytics from "@/components/AdvancedAnalytics";
 import FeedbackDialog from "@/components/FeedbackDialog";
-import { GeneratedRPP, RPPFormData } from "@/lib/rpp-generator";
+import { GeneratedRPP, LearningDocumentFormData } from "@/lib/rpp-generator";
 import { SecurityUtils } from "@/lib/security";
 import { AnalyticsManager } from "@/lib/analytics";
 import { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, WidthType, Table, TableRow, TableCell, BorderStyle } from "docx";
@@ -16,7 +16,7 @@ import { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, Widt
 const ResultPage = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [formData, setFormData] = useState<RPPFormData | null>(null);
+  const [formData, setFormData] = useState<LearningDocumentFormData | null>(null);
   const [generatedRPP, setGeneratedRPP] = useState<GeneratedRPP | null>(null);
   const [isDownloading, setIsDownloading] = useState(false);
   const [showAnalytics, setShowAnalytics] = useState(false);
