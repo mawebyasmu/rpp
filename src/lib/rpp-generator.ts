@@ -388,6 +388,7 @@ export class RPPGenerator {
     const tema = formData.tema;
     const subtema = formData.subtema;
     const modelPembelajaran = formData.pendekatanPembelajaran;
+    const nilaiCinta = formData.nilaiCinta;
     
     const tujuan = [
       `Siswa mampu memahami konsep dasar ${tema} dalam ${mataPelajaran} dengan benar`,
@@ -397,6 +398,26 @@ export class RPPGenerator {
       `Siswa mampu bekerja sama dalam menyelesaikan tugas terkait ${tema}`,
       `Siswa dapat mengembangkan sikap kreatif dan inovatif dalam pembelajaran ${subtema}`
     ];
+    
+    // Add Love-Based Curriculum objectives based on selected nilai cinta
+    if (nilaiCinta.cintaAllah) {
+      tujuan.push(`Siswa mampu mengintegrasikan nilai cinta kepada Allah dalam pembelajaran ${subtema}`);
+    }
+    if (nilaiCinta.cintaRasul) {
+      tujuan.push(`Siswa mampu meneladani sikap Rasulullah dalam memahami ${tema}`);
+    }
+    if (nilaiCinta.cintaKeluarga) {
+      tujuan.push(`Siswa mampu menerapkan pembelajaran ${subtema} dalam konteks keluarga`);
+    }
+    if (nilaiCinta.cintaSesama) {
+      tujuan.push(`Siswa mampu berkolaborasi dengan sesama dalam pembelajaran ${tema}`);
+    }
+    if (nilaiCinta.cintaAlam) {
+      tujuan.push(`Siswa mampu menghargai dan menjaga alam dalam konteks ${subtema}`);
+    }
+    if (nilaiCinta.cintaTanahAir) {
+      tujuan.push(`Siswa mampu mengaplikasikan ${tema} untuk kemajuan tanah air`);
+    }
     
     // Add model-specific objectives
     if (modelPembelajaran === "Love-Based") {
