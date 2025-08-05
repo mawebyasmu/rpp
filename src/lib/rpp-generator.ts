@@ -223,11 +223,8 @@ export class RPPGenerator {
         integrasiNilaiIslam: enhancedContent.integrasiNilaiIslam
       },
 
-              // Removed: kompetensiInti (no longer used in Love-Based Curriculum)
-
-      kompetensiDasar: enhancedContent.kompetensiDasar,
-
-      indikator: enhancedContent.indikator,
+              // Love-Based Curriculum structure
+      capaianPembelajaran: formData.capaianPembelajaran,
 
       tujuanPembelajaran: enhancedContent.tujuanPembelajaran,
 
@@ -260,10 +257,11 @@ export class RPPGenerator {
 
       remedialDanPengayaan: enhancedContent.remedialDanPengayaan,
 
-      // Phase 3 additions
-      personalizedRecommendations: personalizedRecommendations,
-      asesmenAutentik: enhancedContent.asesmenAutentik,
-      profilPelajarPancasila: enhancedContent.profilPelajarPancasila
+      // Love-Based Curriculum additions
+      nilaiCinta: enhancedContent.nilaiCinta || {},
+      aspekKarakter: enhancedContent.aspekKarakter || [],
+      asesmenAutentik: enhancedContent.asesmenAutentik || [],
+      penilaianKarakter: enhancedContent.penilaianKarakter || []
     };
 
     console.log("Enhanced RPP with Phase 3 features generated successfully:", rpp);
@@ -282,16 +280,16 @@ export class RPPGenerator {
       await new Promise(resolve => setTimeout(resolve, 1000));
       
       return {
-        kompetensiDasar: this.generateKompetensiDasar(formData),
-        indikator: this.generateIndikator(formData),
         tujuanPembelajaran: this.generateTujuanPembelajaran(formData),
         materiPembelajaran: this.generateMateriPembelajaran(formData),
         langkahPembelajaran: this.generateLangkahPembelajaran(formData),
         penilaian: this.generatePenilaian(formData),
         remedialDanPengayaan: this.generateRemedialPengayaan(formData),
-        integrasiTIK: this.generateIntegrasiTIK(formData),
+        integrasiNilaiIslam: this.generateIslamicIntegration(formData),
         asesmenAutentik: this.generateAsesmenAutentik(formData),
-        profilPelajarPancasila: this.generateProfilPelajarPancasila(formData)
+        nilaiCinta: this.generateNilaiCinta(formData.nilaiCinta),
+        aspekKarakter: this.generateCharacterDevelopment(formData),
+        penilaianKarakter: this.generateCharacterDevelopment(formData)
       };
     } catch (error) {
       console.error("Error in enhanced AI generation:", error);

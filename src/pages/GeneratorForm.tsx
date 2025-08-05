@@ -179,24 +179,30 @@ const GeneratorForm = () => {
       }
 
       setIsLoading(true);
+      console.log('Starting document generation...'); // Debug log
       
       // Analytics: Track form submission
       AnalyticsManager.trackFormSubmission(sanitizedData);
       
       // Generate document with sanitized data
+      console.log('Calling generateLearningDocument...'); // Debug log
       const generatedRPP = await rppGenerator.generateLearningDocument(sanitizedData);
+      console.log('Document generated successfully:', generatedRPP); // Debug log
       
       // Store data in simple storage
+      console.log('Storing data in storage...'); // Debug log
       SecurityUtils.storage.setItem('formData', JSON.stringify(sanitizedData));
       SecurityUtils.storage.setItem('generatedRPP', JSON.stringify(generatedRPP));
       
       // Log activity for public app
-      SecurityUtils.debugLog('RPP generated successfully', { 
+      SecurityUtils.debugLog('Document generated successfully', { 
         mataPelajaran: sanitizedData.mataPelajaran,
         tema: sanitizedData.tema,
+        documentType: sanitizedData.documentType,
         timestamp: new Date().toISOString()
       });
       
+      console.log('Navigating to result page...'); // Debug log
       navigate('/result');
     } catch (error) {
       console.error('Form submission error:', error);
