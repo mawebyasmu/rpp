@@ -151,13 +151,13 @@ const ResultPage = () => {
         new TableRow({
           children: [
             new TableCell({ children: [new Paragraph({ text: "Nilai Cinta" })] }),
-            new TableCell({ children: [new Paragraph({ text: rpp.identitas.nilaiCinta.join(", ") })] })
+            new TableCell({ children: [new Paragraph({ text: (rpp.identitas.nilaiCinta || []).join(", ") })] })
           ]
         }),
         new TableRow({
           children: [
             new TableCell({ children: [new Paragraph({ text: "Integrasi Nilai Islam" })] }),
-            new TableCell({ children: [new Paragraph({ text: rpp.identitas.integrasiNilaiIslam.join(", ") })] })
+            new TableCell({ children: [new Paragraph({ text: (rpp.identitas.integrasiNilaiIslam || []).join(", ") })] })
           ]
         })
       ]
@@ -206,7 +206,7 @@ const ResultPage = () => {
       })
     );
 
-    rpp.tujuanPembelajaran.forEach((tujuan, index) => {
+    (rpp.tujuanPembelajaran || []).forEach((tujuan, index) => {
       children.push(
         new Paragraph({
           text: `${index + 1}. ${tujuan}`,
@@ -231,7 +231,7 @@ const ResultPage = () => {
       })
     );
 
-    rpp.materiPembelajaran.faktual.forEach((materi, index) => {
+    (rpp.materiPembelajaran?.faktual || []).forEach((materi, index) => {
       children.push(
         new Paragraph({
           text: `${index + 1}. ${materi}`,
@@ -247,7 +247,7 @@ const ResultPage = () => {
       })
     );
 
-    rpp.materiPembelajaran.konseptual.forEach((materi, index) => {
+    (rpp.materiPembelajaran?.konseptual || []).forEach((materi, index) => {
       children.push(
         new Paragraph({
           text: `${index + 1}. ${materi}`,
@@ -263,7 +263,7 @@ const ResultPage = () => {
       })
     );
 
-    rpp.materiPembelajaran.prosedural.forEach((materi, index) => {
+    (rpp.materiPembelajaran?.prosedural || []).forEach((materi, index) => {
       children.push(
         new Paragraph({
           text: `${index + 1}. ${materi}`,
@@ -279,7 +279,7 @@ const ResultPage = () => {
       })
     );
 
-    rpp.materiPembelajaran.metakognitif.forEach((materi, index) => {
+    (rpp.materiPembelajaran?.metakognitif || []).forEach((materi, index) => {
       children.push(
         new Paragraph({
           text: `${index + 1}. ${materi}`,
@@ -297,7 +297,7 @@ const ResultPage = () => {
       })
     );
 
-    rpp.metodePembelajaran.forEach((metode, index) => {
+    (rpp.metodePembelajaran || []).forEach((metode, index) => {
       children.push(
         new Paragraph({
           text: `${index + 1}. ${metode}`,
@@ -322,7 +322,7 @@ const ResultPage = () => {
       })
     );
 
-    rpp.mediaDanSumber.media.forEach((media, index) => {
+    (rpp.mediaDanSumber?.media || []).forEach((media, index) => {
       children.push(
         new Paragraph({
           text: `${index + 1}. ${media}`,
@@ -338,7 +338,7 @@ const ResultPage = () => {
       })
     );
 
-    rpp.mediaDanSumber.sumberBelajar.forEach((sumber, index) => {
+    (rpp.mediaDanSumber?.sumberBelajar || []).forEach((sumber, index) => {
       children.push(
         new Paragraph({
           text: `${index + 1}. ${sumber}`,
@@ -363,7 +363,7 @@ const ResultPage = () => {
       })
     );
 
-    rpp.langkahPembelajaran.pendahuluan.kegiatan.forEach((kegiatan, index) => {
+    (rpp.langkahPembelajaran?.pendahuluan?.kegiatan || []).forEach((kegiatan, index) => {
       children.push(
         new Paragraph({
           text: `${index + 1}. ${kegiatan}`,
@@ -379,7 +379,7 @@ const ResultPage = () => {
       })
     );
 
-    rpp.langkahPembelajaran.inti.kegiatan.forEach((kegiatan, index) => {
+    (rpp.langkahPembelajaran?.inti?.kegiatan || []).forEach((kegiatan, index) => {
       children.push(
         new Paragraph({
           text: `${index + 1}. ${kegiatan}`,
@@ -395,7 +395,7 @@ const ResultPage = () => {
       })
     );
 
-    rpp.langkahPembelajaran.penutup.kegiatan.forEach((kegiatan, index) => {
+    (rpp.langkahPembelajaran?.penutup?.kegiatan || []).forEach((kegiatan, index) => {
       children.push(
         new Paragraph({
           text: `${index + 1}. ${kegiatan}`,
@@ -434,7 +434,7 @@ const ResultPage = () => {
       })
     );
 
-    rpp.penilaian.sikap.rubrik.forEach((rubrik, index) => {
+    (rpp.penilaian?.sikap?.rubrik || []).forEach((rubrik, index) => {
       children.push(
         new Paragraph({
           text: `${index + 1}. ${rubrik}`,
