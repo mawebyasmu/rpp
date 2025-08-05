@@ -1,6 +1,7 @@
-// Interface untuk data form RPP
-export interface RPPFormData {
-  satuan: string;
+// Interface untuk data form Learning Document - Updated for Love-Based Curriculum
+export interface LearningDocumentFormData {
+  // Basic Identity
+  satuanPendidikan: string;
   jenjang: "MI" | "MTs" | "MA";
   kelas: string;
   semester: "Ganjil" | "Genap";
@@ -9,29 +10,36 @@ export interface RPPFormData {
   subtema: string;
   alokasi: string;
   pertemuan: number;
-  capaianPembelajaran: string;
   namaGuru: string;
-  // Kurikulum Merdeka Kementerian Agama additions
-  profilPelajarPancasila: {
-    berimanBertakwa: boolean;
-    mandiri: boolean;
-    bernalarKritis: boolean;
-    kreatif: boolean;
-    bergotongRoyong: boolean;
-    berkebinekaanGlobal: boolean;
-    rahmatanLilAlamin: boolean;
+  
+  // Document Type Selection
+  documentType: "RPP" | "LDP";
+  
+  // Love-Based Curriculum Structure
+  pendekatanPembelajaran: "Love-Based" | "Holistic" | "Character-Building";
+  nilaiCinta: {
+    cintaAllah: boolean;
+    cintaRasul: boolean;
+    cintaKeluarga: boolean;
+    cintaSesama: boolean;
+    cintaAlam: boolean;
+    cintaTanahAir: boolean;
   };
-  modelPembelajaran: "PjBL" | "PBL" | "Discovery" | "Inquiry" | "Konvensional";
-  capaianPembelajaranDetail: {
+  
+  // Learning Outcomes
+  capaianPembelajaran: {
     pengetahuan: string;
     keterampilan: string;
     sikap: string;
   };
-  integrasiTIK: string[];
+  
+  // Assessment & Evaluation
   asesmenAutentik: string[];
+  penilaianKarakter: string[];
+  integrasiNilaiIslam: string[];
 }
 
-// Interface untuk hasil RPP yang dihasilkan
+// Interface untuk hasil RPP yang dihasilkan - Updated for Love-Based Curriculum
 export interface GeneratedRPP {
   identitas: {
     satuan: string;
@@ -43,32 +51,36 @@ export interface GeneratedRPP {
     alokasi: string;
     pertemuan: number;
     namaGuru: string;
-    // Kurikulum Merdeka Kementerian Agama additions
-    modelPembelajaran: string;
-    profilPelajarPancasila: string[];
-    integrasiTIK: string[];
+    pendekatanPembelajaran: string;
+    nilaiCinta: string[];
+    integrasiNilaiIslam: string[];
   };
-  kompetensiInti: string[];
-  kompetensiDasar: {
+  
+  // Removed: kompetensiInti, kompetensiDasar, indikator
+  // Added: Love-Based Curriculum structure
+  
+  capaianPembelajaran: {
     pengetahuan: string;
     keterampilan: string;
+    sikap: string;
   };
-  indikator: {
-    pengetahuan: string[];
-    keterampilan: string[];
-  };
+  
   tujuanPembelajaran: string[];
+  
   materiPembelajaran: {
     faktual: string[];
     konseptual: string[];
     prosedural: string[];
     metakognitif: string[];
   };
+  
   metodePembelajaran: string[];
+  
   mediaDanSumber: {
     media: string[];
     sumberBelajar: string[];
   };
+  
   langkahPembelajaran: {
     pendahuluan: {
       waktu: string;
@@ -83,6 +95,7 @@ export interface GeneratedRPP {
       kegiatan: string[];
     };
   };
+  
   penilaian: {
     sikap: {
       teknik: string;
@@ -99,35 +112,31 @@ export interface GeneratedRPP {
       instrumen: string;
       rubrik: string[];
     };
+    karakter: {
+      teknik: string;
+      instrumen: string;
+      rubrik: string[];
+    };
   };
+  
   remedialDanPengayaan: {
     remedial: string[];
     pengayaan: string[];
   };
-  // Phase 3 additions
-  personalizedRecommendations?: {
-    learningStyle: string;
-    difficultyLevel: string;
-    technologyLevel: string;
-    timeAllocation: {
-      pendahuluan: string;
-      inti: string;
-      penutup: string;
-    };
-    assessmentStrategy: string[];
-    differentiationStrategy: {
-      content: string[];
-      process: string[];
-      product: string[];
-      environment: string[];
-    };
-    enrichmentActivities: string[];
-    remedialStrategies: string[];
-    collaborationOpportunities: string[];
-    realWorldConnections: string[];
+  
+  // Love-Based Curriculum additions
+  nilaiCinta?: {
+    cintaAllah: string[];
+    cintaRasul: string[];
+    cintaKeluarga: string[];
+    cintaSesama: string[];
+    cintaAlam: string[];
+    cintaTanahAir: string[];
   };
+  
+  aspekKarakter?: string[];
   asesmenAutentik?: string[];
-  profilPelajarPancasila?: string[];
+  penilaianKarakter?: string[];
 }
 
 // Deep Learning RPP Generator Class
@@ -152,7 +161,7 @@ export class RPPGenerator {
   }
 
   // Generate comprehensive RPP using enhanced AI approach with Phase 3 features
-  async generateRPP(formData: RPPFormData): Promise<GeneratedRPP> {
+  async generateLearningDocument(formData: LearningDocumentFormData): Promise<GeneratedRPP> {
     console.log("Starting enhanced RPP generation with Phase 3 features...");
     
     // Add small delay to show loading state, then generate quickly
@@ -167,7 +176,7 @@ export class RPPGenerator {
     // Construct complete RPP based on Kurikulum Merdeka Kementerian Agama with Phase 3
     const rpp: GeneratedRPP = {
       identitas: {
-        satuan: formData.satuan,
+        satuan: formData.satuanPendidikan,
         kelas: formData.kelas,
         semester: formData.semester,
         mataPelajaran: formData.mataPelajaran,
@@ -176,10 +185,10 @@ export class RPPGenerator {
         alokasi: formData.alokasi,
         pertemuan: formData.pertemuan,
         namaGuru: formData.namaGuru,
-        // Kurikulum Merdeka Kementerian Agama additions
-        modelPembelajaran: formData.modelPembelajaran,
-        profilPelajarPancasila: this.formatProfilPelajar(formData.profilPelajarPancasila),
-        integrasiTIK: enhancedContent.integrasiTIK
+        // Love-Based Curriculum additions
+        pendekatanPembelajaran: formData.pendekatanPembelajaran,
+        nilaiCinta: this.formatNilaiCinta(formData.nilaiCinta),
+        integrasiNilaiIslam: enhancedContent.integrasiNilaiIslam
       },
 
       kompetensiInti: this.getKompetensiInti(formData.jenjang),
@@ -1194,6 +1203,18 @@ export class RPPGenerator {
       langkahPembelajaran: this.generateLearningSteps(formData),
       penilaian: this.generateAssessment(formData)
     };
+  }
+
+  // Format nilai cinta for the identitas section
+  private formatNilaiCinta(nilaiCinta: { [key: string]: boolean }): string[] {
+    const formattedNilai: string[] = [];
+    if (nilaiCinta.cintaAllah) formattedNilai.push("Cinta kepada Allah SWT");
+    if (nilaiCinta.cintaRasul) formattedNilai.push("Cinta kepada Rasulullah SAW");
+    if (nilaiCinta.cintaKeluarga) formattedNilai.push("Cinta kepada Keluarga");
+    if (nilaiCinta.cintaSesama) formattedNilai.push("Cinta kepada Sesama");
+    if (nilaiCinta.cintaAlam) formattedNilai.push("Cinta kepada Alam");
+    if (nilaiCinta.cintaTanahAir) formattedNilai.push("Cinta kepada Tanah Air");
+    return formattedNilai;
   }
 
   // Format profil pelajar Pancasila for the identitas section

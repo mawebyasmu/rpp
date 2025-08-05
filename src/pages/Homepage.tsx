@@ -57,20 +57,20 @@ const Homepage = () => {
             </Badge>
             
             <h1 className="text-5xl font-bold text-gray-900 mb-6">
-              Buat RPP Madrasah dengan
+              Learning Document Wizard dengan
               <span className="text-primary"> AI Cerdas</span>
             </h1>
             
             <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Rencana Pelaksanaan Pembelajaran (RPP) yang lengkap dan sesuai standar 
-              kurikulum Madrasah dalam hitungan detik. Didesain khusus untuk guru 
-              Madrasah Ibtidaiyah, Tsanawiyah, dan Aliyah.
+              Generator RPP dan LDP Madrasah yang lengkap dan sesuai Kurikulum Berbasis Cinta 
+              dalam hitungan detik. Didesain khusus untuk guru Madrasah Ibtidaiyah, 
+              Tsanawiyah, dan Aliyah.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Button size="lg" onClick={() => navigate('/generator')} className="gap-2">
                 <Play className="h-5 w-5" />
-                Mulai Buat RPP
+                Mulai Buat Dokumen
               </Button>
               
               <Button variant="outline" size="lg" onClick={() => navigate('/learn-more')} className="gap-2">
@@ -144,7 +144,7 @@ const Homepage = () => {
 
         {/* Benefits Section */}
         <div className="mb-16">
-          <h2 className="text-3xl font-bold text-center mb-8">Mengapa Memilih Madrasah RPP Wizard?</h2>
+          <h2 className="text-3xl font-bold text-center mb-8">Mengapa Memilih Learning Document Wizard?</h2>
           <div className="grid md:grid-cols-2 gap-8">
             <div className="space-y-4">
               <div className="flex items-start gap-3">
@@ -210,9 +210,9 @@ const Homepage = () => {
 
         {/* Footer Placeholder */}
         <div className="text-center py-8 border-t mt-8">
-          <p className="text-muted-foreground text-sm">
-            © 2025 Madrasah RPP Wizard. Dibuat dengan ❤️ untuk guru Madrasah by AzkaCoding.
-          </p>
+                         <p className="text-muted-foreground text-sm">
+                 © 2025 Learning Document Wizard. Dibuat dengan ❤️ untuk guru Madrasah by AzkaCoding.
+               </p>
           <div className="flex justify-center gap-4 mt-4">
             <Button variant="ghost" size="sm" onClick={() => navigate('/learn-more')}>
               Pelajari Selengkapnya
