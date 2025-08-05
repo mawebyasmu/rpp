@@ -471,15 +471,15 @@ const LearnMore = () => {
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="space-y-4">
-              <h3 className="font-semibold">Apakah RPP yang dihasilkan sudah sesuai standar?</h3>
+              <h3 className="font-semibold">Apakah Perencanaan Pembelajaran yang dihasilkan sudah sesuai standar?</h3>
               <p className="text-muted-foreground">
-                Ya, RPP yang dihasilkan mengikuti standar kurikulum Madrasah terbaru. Namun tetap memerlukan review dan penyesuaian oleh guru.
+                Ya, Perencanaan Pembelajaran yang dihasilkan mengikuti standar Kurikulum Berbasis Cinta Madrasah terbaru. Namun tetap memerlukan review dan penyesuaian oleh guru.
               </p>
             </div>
             <div className="space-y-4">
-              <h3 className="font-semibold">Berapa lama waktu yang dibutuhkan untuk generate RPP?</h3>
+              <h3 className="font-semibold">Berapa lama waktu yang dibutuhkan untuk generate Perencanaan Pembelajaran?</h3>
               <p className="text-muted-foreground">
-                Proses generate RPP memakan waktu sekitar 30-60 detik, tergantung kompleksitas dan detail yang diminta.
+                Proses generate Perencanaan Pembelajaran memakan waktu sekitar 30-60 detik, tergantung kompleksitas dan detail yang diminta.
               </p>
             </div>
             <div className="space-y-4">
@@ -491,7 +491,7 @@ const LearnMore = () => {
             <div className="space-y-4">
               <h3 className="font-semibold">Apakah data yang saya input akan disimpan?</h3>
               <p className="text-muted-foreground">
-                Data hanya disimpan sementara di browser Anda untuk keperluan generate RPP. Tidak ada data yang dikirim ke server.
+                Data hanya disimpan sementara di browser Anda untuk keperluan generate Perencanaan Pembelajaran. Tidak ada data yang dikirim ke server.
               </p>
             </div>
           </CardContent>
@@ -499,9 +499,9 @@ const LearnMore = () => {
 
         {/* CTA Section */}
         <div className="text-center">
-          <h2 className="text-3xl font-bold mb-4">Siap Mencoba Generator RPP & LDP?</h2>
+          <h2 className="text-3xl font-bold mb-4">Siap Mencoba Generator Perencanaan Pembelajaran KBC?</h2>
           <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Mulai buat RPP dan LDP berkualitas untuk Madrasah Anda sekarang. Gratis dan mudah digunakan!
+            Mulai buat Perencanaan Pembelajaran berkualitas berbasis Kurikulum Berbasis Cinta untuk Madrasah Anda sekarang. Gratis dan mudah digunakan!
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button 
@@ -510,7 +510,7 @@ const LearnMore = () => {
               onClick={() => navigate('/generator')}
             >
               <FileText className="mr-2 h-5 w-5" />
-              Mulai Buat Dokumen
+              Mulai Buat Perencanaan Pembelajaran
             </Button>
             <Button 
               variant="outline" 
