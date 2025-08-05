@@ -57,75 +57,58 @@ const RppViewer = ({ rpp }: RppViewerProps) => {
         </CardContent>
       </Card>
 
-      {/* Kompetensi Inti */}
+      {/* Capaian Pembelajaran */}
       <Card className="shadow-lg border-0 bg-white/90 backdrop-blur-sm">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Target className="h-5 w-5 text-primary" />
-            Kompetensi Inti (KI)
+            Capaian Pembelajaran (CP)
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
-            {rpp.kompetensiInti.map((ki, index) => (
-              <div key={index} className="p-3 bg-muted/50 rounded-lg">
-                <p className="text-sm leading-relaxed">{ki}</p>
-              </div>
-            ))}
+            <div className="p-3 bg-muted/50 rounded-lg">
+              <p className="text-sm font-medium text-primary mb-1">Pengetahuan:</p>
+              <p className="text-sm leading-relaxed">{rpp.capaianPembelajaran.pengetahuan}</p>
+            </div>
+            <div className="p-3 bg-muted/50 rounded-lg">
+              <p className="text-sm font-medium text-accent-foreground mb-1">Keterampilan:</p>
+              <p className="text-sm leading-relaxed">{rpp.capaianPembelajaran.keterampilan}</p>
+            </div>
+            <div className="p-3 bg-muted/50 rounded-lg">
+              <p className="text-sm font-medium text-green-600 mb-1">Sikap:</p>
+              <p className="text-sm leading-relaxed">{rpp.capaianPembelajaran.sikap}</p>
+            </div>
           </div>
         </CardContent>
       </Card>
 
-      {/* Kompetensi Dasar */}
+      {/* Pendekatan Pembelajaran */}
       <Card className="shadow-lg border-0 bg-white/90 backdrop-blur-sm">
         <CardHeader>
-          <CardTitle>Kompetensi Dasar (KD)</CardTitle>
+          <CardTitle className="flex items-center gap-2">
+            <Users className="h-5 w-5 text-primary" />
+            Pendekatan Pembelajaran
+          </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <div>
-            <h4 className="font-semibold text-primary mb-2">KD Pengetahuan:</h4>
-            <p className="text-sm bg-primary/5 p-3 rounded-lg">{rpp.kompetensiDasar.pengetahuan}</p>
-          </div>
-          <div>
-            <h4 className="font-semibold text-accent-foreground mb-2">KD Keterampilan:</h4>
-            <p className="text-sm bg-accent/10 p-3 rounded-lg">{rpp.kompetensiDasar.keterampilan}</p>
+        <CardContent>
+          <div className="p-3 bg-primary/5 rounded-lg">
+            <p className="text-sm leading-relaxed">{rpp.identitas.pendekatanPembelajaran}</p>
           </div>
         </CardContent>
       </Card>
 
-      {/* Indikator Pencapaian Kompetensi */}
+      {/* Nilai Cinta */}
       <Card className="shadow-lg border-0 bg-white/90 backdrop-blur-sm">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <CheckCircle className="h-5 w-5 text-primary" />
-            Indikator Pencapaian Kompetensi
+            Nilai Cinta
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-6">
-          <div>
-            <h4 className="font-semibold text-primary mb-3">Indikator Pengetahuan:</h4>
-            <ul className="space-y-2">
-              {rpp.indikator.pengetahuan.map((indikator, index) => (
-                <li key={index} className="flex items-start gap-2">
-                  <span className="text-primary text-sm mt-1">•</span>
-                  <span className="text-sm">{indikator}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-          
-          <Separator />
-          
-          <div>
-            <h4 className="font-semibold text-accent-foreground mb-3">Indikator Keterampilan:</h4>
-            <ul className="space-y-2">
-              {rpp.indikator.keterampilan.map((indikator, index) => (
-                <li key={index} className="flex items-start gap-2">
-                  <span className="text-accent-foreground text-sm mt-1">•</span>
-                  <span className="text-sm">{indikator}</span>
-                </li>
-              ))}
-            </ul>
+        <CardContent>
+          <div className="p-3 bg-primary/5 rounded-lg">
+            <p className="text-sm leading-relaxed">{(rpp.identitas.nilaiCinta || []).join(", ")}</p>
           </div>
         </CardContent>
       </Card>
@@ -140,7 +123,7 @@ const RppViewer = ({ rpp }: RppViewerProps) => {
         </CardHeader>
         <CardContent>
           <ul className="space-y-3">
-            {rpp.tujuanPembelajaran.map((tujuan, index) => (
+            {(rpp.tujuanPembelajaran || []).map((tujuan, index) => (
               <li key={index} className="flex items-start gap-3 p-3 bg-accent/10 rounded-lg">
                 <CheckCircle className="h-4 w-4 text-accent mt-1 flex-shrink-0" />
                 <span className="text-sm leading-relaxed">{tujuan}</span>
@@ -163,7 +146,7 @@ const RppViewer = ({ rpp }: RppViewerProps) => {
             <div>
               <h4 className="font-semibold text-primary mb-3">Faktual:</h4>
               <ul className="space-y-1">
-                {rpp.materiPembelajaran.faktual.map((materi, index) => (
+                {(rpp.materiPembelajaran?.faktual || []).map((materi, index) => (
                   <li key={index} className="text-sm flex items-start gap-2">
                     <span className="text-primary">•</span>
                     <span>{materi}</span>
@@ -175,7 +158,7 @@ const RppViewer = ({ rpp }: RppViewerProps) => {
             <div>
               <h4 className="font-semibold text-primary mb-3">Konseptual:</h4>
               <ul className="space-y-1">
-                {rpp.materiPembelajaran.konseptual.map((materi, index) => (
+                {(rpp.materiPembelajaran?.konseptual || []).map((materi, index) => (
                   <li key={index} className="text-sm flex items-start gap-2">
                     <span className="text-primary">•</span>
                     <span>{materi}</span>
@@ -187,7 +170,7 @@ const RppViewer = ({ rpp }: RppViewerProps) => {
             <div>
               <h4 className="font-semibold text-accent-foreground mb-3">Prosedural:</h4>
               <ul className="space-y-1">
-                {rpp.materiPembelajaran.prosedural.map((materi, index) => (
+                {(rpp.materiPembelajaran?.prosedural || []).map((materi, index) => (
                   <li key={index} className="text-sm flex items-start gap-2">
                     <span className="text-accent-foreground">•</span>
                     <span>{materi}</span>
@@ -199,7 +182,7 @@ const RppViewer = ({ rpp }: RppViewerProps) => {
             <div>
               <h4 className="font-semibold text-accent-foreground mb-3">Metakognitif:</h4>
               <ul className="space-y-1">
-                {rpp.materiPembelajaran.metakognitif.map((materi, index) => (
+                {(rpp.materiPembelajaran?.metakognitif || []).map((materi, index) => (
                   <li key={index} className="text-sm flex items-start gap-2">
                     <span className="text-accent-foreground">•</span>
                     <span>{materi}</span>
@@ -221,7 +204,7 @@ const RppViewer = ({ rpp }: RppViewerProps) => {
         </CardHeader>
         <CardContent>
           <div className="flex flex-wrap gap-2">
-            {rpp.metodePembelajaran.map((metode, index) => (
+            {(rpp.metodePembelajaran || []).map((metode, index) => (
               <Badge key={index} variant="secondary" className="text-sm px-3 py-1">
                 {metode}
               </Badge>
@@ -239,7 +222,7 @@ const RppViewer = ({ rpp }: RppViewerProps) => {
           <div>
             <h4 className="font-semibold text-primary mb-3">Media Pembelajaran:</h4>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-              {rpp.mediaDanSumber.media.map((media, index) => (
+              {(rpp.mediaDanSumber?.media || []).map((media, index) => (
                 <div key={index} className="flex items-center gap-2 text-sm">
                   <CheckCircle className="h-3 w-3 text-primary" />
                   <span>{media}</span>
@@ -253,7 +236,7 @@ const RppViewer = ({ rpp }: RppViewerProps) => {
           <div>
             <h4 className="font-semibold text-accent-foreground mb-3">Sumber Belajar:</h4>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-              {rpp.mediaDanSumber.sumberBelajar.map((sumber, index) => (
+              {(rpp.mediaDanSumber?.sumberBelajar || []).map((sumber, index) => (
                 <div key={index} className="flex items-center gap-2 text-sm">
                   <CheckCircle className="h-3 w-3 text-accent-foreground" />
                   <span>{sumber}</span>
