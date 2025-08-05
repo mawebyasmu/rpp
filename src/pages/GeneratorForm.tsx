@@ -24,6 +24,7 @@ import { DocumentTypeSelector } from "@/components/ui/document-type-selector";
 const formSchema = z.object({
   satuanPendidikan: z.string().min(1, "Satuan pendidikan harus diisi").max(100, "Satuan pendidikan terlalu panjang"),
   jenjang: z.enum(["MI", "MTs", "MA"]),
+  fase: z.string().min(1, "Fase harus diisi").max(10, "Fase terlalu panjang"),
   kelas: z.string().min(1, "Kelas harus diisi").max(10, "Kelas terlalu panjang"),
   semester: z.enum(["Ganjil", "Genap"]),
   mataPelajaran: z.string().min(1, "Mata pelajaran harus diisi").max(100, "Mata pelajaran terlalu panjang"),
@@ -58,6 +59,13 @@ const formSchema = z.object({
   asesmenAutentik: z.array(z.string()).min(1, "Pilih minimal 1 asesmen autentik"),
   penilaianKarakter: z.array(z.string()).optional().default([]),
   integrasiNilaiIslam: z.array(z.string()).optional().default([]),
+  
+  // Praktik Pedagogis (New Section)
+  modelPembelajaran: z.array(z.string()).optional().default([]),
+  metodePembelajaran: z.array(z.string()).optional().default([]),
+  kemitraanPembelajaran: z.array(z.string()).optional().default([]),
+  lingkunganPembelajaran: z.array(z.string()).optional().default([]),
+  pemanfaatanDigital: z.array(z.string()).optional().default([]),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -72,6 +80,7 @@ const GeneratorForm = () => {
     defaultValues: {
       satuanPendidikan: "",
       jenjang: "MI",
+      fase: "",
       kelas: "",
       semester: "Ganjil",
       mataPelajaran: "",
@@ -106,6 +115,13 @@ const GeneratorForm = () => {
       asesmenAutentik: [],
       penilaianKarakter: [],
       integrasiNilaiIslam: [],
+      
+      // Praktik Pedagogis (New Section)
+      modelPembelajaran: [],
+      metodePembelajaran: [],
+      kemitraanPembelajaran: [],
+      lingkunganPembelajaran: [],
+      pemanfaatanDigital: [],
     },
   });
 
@@ -346,6 +362,47 @@ const GeneratorForm = () => {
                               </FormControl>
                               <SelectContent>
                                 {jenjangOptions.map((option) => (
+                                  <SelectItem key={option.value} value={option.value}>
+                                    {option.label}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <FormField
+                        control={form.control}
+                        name="fase"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Fase</FormLabel>
+                            <FormControl>
+                              <Input placeholder="Contoh: A, B, C, D, E, F" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      
+                      <FormField
+                        control={form.control}
+                        name="kelas"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Kelas</FormLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                              <FormControl>
+                                <SelectTrigger>
+                                  <SelectValue placeholder="Pilih kelas..." />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                {getKelasOptions(form.watch("jenjang")).map((option) => (
                                   <SelectItem key={option.value} value={option.value}>
                                     {option.label}
                                   </SelectItem>
@@ -770,12 +827,381 @@ const GeneratorForm = () => {
                   </CardContent>
                 </Card>
 
+                {/* Praktik Pedagogis */}
+                <Card className="border-primary/20 bg-primary/5">
+                  <CardHeader className="pb-4">
+                    <CardTitle className="text-lg flex items-center gap-2">
+                      <Users className="h-5 w-5 text-primary" />
+                      Praktik Pedagogis
+                    </CardTitle>
+                    <CardDescription>
+                      Konfigurasi pendekatan pembelajaran dan kemitraan
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <FormField
+                      control={form.control}
+                      name="modelPembelajaran"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Model Pembelajaran</FormLabel>
+                          <FormControl>
+                            <div className="grid grid-cols-2 gap-2">
+                              <div className="flex items-center space-x-2">
+                                <Checkbox 
+                                  id="pbl" 
+                                  checked={field.value.includes("PBL")} 
+                                  onCheckedChange={(checked) => {
+                                    if (checked) {
+                                      field.onChange([...field.value, "PBL"]);
+                                    } else {
+                                      field.onChange(field.value.filter(item => item !== "PBL"));
+                                    }
+                                  }} 
+                                />
+                                <Label htmlFor="pbl">PBL (Problem Based Learning)</Label>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <Checkbox 
+                                  id="pjbl" 
+                                  checked={field.value.includes("PjBL")} 
+                                  onCheckedChange={(checked) => {
+                                    if (checked) {
+                                      field.onChange([...field.value, "PjBL"]);
+                                    } else {
+                                      field.onChange(field.value.filter(item => item !== "PjBL"));
+                                    }
+                                  }} 
+                                />
+                                <Label htmlFor="pjbl">PjBL (Project Based Learning)</Label>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <Checkbox 
+                                  id="discovery" 
+                                  checked={field.value.includes("Discovery")} 
+                                  onCheckedChange={(checked) => {
+                                    if (checked) {
+                                      field.onChange([...field.value, "Discovery"]);
+                                    } else {
+                                      field.onChange(field.value.filter(item => item !== "Discovery"));
+                                    }
+                                  }} 
+                                />
+                                <Label htmlFor="discovery">Discovery Learning</Label>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <Checkbox 
+                                  id="inquiry" 
+                                  checked={field.value.includes("Inquiry")} 
+                                  onCheckedChange={(checked) => {
+                                    if (checked) {
+                                      field.onChange([...field.value, "Inquiry"]);
+                                    } else {
+                                      field.onChange(field.value.filter(item => item !== "Inquiry"));
+                                    }
+                                  }} 
+                                />
+                                <Label htmlFor="inquiry">Inquiry Learning</Label>
+                              </div>
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="metodePembelajaran"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Metode Pembelajaran</FormLabel>
+                          <FormControl>
+                            <div className="grid grid-cols-2 gap-2">
+                              <div className="flex items-center space-x-2">
+                                <Checkbox 
+                                  id="diskusi" 
+                                  checked={field.value.includes("Diskusi")} 
+                                  onCheckedChange={(checked) => {
+                                    if (checked) {
+                                      field.onChange([...field.value, "Diskusi"]);
+                                    } else {
+                                      field.onChange(field.value.filter(item => item !== "Diskusi"));
+                                    }
+                                  }} 
+                                />
+                                <Label htmlFor="diskusi">Diskusi</Label>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <Checkbox 
+                                  id="wawancara" 
+                                  checked={field.value.includes("Wawancara")} 
+                                  onCheckedChange={(checked) => {
+                                    if (checked) {
+                                      field.onChange([...field.value, "Wawancara"]);
+                                    } else {
+                                      field.onChange(field.value.filter(item => item !== "Wawancara"));
+                                    }
+                                  }} 
+                                />
+                                <Label htmlFor="wawancara">Wawancara</Label>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <Checkbox 
+                                  id="presentasi" 
+                                  checked={field.value.includes("Presentasi")} 
+                                  onCheckedChange={(checked) => {
+                                    if (checked) {
+                                      field.onChange([...field.value, "Presentasi"]);
+                                    } else {
+                                      field.onChange(field.value.filter(item => item !== "Presentasi"));
+                                    }
+                                  }} 
+                                />
+                                <Label htmlFor="presentasi">Presentasi</Label>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <Checkbox 
+                                  id="praktek" 
+                                  checked={field.value.includes("Praktek")} 
+                                  onCheckedChange={(checked) => {
+                                    if (checked) {
+                                      field.onChange([...field.value, "Praktek"]);
+                                    } else {
+                                      field.onChange(field.value.filter(item => item !== "Praktek"));
+                                    }
+                                  }} 
+                                />
+                                <Label htmlFor="praktek">Praktek</Label>
+                              </div>
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="kemitraanPembelajaran"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Kemitraan Pembelajaran</FormLabel>
+                          <FormControl>
+                            <div className="grid grid-cols-2 gap-2">
+                              <div className="flex items-center space-x-2">
+                                <Checkbox 
+                                  id="tenagaKesehatan" 
+                                  checked={field.value.includes("Tenaga Kesehatan")} 
+                                  onCheckedChange={(checked) => {
+                                    if (checked) {
+                                      field.onChange([...field.value, "Tenaga Kesehatan"]);
+                                    } else {
+                                      field.onChange(field.value.filter(item => item !== "Tenaga Kesehatan"));
+                                    }
+                                  }} 
+                                />
+                                <Label htmlFor="tenagaKesehatan">Tenaga Kesehatan</Label>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <Checkbox 
+                                  id="masyarakat" 
+                                  checked={field.value.includes("Masyarakat")} 
+                                  onCheckedChange={(checked) => {
+                                    if (checked) {
+                                      field.onChange([...field.value, "Masyarakat"]);
+                                    } else {
+                                      field.onChange(field.value.filter(item => item !== "Masyarakat"));
+                                    }
+                                  }} 
+                                />
+                                <Label htmlFor="masyarakat">Masyarakat</Label>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <Checkbox 
+                                  id="temanSekelas" 
+                                  checked={field.value.includes("Teman Sekelas")} 
+                                  onCheckedChange={(checked) => {
+                                    if (checked) {
+                                      field.onChange([...field.value, "Teman Sekelas"]);
+                                    } else {
+                                      field.onChange(field.value.filter(item => item !== "Teman Sekelas"));
+                                    }
+                                  }} 
+                                />
+                                <Label htmlFor="temanSekelas">Teman Sekelas</Label>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <Checkbox 
+                                  id="sumberTerpercaya" 
+                                  checked={field.value.includes("Sumber Terpercaya")} 
+                                  onCheckedChange={(checked) => {
+                                    if (checked) {
+                                      field.onChange([...field.value, "Sumber Terpercaya"]);
+                                    } else {
+                                      field.onChange(field.value.filter(item => item !== "Sumber Terpercaya"));
+                                    }
+                                  }} 
+                                />
+                                <Label htmlFor="sumberTerpercaya">Sumber Terpercaya</Label>
+                              </div>
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="lingkunganPembelajaran"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Lingkungan Pembelajaran</FormLabel>
+                          <FormControl>
+                            <div className="grid grid-cols-2 gap-2">
+                              <div className="flex items-center space-x-2">
+                                <Checkbox 
+                                  id="tatapMuka" 
+                                  checked={field.value.includes("Tatap Muka")} 
+                                  onCheckedChange={(checked) => {
+                                    if (checked) {
+                                      field.onChange([...field.value, "Tatap Muka"]);
+                                    } else {
+                                      field.onChange(field.value.filter(item => item !== "Tatap Muka"));
+                                    }
+                                  }} 
+                                />
+                                <Label htmlFor="tatapMuka">Tatap Muka</Label>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <Checkbox 
+                                  id="daring" 
+                                  checked={field.value.includes("Daring")} 
+                                  onCheckedChange={(checked) => {
+                                    if (checked) {
+                                      field.onChange([...field.value, "Daring"]);
+                                    } else {
+                                      field.onChange(field.value.filter(item => item !== "Daring"));
+                                    }
+                                  }} 
+                                />
+                                <Label htmlFor="daring">Daring</Label>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <Checkbox 
+                                  id="hybrid" 
+                                  checked={field.value.includes("Hybrid")} 
+                                  onCheckedChange={(checked) => {
+                                    if (checked) {
+                                      field.onChange([...field.value, "Hybrid"]);
+                                    } else {
+                                      field.onChange(field.value.filter(item => item !== "Hybrid"));
+                                    }
+                                  }} 
+                                />
+                                <Label htmlFor="hybrid">Hybrid</Label>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <Checkbox 
+                                  id="outdoor" 
+                                  checked={field.value.includes("Outdoor")} 
+                                  onCheckedChange={(checked) => {
+                                    if (checked) {
+                                      field.onChange([...field.value, "Outdoor"]);
+                                    } else {
+                                      field.onChange(field.value.filter(item => item !== "Outdoor"));
+                                    }
+                                  }} 
+                                />
+                                <Label htmlFor="outdoor">Outdoor</Label>
+                              </div>
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="pemanfaatanDigital"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Pemanfaatan Digital</FormLabel>
+                          <FormControl>
+                            <div className="grid grid-cols-2 gap-2">
+                              <div className="flex items-center space-x-2">
+                                <Checkbox 
+                                  id="internet" 
+                                  checked={field.value.includes("Internet")} 
+                                  onCheckedChange={(checked) => {
+                                    if (checked) {
+                                      field.onChange([...field.value, "Internet"]);
+                                    } else {
+                                      field.onChange(field.value.filter(item => item !== "Internet"));
+                                    }
+                                  }} 
+                                />
+                                <Label htmlFor="internet">Internet</Label>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <Checkbox 
+                                  id="aplikasiVisual" 
+                                  checked={field.value.includes("Aplikasi Visual")} 
+                                  onCheckedChange={(checked) => {
+                                    if (checked) {
+                                      field.onChange([...field.value, "Aplikasi Visual"]);
+                                    } else {
+                                      field.onChange(field.value.filter(item => item !== "Aplikasi Visual"));
+                                    }
+                                  }} 
+                                />
+                                <Label htmlFor="aplikasiVisual">Aplikasi Visual</Label>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <Checkbox 
+                                  id="aplikasiOnline" 
+                                  checked={field.value.includes("Aplikasi Online")} 
+                                  onCheckedChange={(checked) => {
+                                    if (checked) {
+                                      field.onChange([...field.value, "Aplikasi Online"]);
+                                    } else {
+                                      field.onChange(field.value.filter(item => item !== "Aplikasi Online"));
+                                    }
+                                  }} 
+                                />
+                                <Label htmlFor="aplikasiOnline">Aplikasi Online</Label>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <Checkbox 
+                                  id="sosialMedia" 
+                                  checked={field.value.includes("Sosial Media")} 
+                                  onCheckedChange={(checked) => {
+                                    if (checked) {
+                                      field.onChange([...field.value, "Sosial Media"]);
+                                    } else {
+                                      field.onChange(field.value.filter(item => item !== "Sosial Media"));
+                                    }
+                                  }} 
+                                />
+                                <Label htmlFor="sosialMedia">Sosial Media</Label>
+                              </div>
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </CardContent>
+                </Card>
+
                 {/* Submit Button */}
                 <div className="pt-6">
                   <Button 
                     type="submit" 
                     variant="hero" 
-                    size="lg" 
+                    size="lg"
                     className="w-full text-lg py-6"
                     disabled={isLoading}
                     onClick={() => {
