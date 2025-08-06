@@ -349,29 +349,81 @@ const ResultPage = () => {
       })
     );
 
-    // Generate Materi Insersi KBC based on selected Nilai Cinta
-    const nilaiCinta = rpp.identitas.nilaiCinta || [];
-    if (nilaiCinta.length > 0) {
-      nilaiCinta.forEach((nilai, index) => {
+    // Generate Materi Insersi KBC based on AI-generated content
+    if (rpp.materiInsersiKBC && Object.keys(rpp.materiInsersiKBC).length > 0) {
+      Object.entries(rpp.materiInsersiKBC).forEach(([nilaiCinta, content], index) => {
         children.push(
           new Paragraph({
-            text: `${String.fromCharCode(65 + index)}. ${nilai}`,
+            text: `${String.fromCharCode(65 + index)}. ${content.title}`,
             heading: HeadingLevel.HEADING_3,
             spacing: { before: 300, after: 200 }
           })
         );
 
-        // Add sample content for each Nilai Cinta
-        const sampleContent = getMateriInsersiKBC(nilai);
-        sampleContent.forEach((content, contentIndex) => {
+        // Add Ayat/Hadits if available
+        if (content.ayat) {
           children.push(
             new Paragraph({
-              text: content,
+              text: `Ayat: ${content.ayat}`,
               spacing: { after: 200 }
             })
           );
-        });
+        }
+
+        if (content.hadits) {
+          children.push(
+            new Paragraph({
+              text: `Hadits: ${content.hadits}`,
+              spacing: { after: 200 }
+            })
+          );
+        }
+
+        // Add Refleksi
+        if (content.refleksi) {
+          children.push(
+            new Paragraph({
+              text: `Refleksi: ${content.refleksi}`,
+              spacing: { after: 200 }
+            })
+          );
+        }
+
+        // Add Aktivitas
+        if (content.aktivitas) {
+          children.push(
+            new Paragraph({
+              text: `Aktivitas: ${content.aktivitas}`,
+              spacing: { after: 200 }
+            })
+          );
+        }
       });
+    } else {
+      // Fallback to basic content if AI content is not available
+      const nilaiCinta = rpp.identitas.nilaiCinta || [];
+      if (nilaiCinta.length > 0) {
+        nilaiCinta.forEach((nilai, index) => {
+          children.push(
+            new Paragraph({
+              text: `${String.fromCharCode(65 + index)}. ${nilai}`,
+              heading: HeadingLevel.HEADING_3,
+              spacing: { before: 300, after: 200 }
+            })
+          );
+
+          // Add sample content for each Nilai Cinta
+          const sampleContent = getMateriInsersiKBC(nilai);
+          sampleContent.forEach((content, contentIndex) => {
+            children.push(
+              new Paragraph({
+                text: content,
+                spacing: { after: 200 }
+              })
+            );
+          });
+        });
+      }
     }
 
     // Materi Pembelajaran
@@ -447,28 +499,13 @@ const ResultPage = () => {
       );
     });
 
-    // Metode Pembelajaran
-    children.push(
-      new Paragraph({
-        text: "G. METODE PEMBELAJARAN",
-        heading: HeadingLevel.HEADING_2,
-        spacing: { before: 400, after: 200 }
-      })
-    );
-
-    (rpp.metodePembelajaran || []).forEach((metode, index) => {
-      children.push(
-        new Paragraph({
-          text: `${index + 1}. ${metode}`,
-          spacing: { after: 200 }
-        })
-      );
-    });
+    // Metode Pembelajaran - Moved to Praktik Pedagogis section
+    // Removed duplicate section here
 
     // Media dan Sumber Belajar
     children.push(
       new Paragraph({
-        text: "H. MEDIA DAN SUMBER BELAJAR",
+        text: "G. MEDIA DAN SUMBER BELAJAR",
         heading: HeadingLevel.HEADING_2,
         spacing: { before: 400, after: 200 }
       })
@@ -509,7 +546,7 @@ const ResultPage = () => {
     // Langkah Pembelajaran
     children.push(
       new Paragraph({
-        text: "I. LANGKAH PEMBELAJARAN",
+        text: "H. LANGKAH PEMBELAJARAN",
         heading: HeadingLevel.HEADING_2,
         spacing: { before: 400, after: 200 }
       })
@@ -566,7 +603,7 @@ const ResultPage = () => {
     // Penilaian
     children.push(
       new Paragraph({
-        text: "J. PENILAIAN",
+        text: "I. PENILAIAN",
         heading: HeadingLevel.HEADING_2,
         spacing: { before: 400, after: 200 }
       })
