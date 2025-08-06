@@ -591,6 +591,115 @@ try {
                   </CardContent>
                 </Card>
 
+                {/* Dimensi Kelulusan (8 Dimensi Profil Lulusan) */}
+                <Card className="border-blue-200 bg-blue-50">
+                  <CardHeader className="pb-4">
+                    <CardTitle className="text-lg flex items-center gap-2">
+                      <Award className="h-5 w-5 text-primary" />
+                      Dimensi Kelulusan (8 Dimensi Profil Lulusan)
+                    </CardTitle>
+                    <CardDescription>
+                      Pilih dimensi profil lulusan yang akan dikembangkan dalam pembelajaran ini
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <FormField
+                      control={form.control}
+                      name="dimensiKelulusan"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Dimensi Profil Lulusan</FormLabel>
+                          <FormControl>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                              <div className="flex items-center space-x-2">
+                                <Checkbox 
+                                  id="keimananKetakwaan" 
+                                  checked={field.value.keimananKetakwaan} 
+                                  onCheckedChange={(checked) => 
+                                    field.onChange({ ...field.value, keimananKetakwaan: checked as boolean })
+                                  } 
+                                />
+                                <Label htmlFor="keimananKetakwaan">Keimanan dan Ketakwaan kepada Tuhan Yang Maha Esa</Label>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <Checkbox 
+                                  id="kewargaan" 
+                                  checked={field.value.kewargaan} 
+                                  onCheckedChange={(checked) => 
+                                    field.onChange({ ...field.value, kewargaan: checked as boolean })
+                                  } 
+                                />
+                                <Label htmlFor="kewargaan">Kewargaan</Label>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <Checkbox 
+                                  id="penalaranKritis" 
+                                  checked={field.value.penalaranKritis} 
+                                  onCheckedChange={(checked) => 
+                                    field.onChange({ ...field.value, penalaranKritis: checked as boolean })
+                                  } 
+                                />
+                                <Label htmlFor="penalaranKritis">Penalaran Kritis</Label>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <Checkbox 
+                                  id="kreativitas" 
+                                  checked={field.value.kreativitas} 
+                                  onCheckedChange={(checked) => 
+                                    field.onChange({ ...field.value, kreativitas: checked as boolean })
+                                  } 
+                                />
+                                <Label htmlFor="kreativitas">Kreativitas</Label>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <Checkbox 
+                                  id="kolaborasi" 
+                                  checked={field.value.kolaborasi} 
+                                  onCheckedChange={(checked) => 
+                                    field.onChange({ ...field.value, kolaborasi: checked as boolean })
+                                  } 
+                                />
+                                <Label htmlFor="kolaborasi">Kolaborasi</Label>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <Checkbox 
+                                  id="kemandirian" 
+                                  checked={field.value.kemandirian} 
+                                  onCheckedChange={(checked) => 
+                                    field.onChange({ ...field.value, kemandirian: checked as boolean })
+                                  } 
+                                />
+                                <Label htmlFor="kemandirian">Kemandirian</Label>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <Checkbox 
+                                  id="kesehatan" 
+                                  checked={field.value.kesehatan} 
+                                  onCheckedChange={(checked) => 
+                                    field.onChange({ ...field.value, kesehatan: checked as boolean })
+                                  } 
+                                />
+                                <Label htmlFor="kesehatan">Kesehatan</Label>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <Checkbox 
+                                  id="komunikasi" 
+                                  checked={field.value.komunikasi} 
+                                  onCheckedChange={(checked) => 
+                                    field.onChange({ ...field.value, komunikasi: checked as boolean })
+                                  } 
+                                />
+                                <Label htmlFor="komunikasi">Komunikasi</Label>
+                              </div>
+                            </div>
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </CardContent>
+                </Card>
+
                 {/* Capaian Pembelajaran */}
                 <Card className="border-orange-200 bg-orange-50">
                   <CardHeader className="pb-4">
@@ -734,114 +843,7 @@ try {
                       )}
                     />
 
-                    {/* Dimensi Kelulusan */}
-                    <Card className="border-blue-200 bg-blue-50">
-                      <CardHeader className="pb-4">
-                        <CardTitle className="text-lg flex items-center gap-2">
-                          <Award className="h-5 w-5 text-primary" />
-                          Dimensi Kelulusan (8 Dimensi Profil Lulusan)
-                        </CardTitle>
-                        <CardDescription>
-                          Pilih dimensi profil lulusan yang akan dikembangkan dalam pembelajaran ini
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent>
-                        <FormField
-                          control={form.control}
-                          name="dimensiKelulusan"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Dimensi Profil Lulusan</FormLabel>
-                              <FormControl>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                                  <div className="flex items-center space-x-2">
-                                    <Checkbox 
-                                      id="keimananKetakwaan" 
-                                      checked={field.value.keimananKetakwaan} 
-                                      onCheckedChange={(checked) => 
-                                        field.onChange({ ...field.value, keimananKetakwaan: checked as boolean })
-                                      } 
-                                    />
-                                    <Label htmlFor="keimananKetakwaan">1. Keimanan dan Ketakwaan kepada Tuhan Yang Maha Esa</Label>
-                                  </div>
-                                  <div className="flex items-center space-x-2">
-                                    <Checkbox 
-                                      id="kewargaan" 
-                                      checked={field.value.kewargaan} 
-                                      onCheckedChange={(checked) => 
-                                        field.onChange({ ...field.value, kewargaan: checked as boolean })
-                                      } 
-                                    />
-                                    <Label htmlFor="kewargaan">2. Kewargaan</Label>
-                                  </div>
-                                  <div className="flex items-center space-x-2">
-                                    <Checkbox 
-                                      id="penalaranKritis" 
-                                      checked={field.value.penalaranKritis} 
-                                      onCheckedChange={(checked) => 
-                                        field.onChange({ ...field.value, penalaranKritis: checked as boolean })
-                                      } 
-                                    />
-                                    <Label htmlFor="penalaranKritis">3. Penalaran Kritis</Label>
-                                  </div>
-                                  <div className="flex items-center space-x-2">
-                                    <Checkbox 
-                                      id="kreativitas" 
-                                      checked={field.value.kreativitas} 
-                                      onCheckedChange={(checked) => 
-                                        field.onChange({ ...field.value, kreativitas: checked as boolean })
-                                      } 
-                                    />
-                                    <Label htmlFor="kreativitas">4. Kreativitas</Label>
-                                  </div>
-                                  <div className="flex items-center space-x-2">
-                                    <Checkbox 
-                                      id="kolaborasi" 
-                                      checked={field.value.kolaborasi} 
-                                      onCheckedChange={(checked) => 
-                                        field.onChange({ ...field.value, kolaborasi: checked as boolean })
-                                      } 
-                                    />
-                                    <Label htmlFor="kolaborasi">5. Kolaborasi</Label>
-                                  </div>
-                                  <div className="flex items-center space-x-2">
-                                    <Checkbox 
-                                      id="kemandirian" 
-                                      checked={field.value.kemandirian} 
-                                      onCheckedChange={(checked) => 
-                                        field.onChange({ ...field.value, kemandirian: checked as boolean })
-                                      } 
-                                    />
-                                    <Label htmlFor="kemandirian">6. Kemandirian</Label>
-                                  </div>
-                                  <div className="flex items-center space-x-2">
-                                    <Checkbox 
-                                      id="kesehatan" 
-                                      checked={field.value.kesehatan} 
-                                      onCheckedChange={(checked) => 
-                                        field.onChange({ ...field.value, kesehatan: checked as boolean })
-                                      } 
-                                    />
-                                    <Label htmlFor="kesehatan">7. Kesehatan</Label>
-                                  </div>
-                                  <div className="flex items-center space-x-2">
-                                    <Checkbox 
-                                      id="komunikasi" 
-                                      checked={field.value.komunikasi} 
-                                      onCheckedChange={(checked) => 
-                                        field.onChange({ ...field.value, komunikasi: checked as boolean })
-                                      } 
-                                    />
-                                    <Label htmlFor="komunikasi">8. Komunikasi</Label>
-                                  </div>
-                                </div>
-                              </FormControl>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
-                      </CardContent>
-                    </Card>
+
 
                     <FormField
                       control={form.control}

@@ -98,14 +98,14 @@ const RppViewer = ({ rpp }: RppViewerProps) => {
               if (!dimensiKelulusan) return null;
 
               const dimensiList = [
-                { key: 'keimananKetakwaan', label: '1. Keimanan dan Ketakwaan kepada Tuhan Yang Maha Esa', color: "text-primary", bg: "bg-primary/5" },
-                { key: 'kewargaan', label: '2. Kewargaan', color: "text-accent-foreground", bg: "bg-accent/5" },
-                { key: 'penalaranKritis', label: '3. Penalaran Kritis', color: "text-green-700", bg: "bg-green-100" },
-                { key: 'kreativitas', label: '4. Kreativitas', color: "text-blue-700", bg: "bg-blue-100" },
-                { key: 'kolaborasi', label: '5. Kolaborasi', color: "text-purple-700", bg: "bg-purple-100" },
-                { key: 'kemandirian', label: '6. Kemandirian', color: "text-orange-700", bg: "bg-orange-100" },
-                { key: 'kesehatan', label: '7. Kesehatan', color: "text-red-700", bg: "bg-red-100" },
-                { key: 'komunikasi', label: '8. Komunikasi', color: "text-indigo-700", bg: "bg-indigo-100" }
+                { key: 'keimananKetakwaan', label: 'Keimanan dan Ketakwaan kepada Tuhan Yang Maha Esa', color: "text-primary", bg: "bg-primary/5" },
+                { key: 'kewargaan', label: 'Kewargaan', color: "text-accent-foreground", bg: "bg-accent/5" },
+                { key: 'penalaranKritis', label: 'Penalaran Kritis', color: "text-green-700", bg: "bg-green-100" },
+                { key: 'kreativitas', label: 'Kreativitas', color: "text-blue-700", bg: "bg-blue-100" },
+                { key: 'kolaborasi', label: 'Kolaborasi', color: "text-purple-700", bg: "bg-purple-100" },
+                { key: 'kemandirian', label: 'Kemandirian', color: "text-orange-700", bg: "bg-orange-100" },
+                { key: 'kesehatan', label: 'Kesehatan', color: "text-red-700", bg: "bg-red-100" },
+                { key: 'komunikasi', label: 'Komunikasi', color: "text-indigo-700", bg: "bg-indigo-100" }
               ];
 
               return dimensiList.map((dimensi, index) => {

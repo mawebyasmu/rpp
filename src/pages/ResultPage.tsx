@@ -254,14 +254,14 @@ const ResultPage = () => {
     const dimensiKelulusan = rpp.dimensiKelulusan;
     if (dimensiKelulusan) {
       const dimensiList = [
-        { key: 'keimananKetakwaan', label: '1. Keimanan dan Ketakwaan kepada Tuhan Yang Maha Esa' },
-        { key: 'kewargaan', label: '2. Kewargaan' },
-        { key: 'penalaranKritis', label: '3. Penalaran Kritis' },
-        { key: 'kreativitas', label: '4. Kreativitas' },
-        { key: 'kolaborasi', label: '5. Kolaborasi' },
-        { key: 'kemandirian', label: '6. Kemandirian' },
-        { key: 'kesehatan', label: '7. Kesehatan' },
-        { key: 'komunikasi', label: '8. Komunikasi' }
+        { key: 'keimananKetakwaan', label: 'Keimanan dan Ketakwaan kepada Tuhan Yang Maha Esa' },
+        { key: 'kewargaan', label: 'Kewargaan' },
+        { key: 'penalaranKritis', label: 'Penalaran Kritis' },
+        { key: 'kreativitas', label: 'Kreativitas' },
+        { key: 'kolaborasi', label: 'Kolaborasi' },
+        { key: 'kemandirian', label: 'Kemandirian' },
+        { key: 'kesehatan', label: 'Kesehatan' },
+        { key: 'komunikasi', label: 'Komunikasi' }
       ];
 
       dimensiList.forEach((dimensi) => {
