@@ -106,6 +106,65 @@ const ResultPage = () => {
     ];
   };
 
+  const generatePraktikPedagogisNarrative = (rpp: GeneratedRPP): string => {
+    const selectedComponents = [];
+    
+    if (rpp.modelPembelajaran && rpp.modelPembelajaran.length > 0) {
+      selectedComponents.push(`Model Pembelajaran: ${rpp.modelPembelajaran.join(", ")}`);
+    }
+    
+    if (rpp.metodePembelajaran && rpp.metodePembelajaran.length > 0) {
+      selectedComponents.push(`Metode Pembelajaran: ${rpp.metodePembelajaran.join(", ")}`);
+    }
+    
+    if (rpp.kemitraanPembelajaran && rpp.kemitraanPembelajaran.length > 0) {
+      selectedComponents.push(`Kemitraan Pembelajaran: ${rpp.kemitraanPembelajaran.join(", ")}`);
+    }
+    
+    if (rpp.lingkunganPembelajaran && rpp.lingkunganPembelajaran.length > 0) {
+      selectedComponents.push(`Lingkungan Pembelajaran: ${rpp.lingkunganPembelajaran.join(", ")}`);
+    }
+    
+    if (rpp.pemanfaatanDigital && rpp.pemanfaatanDigital.length > 0) {
+      selectedComponents.push(`Pemanfaatan Digital: ${rpp.pemanfaatanDigital.join(", ")}`);
+    }
+
+    if (selectedComponents.length === 0) {
+      return "";
+    }
+
+    const mataPelajaran = rpp.identitas.mataPelajaran;
+    const tema = rpp.identitas.tema;
+    const subtema = rpp.identitas.subtema;
+    const jenjang = rpp.identitas.satuan.includes("MI") ? "SD" : rpp.identitas.satuan.includes("MTs") ? "SMP" : "SMA";
+
+    let narrative = `Praktik Pedagogis dalam pembelajaran ${mataPelajaran} dengan tema "${tema}" dan subtema "${subtema}" dirancang untuk jenjang ${jenjang} dengan mengintegrasikan berbagai komponen pembelajaran yang saling mendukung. `;
+
+    if (rpp.modelPembelajaran && rpp.modelPembelajaran.length > 0) {
+      narrative += `Model pembelajaran yang dipilih (${rpp.modelPembelajaran.join(", ")}) memberikan kerangka kerja yang sistematis dalam mencapai tujuan pembelajaran. `;
+    }
+
+    if (rpp.metodePembelajaran && rpp.metodePembelajaran.length > 0) {
+      narrative += `Metode pembelajaran (${rpp.metodePembelajaran.join(", ")}) dipilih untuk memfasilitasi proses pembelajaran yang efektif dan menyenangkan. `;
+    }
+
+    if (rpp.kemitraanPembelajaran && rpp.kemitraanPembelajaran.length > 0) {
+      narrative += `Kemitraan pembelajaran (${rpp.kemitraanPembelajaran.join(", ")}) memastikan kolaborasi yang sinergis antara berbagai pihak dalam mendukung pembelajaran. `;
+    }
+
+    if (rpp.lingkunganPembelajaran && rpp.lingkunganPembelajaran.length > 0) {
+      narrative += `Lingkungan pembelajaran (${rpp.lingkunganPembelajaran.join(", ")}) diciptakan untuk mendukung suasana belajar yang kondusif dan mendukung. `;
+    }
+
+    if (rpp.pemanfaatanDigital && rpp.pemanfaatanDigital.length > 0) {
+      narrative += `Pemanfaatan digital (${rpp.pemanfaatanDigital.join(", ")}) mengintegrasikan teknologi untuk meningkatkan efektivitas dan efisiensi pembelajaran. `;
+    }
+
+    narrative += `Kombinasi komponen-komponen ini dirancang untuk menciptakan pengalaman pembelajaran yang holistik, bermakna, dan sesuai dengan karakteristik peserta didik jenjang ${jenjang}.`;
+
+    return narrative;
+  };
+
   const generateDocxContent = (rpp: GeneratedRPP) => {
     const children: any[] = [];
 
@@ -156,7 +215,7 @@ const ResultPage = () => {
         new TableRow({
           children: [
             new TableCell({ children: [new Paragraph({ text: "Fase" })] }),
-            new TableCell({ children: [new Paragraph({ text: `Fase ${rpp.identitas.kelas}` })] })
+            new TableCell({ children: [new Paragraph({ text: rpp.identitas.fase })] })
           ]
         }),
         new TableRow({
@@ -182,7 +241,7 @@ const ResultPage = () => {
 
     children.push(identitasTable);
 
-    // Dimensi Profil Lulusan
+    // Dimensi Profil Lulusan - Dynamic based on selected Nilai Cinta
     children.push(
       new Paragraph({
         text: "DIMENSI PROFIL LULUSAN",
@@ -191,18 +250,41 @@ const ResultPage = () => {
       })
     );
 
-    const dimensiProfil = [
+    // Map selected Nilai Cinta to Dimensi Profil Lulusan
+    const nilaiCintaMapping = {
+      "Cinta kepada Allah SWT": "Cinta kepada Tuhan Yang Maha Esa",
+      "Cinta kepada Rasulullah SAW": "Cinta kepada Tuhan Yang Maha Esa", 
+      "Cinta kepada Keluarga": "Cinta kepada Diri dan Sesama",
+      "Cinta kepada Sesama": "Cinta kepada Diri dan Sesama",
+      "Cinta kepada Alam": "Cinta kepada Lingkungan",
+      "Cinta kepada Tanah Air": "Cinta kepada Bangsa dan Negeri"
+    };
+
+    const selectedNilaiCinta = rpp.identitas.nilaiCinta || [];
+    const mappedDimensi = new Set<string>();
+    
+    selectedNilaiCinta.forEach(nilai => {
+      const dimensi = nilaiCintaMapping[nilai as keyof typeof nilaiCintaMapping];
+      if (dimensi) {
+        mappedDimensi.add(dimensi);
+      }
+    });
+
+    // Add all 5 Panca Cinta dimensions with checkmarks for selected ones
+    const allDimensi = [
       "Cinta kepada Tuhan Yang Maha Esa",
-      "Cinta kepada Diri dan Sesama",
+      "Cinta kepada Diri dan Sesama", 
       "Cinta kepada Ilmu Pengetahuan",
       "Cinta kepada Lingkungan",
       "Cinta kepada Bangsa dan Negeri"
     ];
 
-    dimensiProfil.forEach((dimensi, index) => {
+    allDimensi.forEach((dimensi) => {
+      const isSelected = mappedDimensi.has(dimensi);
+      const checkmark = isSelected ? "✓" : "○";
       children.push(
         new Paragraph({
-          text: `- ${dimensi}`,
+          text: `${checkmark} ${dimensi}`,
           spacing: { after: 100 }
         })
       );
@@ -588,6 +670,17 @@ const ResultPage = () => {
         spacing: { before: 400, after: 200 }
       })
     );
+
+    // Generate narrative for Praktik Pedagogis
+    const praktikPedagogisNarrative = generatePraktikPedagogisNarrative(rpp);
+    if (praktikPedagogisNarrative) {
+      children.push(
+        new Paragraph({
+          text: praktikPedagogisNarrative,
+          spacing: { after: 300 }
+        })
+      );
+    }
 
     // Model Pembelajaran
     if (rpp.modelPembelajaran && rpp.modelPembelajaran.length > 0) {

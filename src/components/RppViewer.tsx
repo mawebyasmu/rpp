@@ -93,21 +93,47 @@ const RppViewer = ({ rpp }: RppViewerProps) => {
         </CardHeader>
         <CardContent>
           <div className="space-y-2">
-            <div className="p-2 bg-primary/5 rounded-lg">
-              <p className="text-sm font-medium text-primary">Cinta kepada Tuhan Yang Maha Esa</p>
-            </div>
-            <div className="p-2 bg-accent/5 rounded-lg">
-              <p className="text-sm font-medium text-accent-foreground">Cinta kepada Diri dan Sesama</p>
-            </div>
-            <div className="p-2 bg-green-100 rounded-lg">
-              <p className="text-sm font-medium text-green-700">Cinta kepada Ilmu Pengetahuan</p>
-            </div>
-            <div className="p-2 bg-blue-100 rounded-lg">
-              <p className="text-sm font-medium text-blue-700">Cinta kepada Lingkungan</p>
-            </div>
-            <div className="p-2 bg-orange-100 rounded-lg">
-              <p className="text-sm font-medium text-orange-700">Cinta kepada Bangsa dan Negeri</p>
-            </div>
+            {(() => {
+              // Map selected Nilai Cinta to Dimensi Profil Lulusan
+              const nilaiCintaMapping = {
+                "Cinta kepada Allah SWT": "Cinta kepada Tuhan Yang Maha Esa",
+                "Cinta kepada Rasulullah SAW": "Cinta kepada Tuhan Yang Maha Esa", 
+                "Cinta kepada Keluarga": "Cinta kepada Diri dan Sesama",
+                "Cinta kepada Sesama": "Cinta kepada Diri dan Sesama",
+                "Cinta kepada Alam": "Cinta kepada Lingkungan",
+                "Cinta kepada Tanah Air": "Cinta kepada Bangsa dan Negeri"
+              };
+
+              const selectedNilaiCinta = rpp.identitas.nilaiCinta || [];
+              const mappedDimensi = new Set<string>();
+              
+              selectedNilaiCinta.forEach(nilai => {
+                const dimensi = nilaiCintaMapping[nilai as keyof typeof nilaiCintaMapping];
+                if (dimensi) {
+                  mappedDimensi.add(dimensi);
+                }
+              });
+
+              const allDimensi = [
+                { name: "Cinta kepada Tuhan Yang Maha Esa", color: "text-primary", bg: "bg-primary/5" },
+                { name: "Cinta kepada Diri dan Sesama", color: "text-accent-foreground", bg: "bg-accent/5" },
+                { name: "Cinta kepada Ilmu Pengetahuan", color: "text-green-700", bg: "bg-green-100" },
+                { name: "Cinta kepada Lingkungan", color: "text-blue-700", bg: "bg-blue-100" },
+                { name: "Cinta kepada Bangsa dan Negeri", color: "text-orange-700", bg: "bg-orange-100" }
+              ];
+
+              return allDimensi.map((dimensi, index) => {
+                const isSelected = mappedDimensi.has(dimensi.name);
+                return (
+                  <div key={index} className={`p-2 ${dimensi.bg} rounded-lg flex items-center gap-2`}>
+                    <span className={`text-lg ${isSelected ? 'text-green-600' : 'text-gray-400'}`}>
+                      {isSelected ? '✓' : '○'}
+                    </span>
+                    <p className={`text-sm font-medium ${dimensi.color}`}>{dimensi.name}</p>
+                  </div>
+                );
+              });
+            })()}
           </div>
         </CardContent>
       </Card>
@@ -136,6 +162,69 @@ const RppViewer = ({ rpp }: RppViewerProps) => {
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
+          {/* Narrative for Praktik Pedagogis */}
+          {(() => {
+            const selectedComponents = [];
+            
+            if (rpp.modelPembelajaran && rpp.modelPembelajaran.length > 0) {
+              selectedComponents.push(`Model Pembelajaran: ${rpp.modelPembelajaran.join(", ")}`);
+            }
+            
+            if (rpp.metodePembelajaran && rpp.metodePembelajaran.length > 0) {
+              selectedComponents.push(`Metode Pembelajaran: ${rpp.metodePembelajaran.join(", ")}`);
+            }
+            
+            if (rpp.kemitraanPembelajaran && rpp.kemitraanPembelajaran.length > 0) {
+              selectedComponents.push(`Kemitraan Pembelajaran: ${rpp.kemitraanPembelajaran.join(", ")}`);
+            }
+            
+            if (rpp.lingkunganPembelajaran && rpp.lingkunganPembelajaran.length > 0) {
+              selectedComponents.push(`Lingkungan Pembelajaran: ${rpp.lingkunganPembelajaran.join(", ")}`);
+            }
+            
+            if (rpp.pemanfaatanDigital && rpp.pemanfaatanDigital.length > 0) {
+              selectedComponents.push(`Pemanfaatan Digital: ${rpp.pemanfaatanDigital.join(", ")}`);
+            }
+
+            if (selectedComponents.length > 0) {
+              const mataPelajaran = rpp.identitas.mataPelajaran;
+              const tema = rpp.identitas.tema;
+              const subtema = rpp.identitas.subtema;
+              const jenjang = rpp.identitas.satuan.includes("MI") ? "SD" : rpp.identitas.satuan.includes("MTs") ? "SMP" : "SMA";
+
+              let narrative = `Praktik Pedagogis dalam pembelajaran ${mataPelajaran} dengan tema "${tema}" dan subtema "${subtema}" dirancang untuk jenjang ${jenjang} dengan mengintegrasikan berbagai komponen pembelajaran yang saling mendukung. `;
+
+              if (rpp.modelPembelajaran && rpp.modelPembelajaran.length > 0) {
+                narrative += `Model pembelajaran yang dipilih (${rpp.modelPembelajaran.join(", ")}) memberikan kerangka kerja yang sistematis dalam mencapai tujuan pembelajaran. `;
+              }
+
+              if (rpp.metodePembelajaran && rpp.metodePembelajaran.length > 0) {
+                narrative += `Metode pembelajaran (${rpp.metodePembelajaran.join(", ")}) dipilih untuk memfasilitasi proses pembelajaran yang efektif dan menyenangkan. `;
+              }
+
+              if (rpp.kemitraanPembelajaran && rpp.kemitraanPembelajaran.length > 0) {
+                narrative += `Kemitraan pembelajaran (${rpp.kemitraanPembelajaran.join(", ")}) memastikan kolaborasi yang sinergis antara berbagai pihak dalam mendukung pembelajaran. `;
+              }
+
+              if (rpp.lingkunganPembelajaran && rpp.lingkunganPembelajaran.length > 0) {
+                narrative += `Lingkungan pembelajaran (${rpp.lingkunganPembelajaran.join(", ")}) diciptakan untuk mendukung suasana belajar yang kondusif dan mendukung. `;
+              }
+
+              if (rpp.pemanfaatanDigital && rpp.pemanfaatanDigital.length > 0) {
+                narrative += `Pemanfaatan digital (${rpp.pemanfaatanDigital.join(", ")}) mengintegrasikan teknologi untuk meningkatkan efektivitas dan efisiensi pembelajaran. `;
+              }
+
+              narrative += `Kombinasi komponen-komponen ini dirancang untuk menciptakan pengalaman pembelajaran yang holistik, bermakna, dan sesuai dengan karakteristik peserta didik jenjang ${jenjang}.`;
+
+              return (
+                <div className="p-3 bg-blue-50 rounded-lg mb-4">
+                  <p className="text-sm leading-relaxed text-blue-800">{narrative}</p>
+                </div>
+              );
+            }
+            return null;
+          })()}
+
           {rpp.modelPembelajaran && rpp.modelPembelajaran.length > 0 && (
             <div>
               <h4 className="font-semibold text-primary mb-2">Model Pembelajaran:</h4>
