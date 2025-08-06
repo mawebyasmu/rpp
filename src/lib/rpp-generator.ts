@@ -1350,11 +1350,10 @@ export class PerencanaanPembelajaranGenerator {
   // Format nilai cinta for the identitas section
   private formatNilaiCinta(nilaiCinta: { [key: string]: boolean }): string[] {
     const formattedNilai: string[] = [];
-    if (nilaiCinta.cintaAllah) formattedNilai.push("Cinta kepada Allah SWT");
-    if (nilaiCinta.cintaRasul) formattedNilai.push("Cinta kepada Rasulullah SAW");
-    if (nilaiCinta.cintaKeluarga) formattedNilai.push("Cinta kepada Keluarga");
-    if (nilaiCinta.cintaSesama) formattedNilai.push("Cinta kepada Sesama");
-    if (nilaiCinta.cintaAlam) formattedNilai.push("Cinta kepada Alam");
+    if (nilaiCinta.cintaAllahRasul) formattedNilai.push("Cinta kepada Allah dan Rasulullah");
+    if (nilaiCinta.cintaIlmu) formattedNilai.push("Cinta kepada Ilmu");
+    if (nilaiCinta.cintaLingkungan) formattedNilai.push("Cinta kepada Lingkungan");
+    if (nilaiCinta.cintaDiriSesama) formattedNilai.push("Cinta kepada Diri dan Sesama");
     if (nilaiCinta.cintaTanahAir) formattedNilai.push("Cinta kepada Tanah Air");
     return formattedNilai;
   }
@@ -1362,13 +1361,14 @@ export class PerencanaanPembelajaranGenerator {
   // Format profil pelajar Pancasila for the identitas section
   private formatProfilPelajar(profil: { [key: string]: boolean }): string[] {
     const formattedProfil: string[] = [];
-    if (profil.berimanBertakwa) formattedProfil.push("Beriman Bertakwa");
-    if (profil.mandiri) formattedProfil.push("Mandiri");
-    if (profil.bernalarKritis) formattedProfil.push("Bernalar Kritis");
-    if (profil.kreatif) formattedProfil.push("Kreatif");
-    if (profil.bergotongRoyong) formattedProfil.push("Bergotong Royong");
-    if (profil.berkebinekaanGlobal) formattedProfil.push("Berkebinekaan Global");
-    if (profil.rahmatanLilAlamin) formattedProfil.push("Rahmatan Lil 'Alamin");
+    if (profil.keimananKetakwaan) formattedProfil.push("Keimanan dan Ketakwaan");
+    if (profil.kewargaan) formattedProfil.push("Kewargaan");
+    if (profil.penalaranKritis) formattedProfil.push("Penalaran Kritis");
+    if (profil.kreativitas) formattedProfil.push("Kreativitas");
+    if (profil.kolaborasi) formattedProfil.push("Kolaborasi");
+    if (profil.kemandirian) formattedProfil.push("Kemandirian");
+    if (profil.kesehatan) formattedProfil.push("Kesehatan");
+    if (profil.komunikasi) formattedProfil.push("Komunikasi");
     return formattedProfil;
   }
 

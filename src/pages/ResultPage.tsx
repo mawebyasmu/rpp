@@ -221,7 +221,13 @@ const ResultPage = () => {
         new TableRow({
           children: [
             new TableCell({ children: [new Paragraph({ text: "Topik Panca Cinta" })] }),
-            new TableCell({ children: [new Paragraph({ text: (rpp.identitas.nilaiCinta || []).join(", ") })] })
+            new TableCell({ 
+              children: [new Paragraph({ 
+                text: (rpp.identitas.nilaiCinta && rpp.identitas.nilaiCinta.length > 0) 
+                  ? rpp.identitas.nilaiCinta.join(", ") 
+                  : "Tidak ada nilai cinta yang dipilih"
+              })] 
+            })
           ]
         }),
         new TableRow({
