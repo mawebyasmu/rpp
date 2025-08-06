@@ -776,47 +776,7 @@ try {
 
 
 
-                    <FormField
-                      control={form.control}
-                      name="capaianPembelajaran.pengetahuan"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Pengetahuan</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Contoh: Memahami konsep penjumlahan dan pengurangan bilangan bulat" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
 
-                    <FormField
-                      control={form.control}
-                      name="capaianPembelajaran.keterampilan"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Keterampilan</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Contoh: Mampu melakukan penjumlahan dan pengurangan bilangan bulat dengan benar" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="capaianPembelajaran.sikap"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Sikap</FormLabel>
-                          <FormControl>
-                            <Input placeholder="Contoh: Menunjukkan sikap kreatif dan inovatif dalam menyelesaikan masalah" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
 
                     <FormField
                       control={form.control}
