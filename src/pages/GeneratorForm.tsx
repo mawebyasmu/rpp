@@ -238,55 +238,57 @@ try {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-muted/30 to-secondary py-12 px-4">
+    <div className="min-h-screen bg-gradient-to-br from-background via-muted/30 to-secondary py-6 sm:py-12 px-2 sm:px-4">
       <div className="max-w-4xl mx-auto">
         {/* Header */}
-        <div className="flex items-center justify-between mb-8">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
           <Button 
             variant="outline" 
             onClick={() => navigate('/')}
-            className="flex items-center gap-2"
+            className="flex items-center gap-2 w-full sm:w-auto"
           >
             <ArrowLeft className="h-4 w-4" />
-            Kembali ke Halaman Utama
+            <span className="hidden sm:inline">Kembali ke Halaman Utama</span>
+            <span className="sm:hidden">Kembali</span>
           </Button>
           
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2 sm:gap-4 w-full sm:w-auto">
             <FeedbackDialog />
-            <Badge variant="secondary" className="px-4 py-2">
-              <BookOpen className="h-4 w-4 mr-2" />
-              Generator Perencanaan Pembelajaran KBC
+            <Badge variant="secondary" className="px-2 sm:px-4 py-2 text-xs sm:text-sm">
+              <BookOpen className="h-3 w-3 sm:h-4 sm:w-4 mr-1 sm:mr-2" />
+              <span className="hidden sm:inline">Generator Perencanaan Pembelajaran KBC</span>
+              <span className="sm:hidden">Generator KBC</span>
             </Badge>
           </div>
         </div>
 
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
+        <div className="text-center mb-8 sm:mb-12">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
             Generator Perencanaan Pembelajaran
             <span className="block text-primary">Kurikulum Berbasis Cinta</span>
           </h1>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-sm sm:text-base lg:text-lg text-muted-foreground max-w-2xl mx-auto px-4">
             Lengkapi form di bawah ini untuk membuat Perencanaan Pembelajaran yang sesuai dengan Kurikulum Berbasis Cinta Madrasah
           </p>
         </div>
 
         <Card className="shadow-xl border-0 bg-white/90 backdrop-blur-sm">
           <CardHeader className="text-center">
-            <CardTitle className="text-2xl flex items-center justify-center gap-2">
-              <FileText className="h-6 w-6 text-primary" />
-              Form Data Perencanaan Pembelajaran
+            <CardTitle className="text-lg sm:text-xl md:text-2xl flex items-center justify-center gap-2 flex-wrap">
+              <FileText className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
+              <span className="text-center">Form Data Perencanaan Pembelajaran</span>
             </CardTitle>
-            <CardDescription className="text-base">
+            <CardDescription className="text-sm sm:text-base px-4">
               Masukkan informasi yang diperlukan untuk membuat Perencanaan Pembelajaran Anda
             </CardDescription>
           </CardHeader>
           
-          <CardContent className="space-y-6">
+          <CardContent className="space-y-4 sm:space-y-6 px-2 sm:px-6">
             <Form {...form}>
               <form onSubmit={(e) => {
         
                 form.handleSubmit(handleSubmit)(e);
-              }} className="space-y-6">
+              }} className="space-y-4 sm:space-y-6">
 
 
                 {/* Identitas Madrasah */}
@@ -312,7 +314,7 @@ try {
                       )}
                     />
 
-                    <div className="grid md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <FormField
                         control={form.control}
                         name="satuanPendidikan"
@@ -356,7 +358,7 @@ try {
                       />
                     </div>
 
-                    <div className="grid md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <FormField
                         control={form.control}
                         name="fase"
@@ -397,7 +399,7 @@ try {
                       />
                     </div>
 
-                    <div className="grid md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <FormField
                         control={form.control}
                         name="kelas"
@@ -471,7 +473,7 @@ try {
                       )}
                     />
 
-                    <div className="grid md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <FormField
                         control={form.control}
                         name="tema"
@@ -512,7 +514,7 @@ try {
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    <div className="grid md:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <FormField
                         control={form.control}
                         name="alokasi"
