@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage, FormDescription } from "@/components/ui/form";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
@@ -552,19 +552,17 @@ try {
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel>Alokasi Waktu</FormLabel>
-                            <Select onValueChange={field.onChange} defaultValue={field.value}>
-                              <FormControl>
-                                <SelectTrigger>
-                                  <SelectValue placeholder="Pilih alokasi waktu..." />
-                                </SelectTrigger>
-                              </FormControl>
-                              <SelectContent>
-                                <SelectItem value="1 x 40 menit">1 x 40 menit</SelectItem>
-                                <SelectItem value="2 x 40 menit">2 x 40 menit</SelectItem>
-                                <SelectItem value="3 x 40 menit">3 x 40 menit</SelectItem>
-                                <SelectItem value="4 x 40 menit">4 x 40 menit</SelectItem>
-                              </SelectContent>
-                            </Select>
+                            <FormControl>
+                              <Input 
+                                placeholder="Otomatis terisi berdasarkan jenjang" 
+                                {...field} 
+                                readOnly
+                                className="bg-muted"
+                              />
+                            </FormControl>
+                            <FormDescription>
+                              Alokasi waktu otomatis: MI (35 menit), MTs (40 menit), MA (45 menit)
+                            </FormDescription>
                             <FormMessage />
                           </FormItem>
                         )}
