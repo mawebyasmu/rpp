@@ -86,8 +86,6 @@ export interface GeneratedRPP {
     metakognitif: string[];
   };
   
-  metodePembelajaran: string[];
-  
   mediaDanSumber: {
     media: string[];
     sumberBelajar: string[];
@@ -169,6 +167,10 @@ export interface GeneratedRPP {
     };
   };
   
+  // Asesmen Formatif dan Sumatif
+  asesmenFormatif?: string[];
+  asesmenSumatif?: string[];
+  
   // Dimensi Kelulusan (8 Dimensi Profil Lulusan)
   dimensiKelulusan?: {
     keimananKetakwaan: boolean;
@@ -222,6 +224,7 @@ export class PerencanaanPembelajaranGenerator {
     const perencanaanPembelajaran: GeneratedRPP = {
       identitas: {
         satuan: formData.satuanPendidikan,
+        fase: formData.fase,
         kelas: formData.kelas,
         semester: formData.semester,
         mataPelajaran: formData.mataPelajaran,
@@ -242,8 +245,6 @@ export class PerencanaanPembelajaranGenerator {
       tujuanPembelajaran: enhancedContent.tujuanPembelajaran,
 
       materiPembelajaran: enhancedContent.materiPembelajaran,
-
-      metodePembelajaran: this.getRecommendedMethods(formData),
 
       mediaDanSumber: {
         media: [
@@ -304,8 +305,8 @@ export class PerencanaanPembelajaranGenerator {
         penilaian: this.generatePenilaian(formData),
         remedialDanPengayaan: this.generateRemedialPengayaan(formData),
         integrasiNilaiIslam: this.generateIslamicIntegration(formData),
-        asesmenFormatif: formData.asesmenFormatif || [],
-        asesmenSumatif: formData.asesmenSumatif || [],
+        asesmenFormatif: this.generateAsesmenFormatif(formData),
+        asesmenSumatif: this.generateAsesmenSumatif(formData),
         nilaiCinta: this.generateNilaiCinta(formData.nilaiCinta),
         aspekKarakter: this.generateCharacterDevelopment(formData),
         penilaianKarakter: this.generateCharacterDevelopment(formData),
@@ -418,20 +419,17 @@ export class PerencanaanPembelajaranGenerator {
     ];
     
     // Add Love-Based Curriculum objectives based on selected nilai cinta
-    if (nilaiCinta.cintaAllah) {
-      tujuan.push(`Siswa mampu mengintegrasikan nilai cinta kepada Allah dalam pembelajaran ${subtema}`);
+    if (nilaiCinta.cintaAllahRasul) {
+      tujuan.push(`Siswa mampu mengintegrasikan nilai cinta kepada Allah dan Rasul dalam pembelajaran ${subtema}`);
     }
-    if (nilaiCinta.cintaRasul) {
-      tujuan.push(`Siswa mampu meneladani sikap Rasulullah dalam memahami ${tema}`);
+    if (nilaiCinta.cintaIlmu) {
+      tujuan.push(`Siswa mampu meneladani sikap Rasulullah dalam mencari ilmu dan memahami ${tema}`);
     }
-    if (nilaiCinta.cintaKeluarga) {
-      tujuan.push(`Siswa mampu menerapkan pembelajaran ${subtema} dalam konteks keluarga`);
+    if (nilaiCinta.cintaLingkungan) {
+      tujuan.push(`Siswa mampu menghargai dan menjaga lingkungan dalam konteks ${subtema}`);
     }
-    if (nilaiCinta.cintaSesama) {
+    if (nilaiCinta.cintaDiriSesama) {
       tujuan.push(`Siswa mampu berkolaborasi dengan sesama dalam pembelajaran ${tema}`);
-    }
-    if (nilaiCinta.cintaAlam) {
-      tujuan.push(`Siswa mampu menghargai dan menjaga alam dalam konteks ${subtema}`);
     }
     if (nilaiCinta.cintaTanahAir) {
       tujuan.push(`Siswa mampu mengaplikasikan ${tema} untuk kemajuan tanah air`);
@@ -500,7 +498,6 @@ export class PerencanaanPembelajaranGenerator {
     const tema = formData.tema;
     const subtema = formData.subtema;
     const modelPembelajaran = formData.pendekatanPembelajaran;
-    const selectedAsesmen = formData.asesmenAutentik;
     
     const asesmenOptions = [
       `Portfolio pembelajaran ${mataPelajaran} yang mencakup pemahaman ${tema} dan ${subtema}`,
@@ -515,79 +512,55 @@ export class PerencanaanPembelajaranGenerator {
       `Penilaian berbasis kinerja untuk ${mataPelajaran} dengan fokus pada ${subtema}`
     ];
     
-    // If user selected specific asesmen, use them, otherwise generate comprehensive ones
-    if (selectedAsesmen.length > 0) {
-      return selectedAsesmen.map((asesmen, index) => 
-        `${asesmen} - ${asesmenOptions[index % asesmenOptions.length]}`
-      );
-    }
-    
-    // Generate comprehensive asesmen based on model pembelajaran
-    const comprehensiveAsesmen = [];
-    
-    if (modelPembelajaran === "Love-Based") {
-      comprehensiveAsesmen.push(
-        `Proyek cinta dalam ${mataPelajaran} - Siswa membuat proyek yang mencerminkan nilai cinta dalam konteks ${tema}`,
-        `Portfolio pembelajaran berbasis cinta - Mengumpulkan bukti pembelajaran ${subtema} yang mengintegrasikan nilai-nilai cinta`,
-        `Refleksi pembelajaran dengan nilai cinta - Siswa merefleksikan pembelajaran ${mataPelajaran} dalam konteks nilai cinta`
-      );
-    } else if (modelPembelajaran === "Holistic") {
-      comprehensiveAsesmen.push(
-        `Penilaian holistik ${mataPelajaran} - Mengintegrasikan aspek kognitif, afektif, dan psikomotor dalam ${tema}`,
-        `Proyek terintegrasi ${mataPelajaran} - Menggabungkan berbagai aspek pembelajaran ${subtema}`,
-        `Observasi pembelajaran holistik - Mengamati perkembangan siswa dalam ${mataPelajaran} secara menyeluruh`
-      );
-    } else {
-      comprehensiveAsesmen.push(
-        `Portfolio pembelajaran ${mataPelajaran} - Mengumpulkan bukti pembelajaran ${tema} dan ${subtema}`,
-        `Proyek nyata terkait ${mataPelajaran} - Menerapkan konsep ${subtema} dalam situasi nyata`,
-        `Presentasi hasil pembelajaran ${mataPelajaran} - Menyampaikan pemahaman ${tema} secara efektif`
-      );
-    }
-    
-    return comprehensiveAsesmen;
+    // Return comprehensive asesmen autentik
+    return asesmenOptions.slice(0, 5);
   }
 
   // Generate enhanced Profil Pelajar Pancasila
   private generateProfilPelajarPancasila(formData: LearningDocumentFormData): any {
-    const selectedProfil = formData.profilPelajarPancasila;
+    const selectedProfil = formData.dimensiKelulusan;
     const mataPelajaran = formData.mataPelajaran;
     
     const profilActivities = {
-      berimanBertakwa: [
-        `Mengawali pembelajaran dengan doa`,
-        `Mengintegrasikan nilai-nilai Islam dalam pembelajaran ${mataPelajaran}`,
-        `Mengembangkan sikap syukur dalam belajar ${mataPelajaran}`
+      keimananKetakwaan: [
+        `Mengintegrasikan nilai-nilai keimanan dalam pembelajaran ${mataPelajaran}`,
+        `Mengembangkan sikap takwa dalam belajar ${mataPelajaran}`,
+        `Mengamalkan ajaran agama dalam pembelajaran ${mataPelajaran}`
       ],
-      mandiri: [
-        `Mengembangkan kemampuan belajar mandiri dalam ${mataPelajaran}`,
-        `Mengambil inisiatif dalam pembelajaran ${mataPelajaran}`,
-        `Bertanggung jawab atas hasil belajar ${mataPelajaran}`
+      kewargaan: [
+        `Mengembangkan sikap kewargaan dalam pembelajaran ${mataPelajaran}`,
+        `Mengintegrasikan nilai-nilai kebangsaan dalam ${mataPelajaran}`,
+        `Mengembangkan kesadaran sebagai warga negara dalam ${mataPelajaran}`
       ],
-      bernalarKritis: [
-        `Menganalisis informasi ${mataPelajaran} secara kritis`,
-        `Mengevaluasi berbagai sumber belajar ${mataPelajaran}`,
-        `Mengembangkan argumentasi logis dalam ${mataPelajaran}`
+      penalaranKritis: [
+        `Mengembangkan kemampuan berpikir kritis dalam ${mataPelajaran}`,
+        `Mengasah kemampuan analisis dalam pembelajaran ${mataPelajaran}`,
+        `Mengembangkan kemampuan evaluasi dalam ${mataPelajaran}`
       ],
-      kreatif: [
-        `Mengembangkan ide kreatif dalam pembelajaran ${mataPelajaran}`,
-        `Menciptakan solusi inovatif untuk masalah ${mataPelajaran}`,
-        `Mengekspresikan pemahaman ${mataPelajaran} secara kreatif`
+      kreativitas: [
+        `Mengembangkan kreativitas dalam pembelajaran ${mataPelajaran}`,
+        `Mengasah kemampuan inovasi dalam ${mataPelajaran}`,
+        `Mengembangkan kemampuan berpikir divergen dalam ${mataPelajaran}`
       ],
-      bergotongRoyong: [
-        `Berkolaborasi dalam menyelesaikan tugas ${mataPelajaran}`,
-        `Membantu teman dalam memahami ${mataPelajaran}`,
-        `Mengembangkan sikap saling menghargai dalam pembelajaran ${mataPelajaran}`
+      kolaborasi: [
+        `Mengembangkan kemampuan kerja sama dalam ${mataPelajaran}`,
+        `Mengasah kemampuan kolaborasi dalam pembelajaran ${mataPelajaran}`,
+        `Mengembangkan sikap gotong royong dalam ${mataPelajaran}`
       ],
-      berkebinekaanGlobal: [
-        `Menghargai keragaman dalam pembelajaran ${mataPelajaran}`,
-        `Mengembangkan perspektif global dalam ${mataPelajaran}`,
-        `Mengintegrasikan nilai-nilai universal dalam ${mataPelajaran}`
+      kemandirian: [
+        `Mengembangkan kemandirian dalam pembelajaran ${mataPelajaran}`,
+        `Mengasah kemampuan belajar mandiri dalam ${mataPelajaran}`,
+        `Mengembangkan tanggung jawab dalam ${mataPelajaran}`
       ],
-      rahmatanLilAlamin: [
-        `Mengembangkan sikap peduli terhadap lingkungan dalam ${mataPelajaran}`,
-        `Menerapkan pembelajaran ${mataPelajaran} untuk kebaikan umat`,
-        `Mengembangkan sikap rahmatan lil 'alamin dalam ${mataPelajaran}`
+      kesehatan: [
+        `Mengintegrasikan nilai-nilai kesehatan dalam ${mataPelajaran}`,
+        `Mengembangkan gaya hidup sehat dalam pembelajaran ${mataPelajaran}`,
+        `Mengasah kesadaran kesehatan dalam ${mataPelajaran}`
+      ],
+      komunikasi: [
+        `Mengembangkan kemampuan komunikasi dalam ${mataPelajaran}`,
+        `Mengasah kemampuan berkomunikasi efektif dalam pembelajaran ${mataPelajaran}`,
+        `Mengembangkan kemampuan presentasi dalam ${mataPelajaran}`
       ]
     };
     
@@ -1530,19 +1503,19 @@ export class PerencanaanPembelajaranGenerator {
     const mapping = {
       "Matematika": {
         "Bilangan": {
-          "cintaAllah": {
+          "cintaAllahRasul": {
             ayat: "QS. Al-Hadid: 25",
             teks: "Sesungguhnya Kami telah mengutus rasul-rasul Kami dengan bukti-bukti yang nyata dan telah Kami turunkan bersama mereka Al Kitab dan neraca (keadilan) supaya manusia dapat melaksanakan keadilan.",
             refleksi: "Mengajak siswa merenungi keajaiban sistem bilangan dan mensyukuri ciptaan Allah yang teratur",
             aktivitas: "Membuat jurnal rasa syukur atas keajaiban matematika dalam kehidupan sehari-hari"
           },
-          "cintaRasul": {
+          "cintaIlmu": {
             hadits: "HR. Muslim",
             teks: "Sebaik-baik manusia adalah yang bermanfaat bagi manusia lain",
             refleksi: "Meneladani semangat Rasulullah dalam mencari ilmu dan mengajarkannya",
             aktivitas: "Kajian artikel ilmiah populer dan refleksi: 'Mengapa penting memahami matematika?'"
           },
-          "cintaKeluarga": {
+          "cintaDiriSesama": {
             ayat: "QS. Ar-Rum: 21",
             teks: "Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu pasangan-pasangan dari jenismu sendiri.",
             refleksi: "Mengintegrasikan pembelajaran matematika dalam konteks keluarga",
@@ -1550,7 +1523,7 @@ export class PerencanaanPembelajaranGenerator {
           }
         },
         "Geometri": {
-          "cintaAlam": {
+          "cintaLingkungan": {
             ayat: "QS. Al-Baqarah: 164",
             teks: "Sesungguhnya dalam penciptaan langit dan bumi, silih bergantinya malam dan siang, bahtera yang berlayar di laut membawa apa yang berguna bagi manusia.",
             refleksi: "Mengajak siswa mengamati keindahan geometri dalam alam semesta",
@@ -1560,7 +1533,7 @@ export class PerencanaanPembelajaranGenerator {
       },
       "IPA": {
         "Alam Semesta": {
-          "cintaAlam": {
+          "cintaLingkungan": {
             ayat: "QS. Al-Baqarah: 164",
             teks: "Sesungguhnya dalam penciptaan langit dan bumi, silih bergantinya malam dan siang, bahtera yang berlayar di laut membawa apa yang berguna bagi manusia.",
             refleksi: "Mengajak siswa merenungi keajaiban alam semesta dan mensyukuri ciptaan Allah",
@@ -1574,13 +1547,13 @@ export class PerencanaanPembelajaranGenerator {
           }
         },
         "Sistem Tubuh": {
-          "cintaAllah": {
+          "cintaAllahRasul": {
             ayat: "QS. At-Tin: 4",
             teks: "Sesungguhnya Kami telah menciptakan manusia dalam bentuk yang sebaik-baiknya.",
             refleksi: "Mengajak murid merenungi keajaiban sistem tubuh manusia dan mensyukuri ciptaan Allah",
             aktivitas: "Membuat jurnal rasa syukur atas tubuh sehat dan fungsi organ dalam kehidupan sehari-hari"
           },
-          "cintaRasul": {
+          "cintaIlmu": {
             hadits: "HR. Bukhari",
             teks: "Kebersihan adalah sebagian dari iman",
             refleksi: "Meneladani semangat Nabi Muhammad SAW dalam menjaga kesehatan",
@@ -1641,29 +1614,38 @@ export class PerencanaanPembelajaranGenerator {
     jenjang: string, 
     quranHadithMapping: any
   ): any {
-    const mapping = quranHadithMapping[nilaiCintaKey];
+    // Try to find specific mapping first
+    const specificMapping = quranHadithMapping[mataPelajaran]?.[tema]?.[nilaiCintaKey] ||
+                           quranHadithMapping[mataPelajaran]?.[subtema]?.[nilaiCintaKey];
     
-    if (mapping) {
+    if (specificMapping) {
       return {
         title: this.getNilaiCintaTitle(nilaiCintaKey),
-        ayat: mapping.ayat,
-        teks: mapping.teks,
-        refleksi: mapping.refleksi,
-        aktivitas: mapping.aktivitas
+        ...specificMapping
       };
-    } else {
-      // Generate generic content if no specific mapping found
-      return this.generateGenericNilaiCintaContent(nilaiCintaKey, mataPelajaran, tema, subtema, jenjang);
     }
+    
+    // Fallback to generic content if no specific mapping found
+    const genericContent = this.generateGenericNilaiCintaContent(
+      nilaiCintaKey, 
+      mataPelajaran, 
+      tema, 
+      subtema, 
+      jenjang
+    );
+    
+    return {
+      title: this.getNilaiCintaTitle(nilaiCintaKey),
+      ...genericContent
+    };
   }
 
   private getNilaiCintaTitle(nilaiCintaKey: string): string {
     const titles = {
-      "cintaAllah": "💖 Cinta Allah dan Rasul-Nya",
-      "cintaRasul": "💖 Cinta Allah dan Rasul-Nya",
-      "cintaKeluarga": "💝 Cinta Keluarga",
-      "cintaSesama": "🤝 Cinta Sesama",
-      "cintaAlam": "🌱 Cinta Lingkungan",
+      "cintaAllahRasul": "💖 Cinta Allah dan Rasulullah",
+      "cintaIlmu": "📚 Cinta Ilmu",
+      "cintaLingkungan": "🌱 Cinta Lingkungan",
+      "cintaDiriSesama": "🤝 Cinta Diri dan Sesama Manusia",
       "cintaTanahAir": "🇮🇩 Cinta Tanah Air"
     };
     return titles[nilaiCintaKey] || "💖 Cinta dalam Pembelajaran";
@@ -1671,31 +1653,25 @@ export class PerencanaanPembelajaranGenerator {
 
   private generateGenericQuranHadithContent(mataPelajaran: string, tema: string, subtema: string): any {
     return {
-      "cintaAllah": {
+      "cintaAllahRasul": {
         ayat: "QS. Al-Baqarah: 186",
         teks: "Dan apabila hamba-hamba-Ku bertanya kepadamu tentang Aku, maka (jawablah), bahwasanya Aku adalah dekat.",
         refleksi: `Mengajak siswa merenungi keajaiban ${tema} dalam ${mataPelajaran} dan mensyukuri ciptaan Allah`,
         aktivitas: `Membuat jurnal rasa syukur atas pembelajaran ${subtema} dalam kehidupan sehari-hari`
       },
-      "cintaRasul": {
+      "cintaIlmu": {
         hadits: "HR. Muslim",
         teks: "Sebaik-baik manusia adalah yang bermanfaat bagi manusia lain",
         refleksi: `Meneladani semangat Nabi Muhammad SAW dalam mencari ilmu ${mataPelajaran}`,
         aktivitas: `Kajian artikel ilmiah populer dan refleksi: 'Mengapa penting memahami ${subtema}?'`
       },
-      "cintaKeluarga": {
+      "cintaDiriSesama": {
         ayat: "QS. Ar-Rum: 21",
         teks: "Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu pasangan-pasangan dari jenismu sendiri.",
         refleksi: `Mengintegrasikan pembelajaran ${mataPelajaran} dalam konteks keluarga`,
         aktivitas: `Proyek ${mataPelajaran} keluarga: mengajarkan ${subtema} kepada anggota keluarga`
       },
-      "cintaSesama": {
-        ayat: "QS. Al-Hujurat: 11",
-        teks: "Hai orang-orang yang beriman, janganlah sekumpulan orang laki-laki merendahkan kumpulan yang lain.",
-        refleksi: `Mengembangkan sikap saling membantu dalam pembelajaran ${mataPelajaran}`,
-        aktivitas: `Kerja kelompok dalam memahami ${subtema} dan membantu teman yang kesulitan`
-      },
-      "cintaAlam": {
+      "cintaLingkungan": {
         ayat: "QS. Al-Baqarah: 164",
         teks: "Sesungguhnya dalam penciptaan langit dan bumi, silih bergantinya malam dan siang, bahtera yang berlayar di laut membawa apa yang berguna bagi manusia.",
         refleksi: `Mengajak siswa mengamati hubungan ${tema} dengan alam sekitar`,
@@ -1717,11 +1693,298 @@ export class PerencanaanPembelajaranGenerator {
     subtema: string, 
     jenjang: string
   ): any {
-    const genericContent = this.generateGenericQuranHadithContent(mataPelajaran, tema, subtema);
-    return {
-      title: this.getNilaiCintaTitle(nilaiCintaKey),
-      ...genericContent[nilaiCintaKey]
+    const genericContent = {
+      "cintaAllahRasul": {
+        ayat: "QS. Al-Baqarah: 164",
+        teks: "Sesungguhnya dalam penciptaan langit dan bumi, silih bergantinya malam dan siang, bahtera yang berlayar di laut membawa apa yang berguna bagi manusia.",
+        refleksi: `Mengajak siswa merenungi keajaiban ${mataPelajaran} dan mensyukuri ciptaan Allah yang teratur`,
+        aktivitas: `Membuat jurnal rasa syukur atas keajaiban ${mataPelajaran} dalam kehidupan sehari-hari`
+      },
+      "cintaIlmu": {
+        hadits: "HR. Muslim",
+        teks: "Sebaik-baik manusia adalah yang bermanfaat bagi manusia lain",
+        refleksi: `Meneladani semangat Rasulullah dalam mencari ilmu dan mengajarkannya melalui ${mataPelajaran}`,
+        aktivitas: `Kajian artikel ilmiah populer dan refleksi: 'Mengapa penting memahami ${mataPelajaran}?'`
+      },
+      "cintaLingkungan": {
+        ayat: "QS. Ar-Rum: 21",
+        teks: "Dan di antara tanda-tanda kekuasaan-Nya ialah Dia menciptakan untukmu pasangan-pasangan dari jenismu sendiri.",
+        refleksi: `Mengajak siswa mengamati keindahan ${mataPelajaran} dalam alam semesta`,
+        aktivitas: `Mengamati dan mendokumentasikan konsep ${mataPelajaran} di lingkungan sekitar`
+      },
+      "cintaDiriSesama": {
+        ayat: "QS. Al-Hujurat: 13",
+        teks: "Hai manusia, sesungguhnya Kami menciptakan kamu dari seorang laki-laki dan seorang perempuan dan menjadikan kamu berbangsa-bangsa dan bersuku-suku.",
+        refleksi: `Mengintegrasikan pembelajaran ${mataPelajaran} dalam konteks sosial dan keluarga`,
+        aktivitas: `Proyek ${mataPelajaran} keluarga: belajar bersama dan berbagi pengetahuan`
+      },
+      "cintaTanahAir": {
+        ayat: "QS. Al-Hujurat: 13",
+        teks: "Hai manusia, sesungguhnya Kami menciptakan kamu dari seorang laki-laki dan seorang perempuan dan menjadikan kamu berbangsa-bangsa dan bersuku-suku.",
+        refleksi: `Mengembangkan sikap bangga terhadap kekayaan ${mataPelajaran} Indonesia`,
+        aktivitas: `Proyek dokumentasi dan eksplorasi ${mataPelajaran} dalam konteks Indonesia`
+      }
     };
+
+    return genericContent[nilaiCintaKey] || {
+      teks: `Mengintegrasikan nilai-nilai Islam dalam pembelajaran ${mataPelajaran}`,
+      refleksi: `Mengembangkan sikap positif dalam belajar ${mataPelajaran}`,
+      aktivitas: `Aktivitas pembelajaran ${mataPelajaran} yang bermakna`
+    };
+  }
+
+  private generateAsesmenFormatif(formData: LearningDocumentFormData): string[] {
+    const mataPelajaran = formData.mataPelajaran;
+    const tema = formData.tema;
+    const subtema = formData.subtema;
+    const jenjang = formData.jenjang;
+    const kelas = parseInt(formData.kelas);
+    const pendekatanPembelajaran = formData.pendekatanPembelajaran;
+
+    // Base asesmen formatif yang universal
+    const baseAsesmenFormatif = [
+      "Observasi sikap dan perilaku siswa selama pembelajaran",
+      "Pertanyaan lisan untuk mengukur pemahaman konsep",
+      "Diskusi kelompok untuk menilai kemampuan berpikir kritis",
+      "Refleksi diri siswa tentang proses pembelajaran",
+      "Penilaian diri (self-assessment) terhadap capaian pembelajaran",
+      "Peer assessment (penilaian antar teman)",
+      "Jurnal pembelajaran harian",
+      "Kuis singkat untuk mengukur pemahaman"
+    ];
+
+    // Asesmen spesifik berdasarkan mata pelajaran
+    const mataPelajaranSpecific = {
+      "Matematika": [
+        "Pemecahan masalah matematika secara bertahap",
+        "Penilaian kemampuan berpikir logis",
+        "Observasi proses penyelesaian soal",
+        "Penilaian kemampuan visualisasi matematis",
+        "Asesmen kemampuan berpikir algoritmik"
+      ],
+      "IPA": [
+        "Observasi eksperimen dan praktikum",
+        "Penilaian kemampuan analisis data",
+        "Asesmen kemampuan observasi ilmiah",
+        "Penilaian kemampuan merumuskan hipotesis",
+        "Observasi sikap ilmiah dalam pembelajaran"
+      ],
+      "Bahasa Indonesia": [
+        "Penilaian kemampuan berkomunikasi",
+        "Observasi keterampilan membaca dan menulis",
+        "Asesmen kemampuan memahami teks",
+        "Penilaian kemampuan menulis kreatif",
+        "Observasi keterampilan berbicara"
+      ],
+      "Bahasa Arab": [
+        "Penilaian kemampuan membaca Al-Qur'an",
+        "Asesmen kemampuan menghafal doa",
+        "Observasi keterampilan berkomunikasi dalam bahasa Arab",
+        "Penilaian kemampuan memahami teks Arab",
+        "Asesmen kemampuan menulis huruf Arab"
+      ],
+      "Akidah Akhlak": [
+        "Observasi sikap keagamaan siswa",
+        "Penilaian kemampuan menghafal doa",
+        "Asesmen pemahaman konsep akidah",
+        "Observasi praktik akhlak mulia",
+        "Penilaian kemampuan mengamalkan ibadah"
+      ],
+      "Fiqih": [
+        "Observasi praktik ibadah siswa",
+        "Penilaian pemahaman hukum Islam",
+        "Asesmen kemampuan menghafal doa",
+        "Observasi sikap taat beribadah",
+        "Penilaian kemampuan mengamalkan fiqih"
+      ]
+    };
+
+    // Asesmen berdasarkan jenjang
+    const jenjangSpecific = {
+      "MI": [
+        "Penilaian berbasis proyek sederhana",
+        "Tes lisan untuk mengukur pemahaman",
+        "Observasi sikap belajar yang aktif",
+        "Penilaian kemampuan kerja sama",
+        "Asesmen keterampilan motorik halus"
+      ],
+      "MTs": [
+        "Penilaian berbasis proyek yang lebih kompleks",
+        "Tes tertulis dengan soal HOTS",
+        "Observasi kemampuan berpikir kritis",
+        "Penilaian kemampuan analisis",
+        "Asesmen keterampilan teknologi"
+      ],
+      "MA": [
+        "Penilaian berbasis proyek yang sangat kompleks",
+        "Tes tertulis dengan analisis mendalam",
+        "Observasi kemampuan berpikir tingkat tinggi",
+        "Penilaian kemampuan penelitian sederhana",
+        "Asesmen keterampilan presentasi"
+      ]
+    };
+
+    // Asesmen berdasarkan pendekatan pembelajaran
+    const pendekatanSpecific = {
+      "Love-Based": [
+        "Observasi pengembangan nilai-nilai cinta",
+        "Penilaian sikap empati dan kasih sayang",
+        "Asesmen kemampuan kerja sama",
+        "Observasi sikap menghargai sesama",
+        "Penilaian kemampuan berbagi dan peduli"
+      ],
+      "Holistic": [
+        "Penilaian perkembangan menyeluruh",
+        "Observasi integrasi berbagai aspek",
+        "Asesmen kemampuan berpikir sistemik",
+        "Penilaian keterampilan hidup",
+        "Observasi perkembangan karakter"
+      ],
+      "Character-Building": [
+        "Observasi pengembangan karakter positif",
+        "Penilaian sikap kepemimpinan",
+        "Asesmen kemampuan tanggung jawab",
+        "Observasi sikap disiplin",
+        "Penilaian kemampuan mengendalikan diri"
+      ]
+    };
+
+    // Combine all asesmen
+    const combinedAsesmen = [
+      ...baseAsesmenFormatif,
+      ...(mataPelajaranSpecific[mataPelajaran] || []),
+      ...(jenjangSpecific[jenjang] || []),
+      ...(pendekatanSpecific[pendekatanPembelajaran] || [])
+    ];
+
+    // Return unique asesmen (remove duplicates)
+    return [...new Set(combinedAsesmen)];
+  }
+
+  private generateAsesmenSumatif(formData: LearningDocumentFormData): string[] {
+    const mataPelajaran = formData.mataPelajaran;
+    const tema = formData.tema;
+    const subtema = formData.subtema;
+    const jenjang = formData.jenjang;
+    const kelas = parseInt(formData.kelas);
+    const pendekatanPembelajaran = formData.pendekatanPembelajaran;
+
+    // Base asesmen sumatif yang universal
+    const baseAsesmenSumatif = [
+      "Tes tertulis dengan berbagai jenis soal",
+      "Tes praktik untuk mengukur keterampilan",
+      "Proyek akhir yang mengintegrasikan semua konsep",
+      "Portofolio pembelajaran siswa",
+      "Presentasi hasil pembelajaran",
+      "Ujian akhir unit pembelajaran"
+    ];
+
+    // Asesmen spesifik berdasarkan mata pelajaran
+    const mataPelajaranSpecific = {
+      "Matematika": [
+        "Tes kemampuan pemecahan masalah matematika",
+        "Proyek matematika terapan dalam kehidupan",
+        "Tes kemampuan berpikir logis dan sistematis",
+        "Portofolio penyelesaian soal matematika",
+        "Presentasi konsep matematika dengan media"
+      ],
+      "IPA": [
+        "Tes kemampuan eksperimen dan praktikum",
+        "Proyek penelitian sederhana",
+        "Tes kemampuan analisis data ilmiah",
+        "Portofolio laporan eksperimen",
+        "Presentasi hasil penelitian"
+      ],
+      "Bahasa Indonesia": [
+        "Tes kemampuan membaca dan menulis",
+        "Proyek penulisan kreatif",
+        "Tes kemampuan berkomunikasi lisan",
+        "Portofolio karya tulis",
+        "Presentasi hasil membaca"
+      ],
+      "Bahasa Arab": [
+        "Tes kemampuan membaca Al-Qur'an",
+        "Proyek pembelajaran bahasa Arab",
+        "Tes kemampuan menghafal doa",
+        "Portofolio praktik ibadah",
+        "Presentasi dalam bahasa Arab"
+      ],
+      "Akidah Akhlak": [
+        "Tes pemahaman konsep akidah",
+        "Proyek pengamalan akhlak mulia",
+        "Tes kemampuan menghafal doa",
+        "Portofolio praktik ibadah",
+        "Presentasi nilai-nilai Islam"
+      ],
+      "Fiqih": [
+        "Tes pemahaman hukum Islam",
+        "Proyek praktik ibadah",
+        "Tes kemampuan menghafal doa",
+        "Portofolio amal ibadah",
+        "Presentasi hukum Islam"
+      ]
+    };
+
+    // Asesmen berdasarkan jenjang
+    const jenjangSpecific = {
+      "MI": [
+        "Penilaian berbasis proyek sederhana",
+        "Tes lisan untuk mengukur pemahaman",
+        "Portofolio karya siswa",
+        "Presentasi sederhana",
+        "Tes praktik keterampilan dasar"
+      ],
+      "MTs": [
+        "Penilaian berbasis proyek yang lebih kompleks",
+        "Tes tertulis dengan soal HOTS",
+        "Portofolio proyek pembelajaran",
+        "Presentasi dengan media",
+        "Tes praktik keterampilan menengah"
+      ],
+      "MA": [
+        "Penilaian berbasis proyek yang sangat kompleks",
+        "Tes tertulis dengan analisis mendalam",
+        "Portofolio penelitian sederhana",
+        "Presentasi dengan analisis kritis",
+        "Tes praktik keterampilan lanjutan"
+      ]
+    };
+
+    // Asesmen berdasarkan pendekatan pembelajaran
+    const pendekatanSpecific = {
+      "Love-Based": [
+        "Tes pengembangan nilai-nilai cinta",
+        "Proyek pengamalan kasih sayang",
+        "Portofolio sikap empati",
+        "Presentasi nilai-nilai cinta",
+        "Tes praktik kerja sama"
+      ],
+      "Holistic": [
+        "Tes perkembangan menyeluruh",
+        "Proyek integrasi berbagai aspek",
+        "Portofolio perkembangan karakter",
+        "Presentasi keterampilan hidup",
+        "Tes praktik berpikir sistemik"
+      ],
+      "Character-Building": [
+        "Tes pengembangan karakter positif",
+        "Proyek kepemimpinan",
+        "Portofolio sikap tanggung jawab",
+        "Presentasi karakter mulia",
+        "Tes praktik disiplin diri"
+      ]
+    };
+
+    // Combine all asesmen
+    const combinedAsesmen = [
+      ...baseAsesmenSumatif,
+      ...(mataPelajaranSpecific[mataPelajaran] || []),
+      ...(jenjangSpecific[jenjang] || []),
+      ...(pendekatanSpecific[pendekatanPembelajaran] || [])
+    ];
+
+    // Return unique asesmen (remove duplicates)
+    return [...new Set(combinedAsesmen)];
   }
 
   private generateIslamicIntegration(formData: LearningDocumentFormData): string[] {

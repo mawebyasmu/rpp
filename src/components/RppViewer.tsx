@@ -2,7 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { GeneratedRPP } from "@/lib/rpp-generator";
-import { BookOpen, Target, Users, Clock, CheckCircle, Award, BookmarkCheck, Heart, ClipboardList } from "lucide-react";
+import { BookOpen, Target, Users, Clock, CheckCircle, Award, BookmarkCheck, Heart, ClipboardList, ClipboardCheck } from "lucide-react";
 
 interface RppViewerProps {
   rpp: GeneratedRPP;
@@ -606,47 +606,47 @@ const RppViewer = ({ rpp }: RppViewerProps) => {
       </Card>
 
       {/* Asesmen Formatif dan Sumatif */}
-      <Card className="shadow-lg border-0 bg-white/90 backdrop-blur-sm">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <ClipboardList className="h-5 w-5 text-primary" />
-            Asesmen Formatif dan Sumatif
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          {/* Asesmen Formatif */}
-          <div>
-            <h4 className="font-semibold text-primary mb-3">Asesmen Formatif:</h4>
-            <div className="bg-primary/10 p-4 rounded-lg">
-              <ul className="space-y-2">
-                {(rpp.asesmenFormatif || []).map((asesmen, index) => (
-                  <li key={index} className="flex items-start gap-2 text-sm">
-                    <CheckCircle className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
-                    <span>{asesmen}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-          
-          <Separator />
-          
-          {/* Asesmen Sumatif */}
-          <div>
-            <h4 className="font-semibold text-accent-foreground mb-3">Asesmen Sumatif:</h4>
-            <div className="bg-accent/10 p-4 rounded-lg">
-              <ul className="space-y-2">
-                {(rpp.asesmenSumatif || []).map((asesmen, index) => (
-                  <li key={index} className="flex items-start gap-2 text-sm">
-                    <CheckCircle className="h-4 w-4 text-accent-foreground mt-0.5 flex-shrink-0" />
-                    <span>{asesmen}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+      {(rpp.asesmenFormatif && rpp.asesmenFormatif.length > 0) && (
+        <Card className="shadow-lg border-0 bg-white/90 backdrop-blur-sm">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <ClipboardCheck className="h-5 w-5 text-green-600" />
+              Asesmen Formatif
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ul className="space-y-3">
+              {rpp.asesmenFormatif.map((asesmen, index) => (
+                <li key={index} className="flex items-start gap-3 p-3 bg-green-50 rounded-lg">
+                  <CheckCircle className="h-4 w-4 text-green-600 mt-1 flex-shrink-0" />
+                  <span className="text-sm leading-relaxed">{asesmen}</span>
+                </li>
+              ))}
+            </ul>
+          </CardContent>
+        </Card>
+      )}
+
+      {(rpp.asesmenSumatif && rpp.asesmenSumatif.length > 0) && (
+        <Card className="shadow-lg border-0 bg-white/90 backdrop-blur-sm">
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <ClipboardList className="h-5 w-5 text-blue-600" />
+              Asesmen Sumatif
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <ul className="space-y-3">
+              {rpp.asesmenSumatif.map((asesmen, index) => (
+                <li key={index} className="flex items-start gap-3 p-3 bg-blue-50 rounded-lg">
+                  <CheckCircle className="h-4 w-4 text-blue-600 mt-1 flex-shrink-0" />
+                  <span className="text-sm leading-relaxed">{asesmen}</span>
+                </li>
+              ))}
+            </ul>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Remedial dan Pengayaan */}
       <Card className="shadow-lg border-0 bg-white/90 backdrop-blur-sm">

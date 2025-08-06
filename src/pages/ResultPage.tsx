@@ -515,10 +515,49 @@ const ResultPage = () => {
       );
     });
 
+    // Asesmen Formatif dan Sumatif
+    if (rpp.asesmenFormatif && rpp.asesmenFormatif.length > 0) {
+      children.push(
+        new Paragraph({
+          text: "H. ASESMEN FORMATIF",
+          heading: HeadingLevel.HEADING_2,
+          spacing: { before: 400, after: 200 }
+        })
+      );
+
+      rpp.asesmenFormatif.forEach((asesmen, index) => {
+        children.push(
+          new Paragraph({
+            text: `${index + 1}. ${asesmen}`,
+            spacing: { after: 200 }
+          })
+        );
+      });
+    }
+
+    if (rpp.asesmenSumatif && rpp.asesmenSumatif.length > 0) {
+      children.push(
+        new Paragraph({
+          text: "I. ASESMEN SUMATIF",
+          heading: HeadingLevel.HEADING_2,
+          spacing: { before: 400, after: 200 }
+        })
+      );
+
+      rpp.asesmenSumatif.forEach((asesmen, index) => {
+        children.push(
+          new Paragraph({
+            text: `${index + 1}. ${asesmen}`,
+            spacing: { after: 200 }
+          })
+        );
+      });
+    }
+
     // Langkah Pembelajaran
     children.push(
       new Paragraph({
-        text: "H. LANGKAH PEMBELAJARAN",
+        text: "J. LANGKAH PEMBELAJARAN",
         heading: HeadingLevel.HEADING_2,
         spacing: { before: 400, after: 200 }
       })
@@ -575,7 +614,7 @@ const ResultPage = () => {
     // Penilaian
     children.push(
       new Paragraph({
-        text: "I. PENILAIAN",
+        text: "K. PENILAIAN",
         heading: HeadingLevel.HEADING_2,
         spacing: { before: 400, after: 200 }
       })
@@ -895,62 +934,7 @@ const ResultPage = () => {
       })
     );
 
-    // Add Materi Insersi KBC if available in the RPP data
-    if (rpp.materiInsersiKBC && typeof rpp.materiInsersiKBC === 'object') {
-      children.push(
-        new Paragraph({
-          text: "E. MATERI INSERSI KBC",
-          heading: HeadingLevel.HEADING_2,
-          spacing: { before: 400, after: 200 }
-        })
-      );
 
-      Object.entries(rpp.materiInsersiKBC).forEach(([key, content]) => {
-        if (content && typeof content === 'object') {
-          // Add title
-          children.push(
-            new Paragraph({
-              text: content.title || key,
-              heading: HeadingLevel.HEADING_3,
-              spacing: { before: 300, after: 150 }
-            })
-          );
-
-          // Add ayat/hadits if available
-          if (content.ayat) {
-            children.push(
-              new Paragraph({
-                text: `• Ayat: ${content.ayat} "${content.teks}"`,
-                spacing: { after: 100 }
-              })
-            );
-          } else if (content.hadits) {
-            children.push(
-              new Paragraph({
-                text: `• Hadits: ${content.hadits} "${content.teks}"`,
-                spacing: { after: 100 }
-              })
-            );
-          }
-
-          // Add refleksi
-          children.push(
-            new Paragraph({
-              text: `• Refleksi: ${content.refleksi}`,
-              spacing: { after: 100 }
-            })
-          );
-
-          // Add aktivitas
-          children.push(
-            new Paragraph({
-              text: `• Aktivitas: ${content.aktivitas}`,
-              spacing: { after: 200 }
-            })
-          );
-        }
-      });
-    }
 
     return children;
   };
