@@ -12,6 +12,7 @@ export interface LearningDocumentFormData {
   alokasi: string;
   pertemuan: number;
   namaGuru: string;
+  namaKepalaSekolah: string;
   
 
   
@@ -67,6 +68,7 @@ export interface GeneratedRPP {
     alokasi: string;
     pertemuan: number;
     namaGuru: string;
+    namaKepalaSekolah: string;
     pendekatanPembelajaran: string;
     nilaiCinta: string[];
     integrasiNilaiIslam: string[];
@@ -233,6 +235,7 @@ export class PerencanaanPembelajaranGenerator {
         alokasi: formData.alokasi,
         pertemuan: formData.pertemuan,
         namaGuru: formData.namaGuru,
+        namaKepalaSekolah: formData.namaKepalaSekolah,
         // Love-Based Curriculum additions
         pendekatanPembelajaran: formData.pendekatanPembelajaran,
         nilaiCinta: this.formatNilaiCinta(formData.nilaiCinta),

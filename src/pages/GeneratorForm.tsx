@@ -31,8 +31,9 @@ const formSchema = z.object({
   tema: z.string().min(1, "Tema harus diisi").max(200, "Tema terlalu panjang"),
   subtema: z.string().min(1, "Sub tema harus diisi").max(500, "Sub tema terlalu panjang"),
   alokasi: z.string().min(1, "Alokasi waktu harus diisi").max(50, "Alokasi waktu terlalu panjang"),
-  pertemuan: z.number().min(1, "Pertemuan minimal 1").max(100, "Pertemuan terlalu banyak"),
+  pertemuan: z.number().min(1, "Pertemuan minimal 1").max(20, "Pertemuan maksimal 20"),
   namaGuru: z.string().min(1, "Nama guru harus diisi").max(100, "Nama guru terlalu panjang"),
+  namaKepalaSekolah: z.string().min(1, "Nama kepala sekolah harus diisi").max(100, "Nama kepala sekolah terlalu panjang"),
   
 
   
@@ -96,6 +97,7 @@ const GeneratorForm = () => {
       alokasi: "2 x 40 menit",
       pertemuan: 1,
       namaGuru: "",
+      namaKepalaSekolah: "",
       
 
       
@@ -163,6 +165,28 @@ const GeneratorForm = () => {
     }
   };
 
+  // Function to get alokasi waktu based on jenjang
+  const getAlokasiWaktu = (jenjang: string) => {
+    switch (jenjang) {
+      case "MI":
+        return "2 x 35 menit";
+      case "MTs":
+        return "2 x 40 menit";
+      case "MA":
+        return "2 x 45 menit";
+      default:
+        return "2 x 40 menit";
+    }
+  };
+
+  // Watch jenjang changes and update alokasi waktu
+  const watchedJenjang = form.watch("jenjang");
+  useEffect(() => {
+    if (watchedJenjang) {
+      form.setValue("alokasi", getAlokasiWaktu(watchedJenjang));
+    }
+  }, [watchedJenjang, form]);
+
   const handleSubmit = async (data: z.infer<typeof formSchema>) => {
     
     try {
@@ -185,6 +209,7 @@ const GeneratorForm = () => {
       // Check required fields
       const requiredFields = {
         namaGuru: sanitizedData.namaGuru,
+        namaKepalaSekolah: sanitizedData.namaKepalaSekolah,
         mataPelajaran: sanitizedData.mataPelajaran,
         tema: sanitizedData.tema,
         subtema: sanitizedData.subtema,
@@ -233,7 +258,6 @@ try {
       SecurityUtils.debugLog('Document generated successfully', { 
         mataPelajaran: sanitizedData.mataPelajaran,
         tema: sanitizedData.tema,
-        documentType: sanitizedData.documentType,
         timestamp: new Date().toISOString()
       });
       
@@ -324,6 +348,20 @@ try {
                           <FormLabel>Nama Guru</FormLabel>
                           <FormControl>
                             <Input placeholder="Contoh: Ahmad S.Pd, Siti M.Pd..." {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="namaKepalaSekolah"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Nama Kepala Sekolah</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Contoh: Dr. H. Ahmad S.Pd, M.Pd..." {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>

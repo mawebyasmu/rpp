@@ -241,6 +241,12 @@ const ResultPage = () => {
             new TableCell({ children: [new Paragraph({ text: "Penyusun" })] }),
             new TableCell({ children: [new Paragraph({ text: rpp.identitas.namaGuru })] })
           ]
+        }),
+        new TableRow({
+          children: [
+            new TableCell({ children: [new Paragraph({ text: "Nama Kepala Sekolah" })] }),
+            new TableCell({ children: [new Paragraph({ text: rpp.identitas.namaKepalaSekolah })] })
+          ]
         })
       ]
     });
@@ -940,7 +946,111 @@ const ResultPage = () => {
       })
     );
 
+    // Tanda Tangan dan Tempat Tanggal
+    children.push(
+      new Paragraph({
+        text: "P. TANDA TANGAN",
+        heading: HeadingLevel.HEADING_2,
+        spacing: { before: 400, after: 200 }
+      })
+    );
 
+    // Add space for signatures
+    children.push(
+      new Paragraph({
+        text: "",
+        spacing: { before: 600, after: 200 }
+      })
+    );
+
+    // Create table for signatures
+    const signatureTable = new Table({
+      width: { size: 100, type: WidthType.PERCENTAGE },
+      rows: [
+        new TableRow({
+          children: [
+            new TableCell({ 
+              children: [new Paragraph({ text: "Mengetahui," })] 
+            }),
+            new TableCell({ 
+              children: [new Paragraph({ text: "" })] 
+            }),
+            new TableCell({ 
+              children: [new Paragraph({ text: "Guru Mata Pelajaran," })] 
+            })
+          ]
+        }),
+        new TableRow({
+          children: [
+            new TableCell({ 
+              children: [new Paragraph({ text: "Kepala Madrasah," })] 
+            }),
+            new TableCell({ 
+              children: [new Paragraph({ text: "" })] 
+            }),
+            new TableCell({ 
+              children: [new Paragraph({ text: "" })] 
+            })
+          ]
+        }),
+        new TableRow({
+          children: [
+            new TableCell({ 
+              children: [new Paragraph({ text: "" })] 
+            }),
+            new TableCell({ 
+              children: [new Paragraph({ text: "" })] 
+            }),
+            new TableCell({ 
+              children: [new Paragraph({ text: "" })] 
+            })
+          ]
+        }),
+        new TableRow({
+          children: [
+            new TableCell({ 
+              children: [new Paragraph({ text: rpp.identitas.namaKepalaSekolah })] 
+            }),
+            new TableCell({ 
+              children: [new Paragraph({ text: "" })] 
+            }),
+            new TableCell({ 
+              children: [new Paragraph({ text: rpp.identitas.namaGuru })] 
+            })
+          ]
+        }),
+        new TableRow({
+          children: [
+            new TableCell({ 
+              children: [new Paragraph({ text: "NIP. ________________" })] 
+            }),
+            new TableCell({ 
+              children: [new Paragraph({ text: "" })] 
+            }),
+            new TableCell({ 
+              children: [new Paragraph({ text: "NIP. ________________" })] 
+            })
+          ]
+        })
+      ]
+    });
+
+    children.push(signatureTable);
+
+    // Add place and date
+    children.push(
+      new Paragraph({
+        text: "",
+        spacing: { before: 400, after: 200 }
+      })
+    );
+
+    children.push(
+      new Paragraph({
+        text: "Tempat, Tanggal: ________________",
+        spacing: { after: 200 }
+      })
+    );
 
     return children;
   };
