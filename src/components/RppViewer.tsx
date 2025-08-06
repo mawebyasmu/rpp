@@ -2,7 +2,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { GeneratedRPP } from "@/lib/rpp-generator";
-import { BookOpen, Target, Users, Clock, CheckCircle, Award, BookmarkCheck, Heart } from "lucide-react";
+import { BookOpen, Target, Users, Clock, CheckCircle, Award, BookmarkCheck, Heart, ClipboardList } from "lucide-react";
 
 interface RppViewerProps {
   rpp: GeneratedRPP;
@@ -66,19 +66,8 @@ const RppViewer = ({ rpp }: RppViewerProps) => {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-3">
-            <div className="p-3 bg-muted/50 rounded-lg">
-              <p className="text-sm font-medium text-primary mb-1">Pengetahuan:</p>
-              <p className="text-sm leading-relaxed">{rpp.capaianPembelajaran.pengetahuan}</p>
-            </div>
-            <div className="p-3 bg-muted/50 rounded-lg">
-              <p className="text-sm font-medium text-accent-foreground mb-1">Keterampilan:</p>
-              <p className="text-sm leading-relaxed">{rpp.capaianPembelajaran.keterampilan}</p>
-            </div>
-            <div className="p-3 bg-muted/50 rounded-lg">
-              <p className="text-sm font-medium text-green-600 mb-1">Sikap:</p>
-              <p className="text-sm leading-relaxed">{rpp.capaianPembelajaran.sikap}</p>
-            </div>
+          <div className="p-3 bg-muted/50 rounded-lg">
+            <p className="text-sm leading-relaxed whitespace-pre-line">{rpp.capaianPembelajaran}</p>
           </div>
         </CardContent>
       </Card>
@@ -611,6 +600,49 @@ const RppViewer = ({ rpp }: RppViewerProps) => {
                   ))}
                 </ul>
               </div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Asesmen Formatif dan Sumatif */}
+      <Card className="shadow-lg border-0 bg-white/90 backdrop-blur-sm">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <ClipboardList className="h-5 w-5 text-primary" />
+            Asesmen Formatif dan Sumatif
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          {/* Asesmen Formatif */}
+          <div>
+            <h4 className="font-semibold text-primary mb-3">Asesmen Formatif:</h4>
+            <div className="bg-primary/10 p-4 rounded-lg">
+              <ul className="space-y-2">
+                {(rpp.asesmenFormatif || []).map((asesmen, index) => (
+                  <li key={index} className="flex items-start gap-2 text-sm">
+                    <CheckCircle className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
+                    <span>{asesmen}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+          
+          <Separator />
+          
+          {/* Asesmen Sumatif */}
+          <div>
+            <h4 className="font-semibold text-accent-foreground mb-3">Asesmen Sumatif:</h4>
+            <div className="bg-accent/10 p-4 rounded-lg">
+              <ul className="space-y-2">
+                {(rpp.asesmenSumatif || []).map((asesmen, index) => (
+                  <li key={index} className="flex items-start gap-2 text-sm">
+                    <CheckCircle className="h-4 w-4 text-accent-foreground mt-0.5 flex-shrink-0" />
+                    <span>{asesmen}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </CardContent>

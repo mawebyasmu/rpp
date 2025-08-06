@@ -287,21 +287,7 @@ const ResultPage = () => {
 
     children.push(
       new Paragraph({
-        text: `Pengetahuan: ${rpp.capaianPembelajaran.pengetahuan}`,
-        spacing: { after: 200 }
-      })
-    );
-
-    children.push(
-      new Paragraph({
-        text: `Keterampilan: ${rpp.capaianPembelajaran.keterampilan}`,
-        spacing: { after: 200 }
-      })
-    );
-
-    children.push(
-      new Paragraph({
-        text: `Sikap: ${rpp.capaianPembelajaran.sikap}`,
+        text: rpp.capaianPembelajaran,
         spacing: { after: 200 }
       })
     );
@@ -862,15 +848,35 @@ const ResultPage = () => {
     // Asesmen Autentik
     children.push(
       new Paragraph({
-        text: "M. ASESMEN AUTENTIK",
+        text: "M. ASESMEN FORMATIF",
         heading: HeadingLevel.HEADING_2,
         spacing: { before: 400, after: 200 }
       })
     );
 
-    // Add asesmen autentik if available in the RPP data
-    if (rpp.asesmenAutentik && Array.isArray(rpp.asesmenAutentik)) {
-      rpp.asesmenAutentik.forEach((asesmen, index) => {
+    // Add asesmen formatif if available in the RPP data
+    if (rpp.asesmenFormatif && Array.isArray(rpp.asesmenFormatif)) {
+      rpp.asesmenFormatif.forEach((asesmen, index) => {
+        children.push(
+          new Paragraph({
+            text: `${index + 1}. ${asesmen}`,
+            spacing: { after: 200 }
+          })
+        );
+      });
+    }
+
+    children.push(
+      new Paragraph({
+        text: "N. ASESMEN SUMATIF",
+        heading: HeadingLevel.HEADING_2,
+        spacing: { before: 400, after: 200 }
+      })
+    );
+
+    // Add asesmen sumatif if available in the RPP data
+    if (rpp.asesmenSumatif && Array.isArray(rpp.asesmenSumatif)) {
+      rpp.asesmenSumatif.forEach((asesmen, index) => {
         children.push(
           new Paragraph({
             text: `${index + 1}. ${asesmen}`,
@@ -883,7 +889,7 @@ const ResultPage = () => {
     // Nilai Cinta Activities
     children.push(
       new Paragraph({
-        text: "N. PENGEMBANGAN NILAI CINTA",
+        text: "O. PENGEMBANGAN NILAI CINTA",
         heading: HeadingLevel.HEADING_2,
         spacing: { before: 400, after: 200 }
       })

@@ -18,11 +18,10 @@ export interface LearningDocumentFormData {
   // Love-Based Curriculum Structure
   pendekatanPembelajaran: "Love-Based" | "Holistic" | "Character-Building";
   nilaiCinta: {
-    cintaAllah: boolean;
-    cintaRasul: boolean;
-    cintaKeluarga: boolean;
-    cintaSesama: boolean;
-    cintaAlam: boolean;
+    cintaAllahRasul: boolean;
+    cintaIlmu: boolean;
+    cintaLingkungan: boolean;
+    cintaDiriSesama: boolean;
     cintaTanahAir: boolean;
   };
   
@@ -39,14 +38,11 @@ export interface LearningDocumentFormData {
   };
   
   // Learning Outcomes
-  capaianPembelajaran: {
-    pengetahuan: string;
-    keterampilan: string;
-    sikap: string;
-  };
+  capaianPembelajaran: string;
   
   // Assessment & Evaluation
-  asesmenAutentik: string[];
+  asesmenFormatif: string[];
+  asesmenSumatif: string[];
   penilaianKarakter: string[];
   integrasiNilaiIslam: string[];
   
@@ -79,11 +75,7 @@ export interface GeneratedRPP {
   // Removed: kompetensiInti, kompetensiDasar, indikator
   // Added: Love-Based Curriculum structure
   
-  capaianPembelajaran: {
-    pengetahuan: string;
-    keterampilan: string;
-    sikap: string;
-  };
+  capaianPembelajaran: string;
   
   tujuanPembelajaran: string[];
   
@@ -281,7 +273,8 @@ export class PerencanaanPembelajaranGenerator {
       // Love-Based Curriculum additions
       nilaiCinta: enhancedContent.nilaiCinta || {},
       aspekKarakter: enhancedContent.aspekKarakter || [],
-      asesmenAutentik: enhancedContent.asesmenAutentik || [],
+      asesmenFormatif: enhancedContent.asesmenFormatif || [],
+      asesmenSumatif: enhancedContent.asesmenSumatif || [],
       penilaianKarakter: enhancedContent.penilaianKarakter || [],
       materiInsersiKBC: enhancedContent.materiInsersiKBC || {},
       
@@ -311,7 +304,8 @@ export class PerencanaanPembelajaranGenerator {
         penilaian: this.generatePenilaian(formData),
         remedialDanPengayaan: this.generateRemedialPengayaan(formData),
         integrasiNilaiIslam: this.generateIslamicIntegration(formData),
-        asesmenAutentik: this.generateAsesmenAutentik(formData),
+        asesmenFormatif: formData.asesmenFormatif || [],
+        asesmenSumatif: formData.asesmenSumatif || [],
         nilaiCinta: this.generateNilaiCinta(formData.nilaiCinta),
         aspekKarakter: this.generateCharacterDevelopment(formData),
         penilaianKarakter: this.generateCharacterDevelopment(formData),
@@ -336,13 +330,11 @@ export class PerencanaanPembelajaranGenerator {
       
       Nilai Cinta yang dikembangkan: ${nilaiCinta}
       
-      Capaian Pembelajaran:
-      - Pengetahuan: ${formData.capaianPembelajaran.pengetahuan}
-      - Keterampilan: ${formData.capaianPembelajaran.keterampilan}
-      - Sikap: ${formData.capaianPembelajaran.sikap}
+      Capaian Pembelajaran: ${formData.capaianPembelajaran}
       
       Integrasi Nilai Islam: ${(formData.integrasiNilaiIslam || []).join(", ")}
-      Asesmen Autentik: ${(formData.asesmenAutentik || []).join(", ")}
+      Asesmen Formatif: ${(formData.asesmenFormatif || []).join(", ")}
+      Asesmen Sumatif: ${(formData.asesmenSumatif || []).join(", ")}
       
       Fokus pada:
       1. Deep Learning dan Higher Order Thinking Skills (HOTS)
@@ -1419,35 +1411,29 @@ export class PerencanaanPembelajaranGenerator {
 
   private generateNilaiCinta(nilaiCinta: { [key: string]: boolean }): any {
     const activities = {
-      cintaAllah: [
+      cintaAllahRasul: [
         "Mengawali pembelajaran dengan doa dan dzikir yang dipimpin oleh siswa secara bergantian",
         "Mengintegrasikan nilai-nilai Islam dalam setiap aspek pembelajaran dengan mengaitkan materi dengan ayat Al-Qur'an",
-        "Mengembangkan sikap syukur dalam belajar dengan mengucapkan hamdalah setelah memahami konsep baru",
+        "Meneladani akhlak Rasulullah SAW dalam pembelajaran dengan mengikuti sikap sabar dan ikhlas",
         "Mengamalkan ajaran Islam dalam kehidupan sehari-hari melalui praktik ibadah yang terkait dengan pembelajaran"
       ],
-      cintaRasul: [
-        "Meneladani akhlak Rasulullah SAW dalam pembelajaran dengan mengikuti sikap sabar dan ikhlas",
-        "Mengintegrasikan sunnah dalam aktivitas belajar dengan mengamalkan adab-adab belajar yang diajarkan Rasulullah",
-        "Mengembangkan sikap sabar dan ikhlas seperti Rasulullah dalam menghadapi kesulitan belajar",
-        "Mengamalkan hadits dalam kehidupan sehari-hari dengan menerapkan nilai-nilai yang terkandung dalam hadits"
+      cintaIlmu: [
+        "Mengembangkan sikap ingin tahu dan antusias dalam belajar",
+        "Mengintegrasikan nilai pencarian ilmu dalam pembelajaran dengan mengembangkan sikap kritis",
+        "Mengembangkan sikap tekun dan gigih dalam menghadapi kesulitan belajar",
+        "Mengamalkan nilai pencarian ilmu dalam kehidupan dengan mengembangkan budaya membaca dan belajar"
       ],
-      cintaKeluarga: [
-        "Mengembangkan sikap hormat kepada orang tua dengan membuat karya yang dipersembahkan untuk keluarga",
-        "Mengintegrasikan nilai keluarga dalam pembelajaran dengan mengaitkan materi dengan konteks keluarga",
-        "Mengembangkan sikap peduli terhadap keluarga melalui proyek yang bermanfaat untuk keluarga",
-        "Mengamalkan nilai-nilai keluarga dalam kehidupan dengan menerapkan pembelajaran dalam konteks keluarga"
-      ],
-      cintaSesama: [
-        "Mengembangkan sikap tolong-menolong dalam pembelajaran melalui kerja kelompok yang saling mendukung",
-        "Mengintegrasikan nilai persaudaraan dalam belajar dengan mengembangkan sikap saling membantu",
-        "Mengembangkan sikap saling menghargai melalui presentasi yang menghargai pendapat teman",
-        "Mengamalkan nilai persaudaraan dalam kehidupan dengan mengembangkan proyek yang bermanfaat untuk masyarakat"
-      ],
-      cintaAlam: [
+      cintaLingkungan: [
         "Mengembangkan sikap peduli terhadap lingkungan melalui proyek pelestarian lingkungan",
         "Mengintegrasikan nilai pelestarian alam dalam pembelajaran dengan mengaitkan materi dengan isu lingkungan",
         "Mengembangkan sikap ramah lingkungan melalui praktik pembelajaran yang ramah lingkungan",
         "Mengamalkan nilai pelestarian alam dalam kehidupan dengan mengembangkan kesadaran lingkungan"
+      ],
+      cintaDiriSesama: [
+        "Mengembangkan sikap tolong-menolong dalam pembelajaran melalui kerja kelompok yang saling mendukung",
+        "Mengintegrasikan nilai persaudaraan dalam belajar dengan mengembangkan sikap saling membantu",
+        "Mengembangkan sikap saling menghargai melalui presentasi yang menghargai pendapat teman",
+        "Mengamalkan nilai persaudaraan dalam kehidupan dengan mengembangkan proyek yang bermanfaat untuk masyarakat"
       ],
       cintaTanahAir: [
         "Mengembangkan sikap cinta tanah air dalam pembelajaran dengan mengaitkan materi dengan kearifan lokal",
