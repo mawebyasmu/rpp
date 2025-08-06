@@ -166,28 +166,35 @@ const GeneratorForm = () => {
   };
 
   // Function to get alokasi waktu based on jenjang
-  const getAlokasiWaktu = (jenjang: string) => {
+  const getAlokasiWaktu = (jenjang: string, jumlahPertemuan: number = 2) => {
+    let menitPerPertemuan;
     switch (jenjang) {
       case "MI":
-        return "2 x 35 menit";
+        menitPerPertemuan = 35;
+        break;
       case "MTs":
-        return "2 x 40 menit";
+        menitPerPertemuan = 40;
+        break;
       case "MA":
-        return "2 x 45 menit";
+        menitPerPertemuan = 45;
+        break;
       default:
-        return "2 x 40 menit";
+        menitPerPertemuan = 40;
     }
+    return `${jumlahPertemuan} x ${menitPerPertemuan} menit`;
   };
 
   // Watch jenjang changes and update alokasi waktu
   const watchedJenjang = form.watch("jenjang");
+  const [jumlahPertemuan, setJumlahPertemuan] = useState(2);
+  
   useEffect(() => {
     if (watchedJenjang) {
-      const newAlokasi = getAlokasiWaktu(watchedJenjang);
+      const newAlokasi = getAlokasiWaktu(watchedJenjang, jumlahPertemuan);
       form.setValue("alokasi", newAlokasi);
-      console.log(`Jenjang berubah ke ${watchedJenjang}, alokasi waktu: ${newAlokasi}`);
+      console.log(`Jenjang berubah ke ${watchedJenjang}, jumlah pertemuan: ${jumlahPertemuan}, alokasi waktu: ${newAlokasi}`);
     }
-  }, [watchedJenjang, form]);
+  }, [watchedJenjang, jumlahPertemuan, form]);
 
   const handleSubmit = async (data: z.infer<typeof formSchema>) => {
     
@@ -395,7 +402,7 @@ try {
                               field.onChange(value);
                               form.setValue("kelas", "");
                               // Update alokasi waktu immediately
-                              form.setValue("alokasi", getAlokasiWaktu(value));
+                              form.setValue("alokasi", getAlokasiWaktu(value, jumlahPertemuan));
                             }} defaultValue={field.value}>
                               <FormControl>
                                 <SelectTrigger>
@@ -552,16 +559,39 @@ try {
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel>Alokasi Waktu</FormLabel>
-                            <FormControl>
-                              <Input 
-                                placeholder="Otomatis terisi berdasarkan jenjang" 
-                                {...field} 
-                                readOnly
-                                className="bg-muted"
-                              />
-                            </FormControl>
+                            <div className="flex gap-2">
+                              <Select 
+                                value={jumlahPertemuan.toString()} 
+                                onValueChange={(value) => {
+                                  const newJumlah = parseInt(value);
+                                  setJumlahPertemuan(newJumlah);
+                                  const newAlokasi = getAlokasiWaktu(watchedJenjang, newJumlah);
+                                  form.setValue("alokasi", newAlokasi);
+                                }}
+                              >
+                                <FormControl>
+                                  <SelectTrigger className="w-24">
+                                    <SelectValue />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent>
+                                  <SelectItem value="1">1x</SelectItem>
+                                  <SelectItem value="2">2x</SelectItem>
+                                  <SelectItem value="3">3x</SelectItem>
+                                  <SelectItem value="4">4x</SelectItem>
+                                </SelectContent>
+                              </Select>
+                              <FormControl>
+                                <Input 
+                                  placeholder="Otomatis terisi" 
+                                  {...field} 
+                                  readOnly
+                                  className="bg-muted flex-1"
+                                />
+                              </FormControl>
+                            </div>
                             <FormDescription>
-                              Alokasi waktu otomatis: MI (35 menit), MTs (40 menit), MA (45 menit)
+                              Pilih jumlah pertemuan, alokasi waktu otomatis: MI (35 menit), MTs (40 menit), MA (45 menit)
                             </FormDescription>
                             <FormMessage />
                           </FormItem>
