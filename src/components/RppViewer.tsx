@@ -83,53 +83,39 @@ const RppViewer = ({ rpp }: RppViewerProps) => {
         </CardContent>
       </Card>
 
-      {/* Dimensi Profil Lulusan */}
+      {/* Dimensi Kelulusan (8 Dimensi Profil Lulusan) */}
       <Card className="shadow-lg border-0 bg-white/90 backdrop-blur-sm">
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Award className="h-5 w-5 text-primary" />
-            Dimensi Profil Lulusan
+            Dimensi Kelulusan (8 Dimensi Profil Lulusan)
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-2">
             {(() => {
-              // Map selected Nilai Cinta to Dimensi Profil Lulusan
-              const nilaiCintaMapping = {
-                "Cinta kepada Allah SWT": "Cinta kepada Tuhan Yang Maha Esa",
-                "Cinta kepada Rasulullah SAW": "Cinta kepada Tuhan Yang Maha Esa", 
-                "Cinta kepada Keluarga": "Cinta kepada Diri dan Sesama",
-                "Cinta kepada Sesama": "Cinta kepada Diri dan Sesama",
-                "Cinta kepada Alam": "Cinta kepada Lingkungan",
-                "Cinta kepada Tanah Air": "Cinta kepada Bangsa dan Negeri"
-              };
+              const dimensiKelulusan = rpp.dimensiKelulusan;
+              if (!dimensiKelulusan) return null;
 
-              const selectedNilaiCinta = rpp.identitas.nilaiCinta || [];
-              const mappedDimensi = new Set<string>();
-              
-              selectedNilaiCinta.forEach(nilai => {
-                const dimensi = nilaiCintaMapping[nilai as keyof typeof nilaiCintaMapping];
-                if (dimensi) {
-                  mappedDimensi.add(dimensi);
-                }
-              });
-
-              const allDimensi = [
-                { name: "Cinta kepada Tuhan Yang Maha Esa", color: "text-primary", bg: "bg-primary/5" },
-                { name: "Cinta kepada Diri dan Sesama", color: "text-accent-foreground", bg: "bg-accent/5" },
-                { name: "Cinta kepada Ilmu Pengetahuan", color: "text-green-700", bg: "bg-green-100" },
-                { name: "Cinta kepada Lingkungan", color: "text-blue-700", bg: "bg-blue-100" },
-                { name: "Cinta kepada Bangsa dan Negeri", color: "text-orange-700", bg: "bg-orange-100" }
+              const dimensiList = [
+                { key: 'keimananKetakwaan', label: '1. Keimanan dan Ketakwaan kepada Tuhan Yang Maha Esa', color: "text-primary", bg: "bg-primary/5" },
+                { key: 'kewargaan', label: '2. Kewargaan', color: "text-accent-foreground", bg: "bg-accent/5" },
+                { key: 'penalaranKritis', label: '3. Penalaran Kritis', color: "text-green-700", bg: "bg-green-100" },
+                { key: 'kreativitas', label: '4. Kreativitas', color: "text-blue-700", bg: "bg-blue-100" },
+                { key: 'kolaborasi', label: '5. Kolaborasi', color: "text-purple-700", bg: "bg-purple-100" },
+                { key: 'kemandirian', label: '6. Kemandirian', color: "text-orange-700", bg: "bg-orange-100" },
+                { key: 'kesehatan', label: '7. Kesehatan', color: "text-red-700", bg: "bg-red-100" },
+                { key: 'komunikasi', label: '8. Komunikasi', color: "text-indigo-700", bg: "bg-indigo-100" }
               ];
 
-              return allDimensi.map((dimensi, index) => {
-                const isSelected = mappedDimensi.has(dimensi.name);
+              return dimensiList.map((dimensi, index) => {
+                const isSelected = dimensiKelulusan[dimensi.key as keyof typeof dimensiKelulusan];
                 return (
                   <div key={index} className={`p-2 ${dimensi.bg} rounded-lg flex items-center gap-2`}>
                     <span className={`text-lg ${isSelected ? 'text-green-600' : 'text-gray-400'}`}>
                       {isSelected ? '✓' : '○'}
                     </span>
-                    <p className={`text-sm font-medium ${dimensi.color}`}>{dimensi.name}</p>
+                    <p className={`text-sm font-medium ${dimensi.color}`}>{dimensi.label}</p>
                   </div>
                 );
               });

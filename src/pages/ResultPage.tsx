@@ -241,54 +241,40 @@ const ResultPage = () => {
 
     children.push(identitasTable);
 
-    // Dimensi Profil Lulusan - Dynamic based on selected Nilai Cinta
+    // Dimensi Kelulusan (8 Dimensi Profil Lulusan)
     children.push(
       new Paragraph({
-        text: "DIMENSI PROFIL LULUSAN",
+        text: "DIMENSI KELULUSAN (8 DIMENSI PROFIL LULUSAN)",
         heading: HeadingLevel.HEADING_2,
         spacing: { before: 400, after: 200 }
       })
     );
 
-    // Map selected Nilai Cinta to Dimensi Profil Lulusan
-    const nilaiCintaMapping = {
-      "Cinta kepada Allah SWT": "Cinta kepada Tuhan Yang Maha Esa",
-      "Cinta kepada Rasulullah SAW": "Cinta kepada Tuhan Yang Maha Esa", 
-      "Cinta kepada Keluarga": "Cinta kepada Diri dan Sesama",
-      "Cinta kepada Sesama": "Cinta kepada Diri dan Sesama",
-      "Cinta kepada Alam": "Cinta kepada Lingkungan",
-      "Cinta kepada Tanah Air": "Cinta kepada Bangsa dan Negeri"
-    };
+    // Display 8 Dimensi Kelulusan based on user selection
+    const dimensiKelulusan = rpp.dimensiKelulusan;
+    if (dimensiKelulusan) {
+      const dimensiList = [
+        { key: 'keimananKetakwaan', label: '1. Keimanan dan Ketakwaan kepada Tuhan Yang Maha Esa' },
+        { key: 'kewargaan', label: '2. Kewargaan' },
+        { key: 'penalaranKritis', label: '3. Penalaran Kritis' },
+        { key: 'kreativitas', label: '4. Kreativitas' },
+        { key: 'kolaborasi', label: '5. Kolaborasi' },
+        { key: 'kemandirian', label: '6. Kemandirian' },
+        { key: 'kesehatan', label: '7. Kesehatan' },
+        { key: 'komunikasi', label: '8. Komunikasi' }
+      ];
 
-    const selectedNilaiCinta = rpp.identitas.nilaiCinta || [];
-    const mappedDimensi = new Set<string>();
-    
-    selectedNilaiCinta.forEach(nilai => {
-      const dimensi = nilaiCintaMapping[nilai as keyof typeof nilaiCintaMapping];
-      if (dimensi) {
-        mappedDimensi.add(dimensi);
-      }
-    });
-
-    // Add all 5 Panca Cinta dimensions with checkmarks for selected ones
-    const allDimensi = [
-      "Cinta kepada Tuhan Yang Maha Esa",
-      "Cinta kepada Diri dan Sesama", 
-      "Cinta kepada Ilmu Pengetahuan",
-      "Cinta kepada Lingkungan",
-      "Cinta kepada Bangsa dan Negeri"
-    ];
-
-    allDimensi.forEach((dimensi) => {
-      const isSelected = mappedDimensi.has(dimensi);
-      const checkmark = isSelected ? "✓" : "○";
-      children.push(
-        new Paragraph({
-          text: `${checkmark} ${dimensi}`,
-          spacing: { after: 100 }
-        })
-      );
-    });
+      dimensiList.forEach((dimensi) => {
+        const isSelected = dimensiKelulusan[dimensi.key as keyof typeof dimensiKelulusan];
+        const checkmark = isSelected ? "✓" : "○";
+        children.push(
+          new Paragraph({
+            text: `${checkmark} ${dimensi.label}`,
+            spacing: { after: 100 }
+          })
+        );
+      });
+    }
 
     // Capaian Pembelajaran
     children.push(

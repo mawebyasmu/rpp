@@ -26,6 +26,18 @@ export interface LearningDocumentFormData {
     cintaTanahAir: boolean;
   };
   
+  // Dimensi Kelulusan (8 Dimensi Profil Lulusan)
+  dimensiKelulusan: {
+    keimananKetakwaan: boolean;
+    kewargaan: boolean;
+    penalaranKritis: boolean;
+    kreativitas: boolean;
+    kolaborasi: boolean;
+    kemandirian: boolean;
+    kesehatan: boolean;
+    komunikasi: boolean;
+  };
+  
   // Learning Outcomes
   capaianPembelajaran: {
     pengetahuan: string;
@@ -164,6 +176,18 @@ export interface GeneratedRPP {
       aktivitas: string;
     };
   };
+  
+  // Dimensi Kelulusan (8 Dimensi Profil Lulusan)
+  dimensiKelulusan?: {
+    keimananKetakwaan: boolean;
+    kewargaan: boolean;
+    penalaranKritis: boolean;
+    kreativitas: boolean;
+    kolaborasi: boolean;
+    kemandirian: boolean;
+    kesehatan: boolean;
+    komunikasi: boolean;
+  };
 }
 
 
@@ -259,7 +283,10 @@ export class PerencanaanPembelajaranGenerator {
       aspekKarakter: enhancedContent.aspekKarakter || [],
       asesmenAutentik: enhancedContent.asesmenAutentik || [],
       penilaianKarakter: enhancedContent.penilaianKarakter || [],
-      materiInsersiKBC: enhancedContent.materiInsersiKBC || {}
+      materiInsersiKBC: enhancedContent.materiInsersiKBC || {},
+      
+      // Dimensi Kelulusan (8 Dimensi Profil Lulusan)
+      dimensiKelulusan: formData.dimensiKelulusan
     };
 
     
