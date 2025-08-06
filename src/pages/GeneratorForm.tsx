@@ -183,7 +183,9 @@ const GeneratorForm = () => {
   const watchedJenjang = form.watch("jenjang");
   useEffect(() => {
     if (watchedJenjang) {
-      form.setValue("alokasi", getAlokasiWaktu(watchedJenjang));
+      const newAlokasi = getAlokasiWaktu(watchedJenjang);
+      form.setValue("alokasi", newAlokasi);
+      console.log(`Jenjang berubah ke ${watchedJenjang}, alokasi waktu: ${newAlokasi}`);
     }
   }, [watchedJenjang, form]);
 
@@ -359,7 +361,7 @@ try {
                       name="namaKepalaSekolah"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Nama Kepala Sekolah</FormLabel>
+                          <FormLabel>Nama Kepala Madrasah</FormLabel>
                           <FormControl>
                             <Input placeholder="Contoh: Dr. H. Ahmad S.Pd, M.Pd..." {...field} />
                           </FormControl>
@@ -392,6 +394,8 @@ try {
                             <Select onValueChange={(value) => {
                               field.onChange(value);
                               form.setValue("kelas", "");
+                              // Update alokasi waktu immediately
+                              form.setValue("alokasi", getAlokasiWaktu(value));
                             }} defaultValue={field.value}>
                               <FormControl>
                                 <SelectTrigger>

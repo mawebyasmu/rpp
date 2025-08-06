@@ -244,7 +244,7 @@ const ResultPage = () => {
         }),
         new TableRow({
           children: [
-            new TableCell({ children: [new Paragraph({ text: "Nama Kepala Sekolah" })] }),
+            new TableCell({ children: [new Paragraph({ text: "Nama Kepala Madrasah" })] }),
             new TableCell({ children: [new Paragraph({ text: rpp.identitas.namaKepalaSekolah })] })
           ]
         })
